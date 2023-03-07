@@ -68,6 +68,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
+    <GlobalStyles />
     <App />
   </React.StrictMode>
 );
