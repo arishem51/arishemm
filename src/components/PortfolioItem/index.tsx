@@ -24,7 +24,10 @@ const Wrapper = styled(motion.div)`
     content: "";
 
     position: absolute;
-    inset: 0;
+
+    width: calc(100% - 1em);
+    height: calc(100% - 1em);
+
     z-index: 1;
 
     background-color: white;
@@ -36,7 +39,7 @@ const Wrapper = styled(motion.div)`
 
   :hover {
     ::after {
-      scale: 0.9;
+      scale: 1;
     }
   }
 `;
