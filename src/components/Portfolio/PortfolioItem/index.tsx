@@ -10,6 +10,7 @@ const Wrapper = styled.div`
 
 type Props = {
   className?: string;
+  style: React.CSSProperties;
 };
 
 export default function PortfolioItem(props: Props) {

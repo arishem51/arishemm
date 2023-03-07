@@ -1,6 +1,6 @@
 import { PORTFOLIO } from "../types";
 
-export const Portfolio: PORTFOLIO = [
+export const Portfolios: PORTFOLIO = [
   {
     name: "About Me",
     id: 1,
