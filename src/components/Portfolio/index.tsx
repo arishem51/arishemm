@@ -5,6 +5,9 @@ import { Portfolios } from "../../constant";
 import PortfolioItem from "../PortfolioItem";
 import About from "../About";
 import Work from "../Work";
+import Experience from "../Experience";
+import Resume from "../Resume";
+import Contact from "../Contact";
 
 const ViewContent = styled(motion.div)`
   width: 140vmax;
@@ -20,6 +23,9 @@ const Portfolio = React.forwardRef<HTMLDivElement>((props, ref) => {
     <ViewContent ref={ref} {...props}>
       <About />
       <Work />
+      <Experience />
+      <Resume />
+      <Contact />
     </ViewContent>
   );
 });
