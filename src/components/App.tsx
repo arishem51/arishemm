@@ -25,6 +25,8 @@ const Heading = styled.h1`
   color: var(--color-black);
 
   transform: translate(-50%, -50%);
+
+  user-select: none;
 `;
 
 function App() {
