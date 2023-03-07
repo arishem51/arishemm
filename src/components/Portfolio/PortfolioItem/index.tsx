@@ -14,5 +14,5 @@ type Props = {
 };
 
 export default function PortfolioItem(props: Props) {
-  return <Wrapper {...props}></Wrapper>;
+  return <Wrapper {...props} />;
 }
