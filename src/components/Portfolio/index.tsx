@@ -18,7 +18,13 @@ const ViewContent = styled(motion.div)`
 
 const Portfolio = React.forwardRef<HTMLDivElement>((props, ref) => {
   return (
-    <ViewContent ref={ref} {...props}>
+    <ViewContent
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, delay: 1 }}
+      ref={ref}
+      {...props}
+    >
       <About />
       <Work />
       <Experience />
