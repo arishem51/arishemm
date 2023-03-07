@@ -71,7 +71,7 @@ export const Portfolios: PORTFOLIO = [
     name: "Other",
     id: 7,
     style: {
-      backgroundColor: "rgb(250, 250, 250)",
+      backgroundColor: "rgb(195, 126, 145)",
       height: "24%",
       width: "24%",
       left: "8%",

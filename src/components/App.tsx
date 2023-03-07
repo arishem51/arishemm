@@ -18,12 +18,25 @@ const Wrapper = styled(motion.main)`
   overflow: hidden;
 `;
 
+const Heading = styled.h1`
+  position: relative;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+
+  display: block;
+
+  font-size: 3.5em;
+  color: var(--color-black);
+`;
+
 function App() {
   const { viewRef, x, y, contentRef, handleMouseMoveOnView } = useViewMove();
 
   return (
     <Wrapper layout ref={viewRef} onMouseMove={handleMouseMoveOnView}>
       <Portfolio layout style={{ x, y }} ref={contentRef} />
+      <Heading>Arishemm</Heading>
     </Wrapper>
   );
 }

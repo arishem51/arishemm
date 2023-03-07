@@ -7,9 +7,10 @@ import PortfolioItem from "./PortfolioItem";
 const ViewContent = styled(motion.div)`
   width: 140vmax;
   height: 100vmax;
-  background: var(--color-black);
 
   position: absolute;
+
+  z-index: 2;
 `;
 
 const Portfolio = React.forwardRef<HTMLDivElement>((props, ref) => {

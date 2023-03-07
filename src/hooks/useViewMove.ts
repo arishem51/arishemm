@@ -1,4 +1,5 @@
 import { SpringOptions, useMotionValue, useSpring } from "framer-motion";
+import React from "react";
 import { useRef } from "react";
 
 export function useViewMove() {
@@ -12,6 +13,10 @@ export function useViewMove() {
 
   const springX = useSpring(motionX, config);
   const springY = useSpring(motionY, config);
+
+  React.useEffect(() => {
+    motionY.set(-400);
+  }, []);
 
   function handleMouseMoveOnView(e: React.MouseEvent<HTMLElement, MouseEvent>) {
     const { clientX, clientY } = e;
