@@ -20,15 +20,33 @@ const GlobalStyles = createGlobalStyle`
 
 /*
   3. Allow percentage-based heights in the application
+  3.1 CSS variables
 */
 html, body {
   height: 100%;
+
+  --color-blue: #3051A8;
+  --color-green: #3F593D;
+  --color-sky: #90C0E6;
+  --color-red: #D30423;
+  --color-yellow: #F4C537;
+  --color-sage-green: #D7D7C8;
+  --color-off-white: #F2F0E9;
+  --color-black: #141212;
+  --color-black-60: #5B5959;
+  --color-black-40: #A1A0A0;
+  --color-black-10: #D0D0D0;
+  --color-white: #ffffff;
+  --color-red-brick: #863A29;
 }
 
 /*
   Typographic tweaks!
   4. Add accessible line-height
   5. Improve text rendering
+
+  5.1 font 
+
 */
 body {
   line-height: 1.5;
