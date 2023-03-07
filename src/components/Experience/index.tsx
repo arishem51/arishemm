@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 

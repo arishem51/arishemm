@@ -1,8 +1,7 @@
-import { motion } from "framer-motion";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 
-export default function Resume() {
+export default function Work() {
   return (
     <PortfolioItem
       bgColor="var(--color-orange)"
@@ -11,7 +10,7 @@ export default function Resume() {
       left="68%"
       top="18%"
     >
-      <Lottie src="https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json" />
+      <Lottie src="https://assets2.lottiefiles.com/packages/lf20_eeuhulsy.json" />
     </PortfolioItem>
   );
 }

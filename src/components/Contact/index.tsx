@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 
@@ -11,7 +10,7 @@ export default function Contact() {
       left="45%"
       top="62%"
     >
-      <Lottie src="https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json" />
+      <Lottie src="https://assets8.lottiefiles.com/packages/lf20_u25cckyh.json" />
     </PortfolioItem>
   );
 }

@@ -1,10 +1,5 @@
 import React, { useRef } from "react";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  SpringOptions,
-} from "framer-motion";
+import { motion } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
 import { useViewMove } from "../hooks/useViewMove";

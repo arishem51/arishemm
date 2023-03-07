@@ -1,8 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import { Portfolios } from "../../constant";
-import PortfolioItem from "../PortfolioItem";
 import About from "../About";
 import Work from "../Work";
 import Experience from "../Experience";

@@ -1,7 +1,7 @@
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 
-export default function Work() {
+export default function Resume() {
   return (
     <PortfolioItem
       bgColor="var(--color-green)"
@@ -10,7 +10,7 @@ export default function Work() {
       left="5%"
       top="12%"
     >
-      <Lottie src="https://assets2.lottiefiles.com/packages/lf20_eeuhulsy.json" />
+      <Lottie src="https://assets3.lottiefiles.com/packages/lf20_4DLPlW.json" />
     </PortfolioItem>
   );
 }
