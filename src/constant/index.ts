@@ -9,7 +9,7 @@ export const Portfolios: PORTFOLIO = [
       height: "18%",
       width: "20%",
       left: "5%",
-      top: "8%",
+      top: "12%",
     },
   },
   {
@@ -20,7 +20,7 @@ export const Portfolios: PORTFOLIO = [
       height: "28%",
       width: "14%",
       left: "42%",
-      top: "12%",
+      top: "16%",
     },
   },
   {
@@ -31,7 +31,7 @@ export const Portfolios: PORTFOLIO = [
       height: "18%",
       width: "16%",
       left: "12%",
-      top: "36%",
+      top: "40%",
     },
   },
   {
@@ -42,7 +42,7 @@ export const Portfolios: PORTFOLIO = [
       height: "14%",
       width: "12%",
       left: "45%",
-      top: "58%",
+      top: "62%",
     },
   },
   {
@@ -53,7 +53,7 @@ export const Portfolios: PORTFOLIO = [
       height: "24%",
       width: "24%",
       left: "68%",
-      top: "8%",
+      top: "18%",
     },
   },
   {
@@ -61,10 +61,10 @@ export const Portfolios: PORTFOLIO = [
     id: 6,
     style: {
       backgroundColor: "rgb(141, 110, 99)",
-      height: "26%",
+      height: "20%",
       width: "20%",
       left: "72%",
-      top: "62%",
+      top: "60%",
     },
   },
   {
@@ -72,10 +72,10 @@ export const Portfolios: PORTFOLIO = [
     id: 7,
     style: {
       backgroundColor: "rgb(195, 126, 145)",
-      height: "24%",
-      width: "24%",
+      height: "15%",
+      width: "18%",
       left: "8%",
-      top: "64%",
+      top: "68%",
     },
   },
 ];

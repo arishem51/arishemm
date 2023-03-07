@@ -6,7 +6,7 @@ import PortfolioItem from "./PortfolioItem";
 
 const ViewContent = styled(motion.div)`
   width: 140vmax;
-  height: 100vmax;
+  height: 110vmax;
 
   position: absolute;
 
