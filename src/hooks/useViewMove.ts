@@ -7,16 +7,12 @@ export function useViewMove() {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const motionX = useMotionValue(0);
-  const motionY = useMotionValue(0);
+  const motionY = useMotionValue(-400);
 
   const config: SpringOptions = { damping: 30, stiffness: 100 };
 
   const springX = useSpring(motionX, config);
   const springY = useSpring(motionY, config);
-
-  React.useEffect(() => {
-    motionY.set(-400);
-  }, []);
 
   function handleMouseMoveOnView(e: React.MouseEvent<HTMLElement, MouseEvent>) {
     const { clientX, clientY } = e;
