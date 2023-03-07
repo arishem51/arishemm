@@ -2,7 +2,6 @@ import { PORTFOLIO } from "../types";
 
 export const Portfolios: PORTFOLIO = [
   {
-    name: "About Me",
     id: 1,
     style: {
       backgroundColor: "rgb(255, 238, 88)",
@@ -13,18 +12,16 @@ export const Portfolios: PORTFOLIO = [
     },
   },
   {
-    name: "Experience",
     id: 2,
     style: {
       backgroundColor: "rgb(66, 165, 245)",
-      height: "28%",
+      height: "20%",
       width: "14%",
       left: "42%",
-      top: "16%",
+      top: "24%",
     },
   },
   {
-    name: "Work",
     id: 3,
     style: {
       backgroundColor: "rgb(239, 83, 80)",
@@ -35,7 +32,6 @@ export const Portfolios: PORTFOLIO = [
     },
   },
   {
-    name: "Contact",
     id: 4,
     style: {
       backgroundColor: "rgb(102, 187, 106)",
@@ -46,7 +42,6 @@ export const Portfolios: PORTFOLIO = [
     },
   },
   {
-    name: "Resume",
     id: 5,
     style: {
       backgroundColor: "rgb(255, 167, 38)",
@@ -57,7 +52,6 @@ export const Portfolios: PORTFOLIO = [
     },
   },
   {
-    name: "Social Media",
     id: 6,
     style: {
       backgroundColor: "rgb(141, 110, 99)",
@@ -68,7 +62,6 @@ export const Portfolios: PORTFOLIO = [
     },
   },
   {
-    name: "Other",
     id: 7,
     style: {
       backgroundColor: "rgb(195, 126, 145)",
