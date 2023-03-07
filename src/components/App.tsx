@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
 import { useViewMove } from "../hooks/useViewMove";
@@ -39,23 +39,32 @@ const Text = styled(motion.h1)`
   font-size: 2em;
 `;
 
+const variants: Variants = {
+  enter: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.2,
+    },
+  },
+  hidden: {
+    y: "40%",
+    opacity: 0,
+    transition: {
+      duration: 0.2,
+    },
+  },
+  exit: {
+    y: "-40%",
+    opacity: 0,
+    transition: {
+      duration: 0.2,
+    },
+  },
+};
+
 function App() {
   const [state, setState] = React.useState("");
-
-  function renderText() {
-    return state.split("").map((item, index) => (
-      <motion.span
-        transition={{ delay: index * 0.05, duration: 0.3 }}
-        initial={{ y: "50%", opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        key={item + index}
-        style={{ display: "inline-block" }}
-        exit={{ y: "-50%", opacity: 0 }}
-      >
-        {item}
-      </motion.span>
-    ));
-  }
 
   const { viewRef, x, y, contentRef, handleMouseMoveOnView } = useViewMove();
 
@@ -63,9 +72,18 @@ function App() {
     <Wrapper layout ref={viewRef} onMouseMove={handleMouseMoveOnView}>
       <Portfolio setState={setState} layout style={{ x, y }} ref={contentRef} />
       <Heading>Arishemm</Heading>
-      <Text>
-        <AnimatePresence mode="wait">{renderText()}</AnimatePresence>
-      </Text>
+      <AnimatePresence>
+        {state && (
+          <Text
+            variants={variants}
+            initial="hidden"
+            animate="enter"
+            exit="exit"
+          >
+            {state}
+          </Text>
+        )}
+      </AnimatePresence>
     </Wrapper>
   );
 }

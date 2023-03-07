@@ -35,31 +35,41 @@ const Portfolio = React.forwardRef<HTMLDivElement, Props>(
         {...props}
       >
         <motion.div
-          onHoverStart={() => setState("About")}
+          onHoverStart={() => {
+            setState("About");
+          }}
           onHoverEnd={handleHoverEnd}
         >
           <About />
         </motion.div>
         <motion.div
-          onHoverStart={() => setState("Work")}
+          onHoverStart={() => {
+            setState("Work");
+          }}
           onHoverEnd={handleHoverEnd}
         >
           <Work />
         </motion.div>
         <motion.div
-          onHoverStart={() => setState("Experience")}
+          onHoverStart={() => {
+            setState("Experience");
+          }}
           onHoverEnd={handleHoverEnd}
         >
           <Experience />
         </motion.div>
         <motion.div
-          onHoverStart={() => setState("Resume")}
+          onHoverStart={() => {
+            setState("Resume");
+          }}
           onHoverEnd={handleHoverEnd}
         >
           <Resume />
         </motion.div>
         <motion.div
-          onHoverStart={() => setState("Contact")}
+          onHoverStart={() => {
+            setState("Contact");
+          }}
           onHoverEnd={handleHoverEnd}
         >
           <Contact />
