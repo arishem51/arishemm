@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 
-const Wrapper = styled(motion.div)`
+const Wrapper = styled("div")`
   position: absolute;
 
   height: var(--height);
@@ -53,14 +53,7 @@ type Props = {
   bgColor: string;
 };
 
-export default function PortfolioItem({
-  children,
-  width,
-  height,
-  top,
-  left,
-  bgColor,
-}: Props) {
+function PortfolioItem({ children, width, height, top, left, bgColor }: Props) {
   const styles = {
     "--width": width,
     "--height": height,
@@ -71,3 +64,5 @@ export default function PortfolioItem({
 
   return <Wrapper style={styles}>{children}</Wrapper>;
 }
+
+export default PortfolioItem;

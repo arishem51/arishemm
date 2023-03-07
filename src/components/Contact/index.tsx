@@ -1,7 +1,8 @@
+import { motion } from "framer-motion";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 
-export default function Contact() {
+function Contact() {
   return (
     <PortfolioItem
       bgColor="var(--color-green-2)"
@@ -14,3 +15,5 @@ export default function Contact() {
     </PortfolioItem>
   );
 }
+
+export default Contact;

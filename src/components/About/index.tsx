@@ -1,7 +1,8 @@
+import { motion } from "framer-motion";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 
-export default function About() {
+function About() {
   return (
     <PortfolioItem
       height="20%"
@@ -14,3 +15,5 @@ export default function About() {
     </PortfolioItem>
   );
 }
+
+export default About;

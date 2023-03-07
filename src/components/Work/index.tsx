@@ -1,16 +1,19 @@
+import { motion } from "framer-motion";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 
-export default function Resume() {
+function Work() {
   return (
     <PortfolioItem
-      bgColor="var(--color-green)"
-      height="18%"
-      width="20%"
-      left="5%"
-      top="12%"
+      bgColor="var(--color-orange)"
+      height="24%"
+      width="24%"
+      left="68%"
+      top="18%"
     >
-      <Lottie src="https://assets3.lottiefiles.com/packages/lf20_4DLPlW.json" />
+      <Lottie src="https://assets2.lottiefiles.com/packages/lf20_eeuhulsy.json" />
     </PortfolioItem>
   );
 }
+
+export default Work;

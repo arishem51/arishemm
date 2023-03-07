@@ -1,7 +1,8 @@
+import { motion } from "framer-motion";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 
-export default function Experience() {
+function Experience() {
   return (
     <PortfolioItem
       bgColor="var(--color-red-2)"
@@ -14,3 +15,5 @@ export default function Experience() {
     </PortfolioItem>
   );
 }
+
+export default Experience;
