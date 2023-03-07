@@ -17,7 +17,7 @@ const Portfolio = React.forwardRef<HTMLDivElement>((props, ref) => {
   return (
     <ViewContent ref={ref} {...props}>
       {Portfolios.map((item) => (
-        <PortfolioItem key={item.id} style={item.style} />
+        <PortfolioItem name={item.name} key={item.id} style={item.style} />
       ))}
     </ViewContent>
   );

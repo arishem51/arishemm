@@ -20,9 +20,9 @@ const Wrapper = styled(motion.main)`
 
 const Heading = styled.h1`
   position: relative;
-  z-index: 1;
   top: 50%;
   left: 50%;
+  z-index: 1;
 
   display: inline-block;
 

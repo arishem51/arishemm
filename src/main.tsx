@@ -26,10 +26,14 @@ html, body {
   height: 100%;
 
   --color-blue: #3051A8;
+  --color-blue-2:rgb(66, 165, 245);
   --color-green: #3F593D;
+  --color-green-2:rgb(102, 187, 106);
   --color-sky: #90C0E6;
   --color-red: #D30423;
+  --color-red-2: rgb(239, 83, 80);
   --color-yellow: #F4C537;
+  --color-orange:rgb(255, 167, 38);
   --color-sage-green: #D7D7C8;
   --color-off-white: #F2F0E9;
   --color-black: #141212;
@@ -38,6 +42,8 @@ html, body {
   --color-black-10: #D0D0D0;
   --color-white: #ffffff;
   --color-red-brick: #863A29;
+  --color-brown: rgb(141, 110, 99);
+  --color-brown-2: rgb(195, 126, 145);
 }
 
 /*
