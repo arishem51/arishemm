@@ -24,10 +24,12 @@ const Heading = styled.h1`
   top: 50%;
   left: 50%;
 
-  display: block;
+  display: inline-block;
 
   font-size: 3.5em;
   color: var(--color-black);
+
+  transform: translate(-50%, -50%);
 `;
 
 function App() {
@@ -35,7 +37,14 @@ function App() {
 
   return (
     <Wrapper layout ref={viewRef} onMouseMove={handleMouseMoveOnView}>
-      <Portfolio layout style={{ x, y }} ref={contentRef} />
+      <Portfolio
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 1 }}
+        layout
+        style={{ x, y }}
+        ref={contentRef}
+      />
       <Heading>Arishemm</Heading>
     </Wrapper>
   );
