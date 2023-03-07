@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from "react";
-import { motion, MotionProps, MotionValue, useSpring } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import styled from "styled-components";
 import { Portfolios } from "../../constant";
-import PortfolioItem from "./PortfolioItem";
+import PortfolioItem from "../PortfolioItem";
+import About from "../About";
+import Work from "../Work";
 
 const ViewContent = styled(motion.div)`
   width: 140vmax;
@@ -16,9 +18,8 @@ const ViewContent = styled(motion.div)`
 const Portfolio = React.forwardRef<HTMLDivElement>((props, ref) => {
   return (
     <ViewContent ref={ref} {...props}>
-      {Portfolios.map((item) => (
-        <PortfolioItem name={item.name} key={item.id} style={item.style} />
-      ))}
+      <About />
+      <Work />
     </ViewContent>
   );
 });

@@ -11,6 +11,7 @@ export const Portfolios: PORTFOLIO = [
       top: "12%",
     },
     name: "Work",
+    svgSrc: "https://assets2.lottiefiles.com/packages/lf20_eeuhulsy.json",
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ export const Portfolios: PORTFOLIO = [
       top: "24%",
     },
     name: "About",
+    svgSrc: "https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json",
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ export const Portfolios: PORTFOLIO = [
       top: "40%",
     },
     name: "Experience",
+    svgSrc: "https://assets2.lottiefiles.com/packages/lf20_7hKWkHQFtm.json",
   },
   {
     id: 4,
@@ -44,6 +47,7 @@ export const Portfolios: PORTFOLIO = [
       top: "62%",
     },
     name: "Contact",
+    svgSrc: "https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json",
   },
   {
     id: 5,
@@ -55,6 +59,7 @@ export const Portfolios: PORTFOLIO = [
       top: "18%",
     },
     name: "Resume",
+    svgSrc: "https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json",
   },
   {
     id: 6,
@@ -66,6 +71,7 @@ export const Portfolios: PORTFOLIO = [
       top: "60%",
     },
     name: "What?",
+    svgSrc: "https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json",
   },
   {
     id: 7,
@@ -77,5 +83,6 @@ export const Portfolios: PORTFOLIO = [
       top: "68%",
     },
     name: "What???",
+    svgSrc: "https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json",
   },
 ];
