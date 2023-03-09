@@ -1,8 +1,10 @@
 import React from "react";
 
-export type PORTFOLIO = {
-  id: number;
-  style: React.CSSProperties;
-  name: string;
-  svgSrc: string;
-}[];
+export type PortfolioType =
+  | "about"
+  | "resume"
+  | "work"
+  | "experience"
+  | "contact";
+
+export type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
