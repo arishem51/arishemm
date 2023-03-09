@@ -7,10 +7,6 @@ import { PortfolioType } from "../../types";
 const Wrapper = styled(motion.div)`
   position: absolute;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   background-color: var(--bgColor);
   border-radius: 1.5em;
 
@@ -20,6 +16,8 @@ const Wrapper = styled(motion.div)`
     content: "";
 
     position: absolute;
+    top: calc(1em / 2);
+    left: calc(1em / 2);
 
     width: calc(100% - 1em);
     height: calc(100% - 1em);
@@ -38,6 +36,15 @@ const Wrapper = styled(motion.div)`
       scale: 1;
     }
   }
+`;
+
+const CenterFlex = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
 `;
 
 type Props = {
@@ -87,7 +94,7 @@ function PortfolioItem({
       data-isActive={isActive}
       style={styles}
     >
-      {children}
+      <CenterFlex>{children}</CenterFlex>
     </Wrapper>
   );
 }
