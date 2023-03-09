@@ -3,6 +3,7 @@ import { AnimatePresence, motion, Variants } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
 import { useViewMove } from "../hooks/useViewMove";
+import { PortfolioType } from "../types";
 
 const Wrapper = styled(motion.main)`
   position: relative;
@@ -72,13 +73,15 @@ const variants: Variants = {
 
 function App() {
   const [textHover, setTextHover] = React.useState("");
+  const [portfolio, setPortfolio] = React.useState<PortfolioType>();
 
   const { viewRef, x, y, contentRef, handleMouseMoveOnView } = useViewMove();
 
   return (
-    <Wrapper layout ref={viewRef} onMouseMove={handleMouseMoveOnView}>
+    <Wrapper ref={viewRef} onMouseMove={handleMouseMoveOnView}>
       <Portfolio
         setTextHover={setTextHover}
+        setPortfolio={setPortfolio}
         layout
         style={{ x, y }}
         ref={contentRef}
@@ -96,11 +99,13 @@ function App() {
           </Text>
         )}
       </AnimatePresence>
-      <Content
-        onMouseMove={(e) => {
-          e.stopPropagation();
-        }}
-      />
+      {portfolio && (
+        <Content
+          onMouseMove={(e) => {
+            e.stopPropagation();
+          }}
+        />
+      )}
     </Wrapper>
   );
 }

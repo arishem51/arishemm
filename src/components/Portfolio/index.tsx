@@ -6,6 +6,7 @@ import Experience from "../Experience";
 import Contact from "../Contact";
 import Work from "../Work";
 import Resume from "../Resume";
+import { PortfolioType, SetState } from "../../types";
 
 const ViewContent = styled(motion.div)`
   width: 140vmax;
@@ -28,13 +29,43 @@ const variants: Variants = {
 };
 
 type Props = {
-  setTextHover: React.Dispatch<React.SetStateAction<string>>;
+  setTextHover: SetState<string>;
+  setPortfolio: SetState<PortfolioType | undefined>;
 };
 
+const PortfolioItems: PortfolioType[] = [
+  "about",
+  "contact",
+  "resume",
+  "experience",
+  "work",
+];
+
 const Portfolio = React.forwardRef<HTMLDivElement, Props>(
-  ({ setTextHover, ...props }, ref) => {
+  ({ setTextHover, setPortfolio, ...props }, ref) => {
     function handleHoverEnd() {
       setTextHover("");
+    }
+
+    function renderItem() {
+      return PortfolioItems.map((item) => {
+        return (
+          <motion.div
+            layout
+            onHoverStart={() => {
+              setTextHover(item.toUpperCase());
+            }}
+            onClick={() => setPortfolio(item)}
+            onHoverEnd={handleHoverEnd}
+          >
+            {item === "about" && <About />}
+            {item === "work" && <Work />}
+            {item === "experience" && <Experience />}
+            {item === "contact" && <Contact />}
+            {item === "resume" && <Resume />}
+          </motion.div>
+        );
+      });
     }
 
     return (
@@ -45,47 +76,7 @@ const Portfolio = React.forwardRef<HTMLDivElement, Props>(
         ref={ref}
         {...props}
       >
-        <motion.div
-          layout
-          onHoverStart={() => {
-            setTextHover("About");
-          }}
-          onHoverEnd={handleHoverEnd}
-        >
-          <About />
-        </motion.div>
-        <motion.div
-          onHoverStart={() => {
-            setTextHover("Work");
-          }}
-          onHoverEnd={handleHoverEnd}
-        >
-          <Work />
-        </motion.div>
-        <motion.div
-          onHoverStart={() => {
-            setTextHover("Experience");
-          }}
-          onHoverEnd={handleHoverEnd}
-        >
-          <Experience />
-        </motion.div>
-        <motion.div
-          onHoverStart={() => {
-            setTextHover("Resume");
-          }}
-          onHoverEnd={handleHoverEnd}
-        >
-          <Resume />
-        </motion.div>
-        <motion.div
-          onHoverStart={() => {
-            setTextHover("Contact");
-          }}
-          onHoverEnd={handleHoverEnd}
-        >
-          <Contact />
-        </motion.div>
+        {renderItem()}
       </ViewContent>
     );
   }
