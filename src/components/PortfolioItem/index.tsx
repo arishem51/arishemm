@@ -12,6 +12,10 @@ const Wrapper = styled(motion.div)`
 
   cursor: pointer;
 
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   ::after {
     content: "";
 
@@ -38,13 +42,12 @@ const Wrapper = styled(motion.div)`
   }
 `;
 
-const CenterFlex = styled.div`
+const CenterFlex = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
 
   width: 100%;
-  height: 100%;
 `;
 
 type Props = {
@@ -71,16 +74,16 @@ function PortfolioItem({
   const isActive = portfolio === name;
 
   const styles: MotionStyle = {
-    width: isActive ? window.innerWidth + "px" : width,
-    height: isActive ? "auto" : height,
-    minHeight: isActive ? window.innerHeight : "auto",
+    width: isActive ? window.innerWidth : width,
+    height: isActive ? window.innerHeight : height,
 
-    left: isActive ? reverseViewX.get() + "px" : left,
-    top: isActive ? reverseViewY.get() + "px" : top,
+    left: isActive ? reverseViewX.get() : left,
+    top: isActive ? reverseViewY.get() : top,
 
     background: bgColor,
 
     zIndex: isActive ? 9999 : 2,
+    overflow: "hidden scroll",
   };
 
   return (
@@ -95,6 +98,7 @@ function PortfolioItem({
       style={styles}
     >
       <CenterFlex>{children}</CenterFlex>
+      {isActive && <div style={{ width: window.innerWidth, height: 1000 }} />}
     </Wrapper>
   );
 }
