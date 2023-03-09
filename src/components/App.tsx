@@ -78,7 +78,7 @@ function App() {
   return (
     <Wrapper layout ref={viewRef} onMouseMove={handleMouseMoveOnView}>
       <Portfolio
-        setState={setTextHover}
+        setTextHover={setTextHover}
         layout
         style={{ x, y }}
         ref={contentRef}

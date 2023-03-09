@@ -28,13 +28,13 @@ const variants: Variants = {
 };
 
 type Props = {
-  setState: React.Dispatch<React.SetStateAction<string>>;
+  setTextHover: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const Portfolio = React.forwardRef<HTMLDivElement, Props>(
-  ({ setState, ...props }, ref) => {
+  ({ setTextHover, ...props }, ref) => {
     function handleHoverEnd() {
-      setState("");
+      setTextHover("");
     }
 
     return (
@@ -48,7 +48,7 @@ const Portfolio = React.forwardRef<HTMLDivElement, Props>(
         <motion.div
           layout
           onHoverStart={() => {
-            setState("About");
+            setTextHover("About");
           }}
           onHoverEnd={handleHoverEnd}
         >
@@ -56,7 +56,7 @@ const Portfolio = React.forwardRef<HTMLDivElement, Props>(
         </motion.div>
         <motion.div
           onHoverStart={() => {
-            setState("Work");
+            setTextHover("Work");
           }}
           onHoverEnd={handleHoverEnd}
         >
@@ -64,7 +64,7 @@ const Portfolio = React.forwardRef<HTMLDivElement, Props>(
         </motion.div>
         <motion.div
           onHoverStart={() => {
-            setState("Experience");
+            setTextHover("Experience");
           }}
           onHoverEnd={handleHoverEnd}
         >
@@ -72,7 +72,7 @@ const Portfolio = React.forwardRef<HTMLDivElement, Props>(
         </motion.div>
         <motion.div
           onHoverStart={() => {
-            setState("Resume");
+            setTextHover("Resume");
           }}
           onHoverEnd={handleHoverEnd}
         >
@@ -80,7 +80,7 @@ const Portfolio = React.forwardRef<HTMLDivElement, Props>(
         </motion.div>
         <motion.div
           onHoverStart={() => {
-            setState("Contact");
+            setTextHover("Contact");
           }}
           onHoverEnd={handleHoverEnd}
         >
