@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
 import { useViewMove } from "../hooks/useViewMove";
 import { PortfolioType } from "../types";
+import TextHover from "./TextHover";
 
 const Wrapper = styled(motion.main)`
   position: relative;
@@ -30,46 +31,18 @@ const Heading = styled.h1`
   user-select: none;
 `;
 
-const Text = styled(motion.h1)`
-  position: fixed;
-
-  bottom: 2em;
-  right: 3em;
-
-  color: var(--color-black);
-  font-size: 2em;
-`;
-
-const Content = styled.div`
+const Content = styled(motion.div)`
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 3;
 `;
 
-const variants: Variants = {
-  enter: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.2,
-    },
-  },
-  hidden: {
-    y: "40%",
-    opacity: 0,
-    transition: {
-      duration: 0.2,
-    },
-  },
-  exit: {
-    y: "-40%",
-    opacity: 0,
-    transition: {
-      duration: 0.2,
-    },
-  },
-};
+const CloseButton = styled.button`
+  position: absolute;
+  top: 1em;
+  right: 1em;
+`;
 
 function App() {
   const [textHover, setTextHover] = React.useState("");
@@ -88,23 +61,22 @@ function App() {
       />
       <Heading>Arishemm</Heading>
       <AnimatePresence>
-        {textHover && (
-          <Text
-            variants={variants}
-            initial="hidden"
-            animate="enter"
-            exit="exit"
-          >
-            {textHover}
-          </Text>
-        )}
+        {textHover && <TextHover>{textHover}</TextHover>}
       </AnimatePresence>
       {portfolio && (
         <Content
           onMouseMove={(e) => {
             e.stopPropagation();
           }}
-        />
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          transition={{
+            duration: 0.5,
+            ease: "easeInOut",
+          }}
+        >
+          <CloseButton onClick={() => setPortfolio(undefined)}>X</CloseButton>
+        </Content>
       )}
     </Wrapper>
   );
