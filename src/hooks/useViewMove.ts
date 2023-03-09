@@ -15,6 +15,7 @@ export function useViewMove() {
   const springY = useSpring(motionY, config);
 
   function handleMouseMoveOnView(e: React.MouseEvent<HTMLElement, MouseEvent>) {
+    console.log("?");
     const { clientX, clientY } = e;
 
     const viewWidth = viewRef?.current?.offsetWidth;

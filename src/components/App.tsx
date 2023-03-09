@@ -39,6 +39,13 @@ const Text = styled(motion.h1)`
   font-size: 2em;
 `;
 
+const Content = styled.div`
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 3;
+`;
+
 const variants: Variants = {
   enter: {
     y: 0,
@@ -64,26 +71,36 @@ const variants: Variants = {
 };
 
 function App() {
-  const [state, setState] = React.useState("");
+  const [textHover, setTextHover] = React.useState("");
 
   const { viewRef, x, y, contentRef, handleMouseMoveOnView } = useViewMove();
 
   return (
     <Wrapper layout ref={viewRef} onMouseMove={handleMouseMoveOnView}>
-      <Portfolio setState={setState} layout style={{ x, y }} ref={contentRef} />
+      <Portfolio
+        setState={setTextHover}
+        layout
+        style={{ x, y }}
+        ref={contentRef}
+      />
       <Heading>Arishemm</Heading>
       <AnimatePresence>
-        {state && (
+        {textHover && (
           <Text
             variants={variants}
             initial="hidden"
             animate="enter"
             exit="exit"
           >
-            {state}
+            {textHover}
           </Text>
         )}
       </AnimatePresence>
+      <Content
+        onMouseMove={(e) => {
+          e.stopPropagation();
+        }}
+      />
     </Wrapper>
   );
 }

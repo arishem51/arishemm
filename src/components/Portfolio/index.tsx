@@ -1,5 +1,5 @@
 import React from "react";
-import { motion,  Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import styled from "styled-components";
 import About from "../About";
 import Experience from "../Experience";
@@ -16,22 +16,20 @@ const ViewContent = styled(motion.div)`
   z-index: 2;
 `;
 
-const variants: Variants ={
+const variants: Variants = {
   init: {
-    opacity:0,
-    transition:{ duration: 1, delay: 1 }
+    opacity: 0,
+    transition: { duration: 1, delay: 1 },
   },
-  enter:{
-    opacity:1,
-    transition:{ duration: 1, delay: 1 }
-
-  }
-}
+  enter: {
+    opacity: 1,
+    transition: { duration: 1, delay: 1 },
+  },
+};
 
 type Props = {
   setState: React.Dispatch<React.SetStateAction<string>>;
 };
-
 
 const Portfolio = React.forwardRef<HTMLDivElement, Props>(
   ({ setState, ...props }, ref) => {
@@ -41,13 +39,14 @@ const Portfolio = React.forwardRef<HTMLDivElement, Props>(
 
     return (
       <ViewContent
-        initial='init'
-        animate='enter'
+        initial="init"
+        animate="enter"
         variants={variants}
         ref={ref}
         {...props}
       >
         <motion.div
+          layout
           onHoverStart={() => {
             setState("About");
           }}
