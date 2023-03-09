@@ -66,7 +66,8 @@ function PortfolioItem({
 
   const styles: MotionStyle = {
     width: isActive ? window.innerWidth : width,
-    height: isActive ? window.innerHeight : height,
+    height: isActive ? "auto" : height,
+    minHeight: isActive ? window.innerHeight : "auto",
     left: isActive ? reverseViewX.get() + "px" : left,
     top: isActive ? reverseViewY.get() + "px" : top,
     background: bgColor,
