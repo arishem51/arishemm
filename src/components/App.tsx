@@ -32,13 +32,6 @@ const Heading = styled.h1`
   user-select: none;
 `;
 
-const Content = styled(motion.div)`
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 3;
-`;
-
 const CloseButton = styled.button`
   position: absolute;
   top: 1em;

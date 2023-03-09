@@ -11,9 +11,8 @@ const Wrapper = styled(motion.div)`
   justify-content: center;
   align-items: center;
 
-  border-radius: 1.5em;
-
   background-color: var(--bgColor);
+  border-radius: 1.5em;
 
   cursor: pointer;
 
@@ -34,7 +33,7 @@ const Wrapper = styled(motion.div)`
     scale: 0;
   }
 
-  :hover {
+  &[data-isActive="false"]:hover {
     ::after {
       scale: 1;
     }
@@ -65,12 +64,15 @@ function PortfolioItem({
   const isActive = portfolio === name;
 
   const styles: MotionStyle = {
-    width: isActive ? window.innerWidth : width,
+    width: isActive ? window.innerWidth + "px" : width,
     height: isActive ? "auto" : height,
     minHeight: isActive ? window.innerHeight : "auto",
+
     left: isActive ? reverseViewX.get() + "px" : left,
     top: isActive ? reverseViewY.get() + "px" : top,
+
     background: bgColor,
+
     zIndex: isActive ? 9999 : 2,
   };
 
@@ -82,6 +84,7 @@ function PortfolioItem({
         }
       }}
       layout
+      data-isActive={isActive}
       style={styles}
     >
       {children}
