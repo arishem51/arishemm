@@ -1,20 +1,36 @@
-import { SpringOptions, useMotionValue, useSpring } from "framer-motion";
+import {
+  MotionValue,
+  SpringOptions,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
 import React from "react";
 import { useRef } from "react";
 
-export function useViewMove() {
+type Props = {
+  stopMove: boolean;
+};
+
+export function useViewMove({ stopMove }: Props) {
   const viewRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const motionX = useMotionValue(0);
-  const motionY = useMotionValue(-400);
+  const motionX = useMotionValue<number>(0);
+  const motionY = useMotionValue<number>(-400);
+
+  const reverseMotionX = useMotionValue<number>(0);
+  const reverseMotionY = useMotionValue<number>(0);
 
   const config: SpringOptions = { damping: 30, stiffness: 100 };
 
-  const springX = useSpring(motionX, config);
-  const springY = useSpring(motionY, config);
+  const springX: MotionValue<number> = useSpring(motionX, config);
+  const springY: MotionValue<number> = useSpring(motionY, config);
 
   function handleMouseMoveOnView(e: React.MouseEvent<HTMLElement, MouseEvent>) {
+    if (stopMove) {
+      return;
+    }
+
     const { clientX, clientY } = e;
 
     const viewWidth = viewRef?.current?.offsetWidth;
@@ -37,13 +53,18 @@ export function useViewMove() {
 
     motionX.set(distanceX);
     motionY.set(distanceY);
+
+    reverseMotionX.set(distanceX / -1);
+    reverseMotionY.set(distanceY / -1);
   }
 
   return {
     handleMouseMoveOnView,
     viewRef,
     contentRef,
-    x: springX,
-    y: springY,
+    viewX: springX,
+    viewY: springY,
+    reverseViewX: reverseMotionX,
+    reverseViewY: reverseMotionY,
   };
 }

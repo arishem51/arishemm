@@ -1,10 +1,11 @@
-import React, { useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import React, { createContext, useContext } from "react";
+import { AnimatePresence, motion, MotionValue } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
 import { useViewMove } from "../hooks/useViewMove";
 import { PortfolioType } from "../types";
 import TextHover from "./TextHover";
+import { useAnimationProvider } from "../Provider/AnimationProvider";
 
 const Wrapper = styled(motion.main)`
   position: relative;
@@ -44,11 +45,34 @@ const CloseButton = styled.button`
   right: 1em;
 `;
 
+type MotionContextProps = {
+  x: MotionValue<number>;
+  y: MotionValue<number>;
+  reverseX: MotionValue<number>;
+  reverseY: MotionValue<number>;
+  portfolio: any;
+};
+
+const MotionContext = createContext<MotionContextProps>(
+  {} as MotionContextProps
+);
+
+export const useMotionContext = () => {
+  const value = useContext(MotionContext);
+  return value;
+};
+
 function App() {
   const [textHover, setTextHover] = React.useState("");
-  const [portfolio, setPortfolio] = React.useState<PortfolioType>();
 
-  const { viewRef, x, y, contentRef, handleMouseMoveOnView } = useViewMove();
+  const {
+    viewRef,
+    handleMouseMoveOnView,
+    setPortfolio,
+    viewX,
+    viewY,
+    contentRef,
+  } = useAnimationProvider();
 
   return (
     <Wrapper ref={viewRef} onMouseMove={handleMouseMoveOnView}>
@@ -56,28 +80,13 @@ function App() {
         setTextHover={setTextHover}
         setPortfolio={setPortfolio}
         layout
-        style={{ x, y }}
+        style={{ x: viewX, y: viewY }}
         ref={contentRef}
       />
       <Heading>Arishemm</Heading>
       <AnimatePresence>
         {textHover && <TextHover>{textHover}</TextHover>}
       </AnimatePresence>
-      {portfolio && (
-        <Content
-          onMouseMove={(e) => {
-            e.stopPropagation();
-          }}
-          initial={{ y: "100%" }}
-          animate={{ y: 0 }}
-          transition={{
-            duration: 0.5,
-            ease: "easeInOut",
-          }}
-        >
-          <CloseButton onClick={() => setPortfolio(undefined)}>X</CloseButton>
-        </Content>
-      )}
     </Wrapper>
   );
 }

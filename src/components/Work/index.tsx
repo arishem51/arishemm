@@ -5,6 +5,7 @@ import PortfolioItem from "../PortfolioItem";
 function Work() {
   return (
     <PortfolioItem
+      name="work"
       bgColor="var(--color-orange)"
       height="24%"
       width="24%"

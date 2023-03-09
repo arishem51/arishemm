@@ -5,6 +5,7 @@ import PortfolioItem from "../PortfolioItem";
 function Experience() {
   return (
     <PortfolioItem
+      name="experience"
       bgColor="var(--color-red-2)"
       height="18%"
       width="16%"

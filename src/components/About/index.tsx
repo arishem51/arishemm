@@ -1,10 +1,10 @@
-import { motion } from "framer-motion";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 
 function About() {
   return (
     <PortfolioItem
+      name="about"
       height="20%"
       width="14%"
       left="42%"

@@ -5,6 +5,7 @@ import PortfolioItem from "../PortfolioItem";
 function Contact() {
   return (
     <PortfolioItem
+      name="contact"
       bgColor="var(--color-green-2)"
       height="14%"
       width="12%"
