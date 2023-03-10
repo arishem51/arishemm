@@ -13,21 +13,15 @@ const Wrapper = styled(motion.main)`
   overflow: hidden;
 `;
 
-const Heading = styled.h1`
+const Heading = styled(motion.h1)`
   position: relative;
-  top: 50%;
   left: 50%;
-  z-index: 1;
 
   display: inline-block;
 
-  font-size: 7em;
-  color: var(--color-black);
   font-family: "Rampart One", cursive;
 
-  transform: translate(-50%, -50%);
-
-  user-select: none;
+  cursor: pointer;
 `;
 
 type MotionContextProps = {
@@ -66,7 +60,29 @@ function App() {
         style={{ x: viewX, y: viewY }}
         ref={contentRef}
       />
-      <Heading>Arishemm</Heading>
+      <Heading
+        onClick={() => setPortfolio(undefined)}
+        initial={{
+          top: "50%",
+          zIndex: 1,
+          transform: "translate(-50%, -50%)",
+          fontSize: "7em",
+          color: "var(--color-black)",
+        }}
+        animate={
+          portfolio
+            ? {
+                top: "1rem",
+                zIndex: 3,
+                transform: "translate(-50%, 0)",
+                fontSize: "2em",
+                color: "var(--color-white)",
+              }
+            : {}
+        }
+      >
+        Arishemm
+      </Heading>
     </Wrapper>
   );
 }

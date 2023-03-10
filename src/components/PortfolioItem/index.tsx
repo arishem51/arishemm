@@ -7,14 +7,24 @@ import { PortfolioType } from "../../types";
 const Wrapper = styled(motion.div)`
   position: absolute;
 
-  background-color: var(--bgColor);
-  border-radius: 1.5em;
-
   cursor: pointer;
 
   ::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const CenterFlex = styled(motion.div)`
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 1.5em;
 
   ::after {
     --offset: calc(1em / 2);
@@ -43,15 +53,6 @@ const Wrapper = styled(motion.div)`
       scale: 1;
     }
   }
-`;
-
-const CenterFlex = styled(motion.div)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
 `;
 
 type Props = {
@@ -84,7 +85,9 @@ function PortfolioItem({
     left: isExpand ? reverseViewX.get() : left,
     top: isExpand ? reverseViewY.get() : top,
 
-    background: bgColor,
+    background: isExpand ? "rgb(242, 240, 233)" : "transparent",
+
+    padding: ".7em",
 
     zIndex: isExpand ? 9999 : 2,
     overflow: "hidden scroll",
@@ -98,10 +101,11 @@ function PortfolioItem({
         }
       }}
       layout
-      data-isExpand={isExpand}
       style={styles}
     >
-      <CenterFlex>{children}</CenterFlex>
+      <CenterFlex data-isExpand={isExpand} style={{ background: bgColor }}>
+        {children}
+      </CenterFlex>
       {isExpand && <div style={{ width: window.innerWidth, height: 1000 }} />}
     </Wrapper>
   );
