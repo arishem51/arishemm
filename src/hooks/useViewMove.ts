@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   MotionValue,
   SpringOptions,
@@ -55,13 +54,6 @@ export function useViewMove() {
 
   const addViewMoveEvent = () =>
     viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView);
-
-  useEffect(() => {
-    addViewMoveEvent();
-    return () => {
-      removeViewMoveEvent();
-    };
-  }, []);
 
   return {
     handleMouseMoveOnView,
