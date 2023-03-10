@@ -12,6 +12,7 @@ const Wrapper = styled(motion.h1)`
   font-family: "Rampart One", cursive;
 
   cursor: pointer;
+  mix-blend-mode: difference;
 `;
 
 type Props = {
