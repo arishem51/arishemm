@@ -1,4 +1,5 @@
 import React from "react";
+import { LayoutGroup } from "framer-motion";
 import styled from "styled-components";
 import { useAnimationProvider } from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
@@ -14,6 +15,9 @@ const Wrapper = styled.nav`
 
 const List = styled.ul`
   display: flex;
+
+  padding: 2px;
+
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 2em;
 `;
@@ -45,7 +49,9 @@ const Navbar = () => {
 
   return (
     <Wrapper>
-      <List>{renderItem()}</List>
+      <LayoutGroup>
+        <List>{renderItem()}</List>
+      </LayoutGroup>
     </Wrapper>
   );
 };
