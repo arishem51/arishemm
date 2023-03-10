@@ -9,8 +9,8 @@ type AnimationProviderProsp = {
   viewX: MotionValue<number>;
   viewY: MotionValue<number>;
   contentRef: React.RefObject<HTMLDivElement>;
-  reverseViewX: MotionValue<number>;
-  reverseViewY: MotionValue<number>;
+  reverseViewX: number;
+  reverseViewY: number;
   portfolio: PortfolioType | undefined;
   setPortfolio: SetState<PortfolioType | undefined>;
 };

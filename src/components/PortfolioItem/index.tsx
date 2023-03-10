@@ -87,8 +87,8 @@ function PortfolioItem({
     width: isExpand ? window.innerWidth : width,
     height: isExpand ? window.innerHeight : height,
 
-    left: isExpand ? reverseViewX.get() : left,
-    top: isExpand ? reverseViewY.get() : top,
+    left: isExpand ? reverseViewX : left,
+    top: isExpand ? reverseViewY : top,
 
     background: isExpand ? "rgb(242, 240, 233)" : "transparent",
     padding: ".7em",
