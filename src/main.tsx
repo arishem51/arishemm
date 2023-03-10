@@ -10,13 +10,15 @@ const GlobalStyles = createGlobalStyle`
 */
 *, *::before, *::after {
   box-sizing: border-box;
+  
 }
 
 /*
-  2. Remove default margin
+  2. Remove default margin and padding
 */
 * {
   margin: 0;
+  padding:0;
 }
 
 /*
