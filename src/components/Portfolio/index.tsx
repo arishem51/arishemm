@@ -7,7 +7,6 @@ import Contact from "../Contact";
 import Work from "../Work";
 import Resume from "../Resume";
 import { PortfolioType, SetState } from "../../types";
-import { useMotionContext } from "../App";
 
 const ViewContent = styled(motion.div)`
   width: 140vmax;
@@ -30,7 +29,6 @@ const variants: Variants = {
 };
 
 type Props = {
-  setTextHover: SetState<string>;
   setPortfolio: SetState<PortfolioType | undefined>;
 };
 
@@ -43,23 +41,15 @@ const PortfolioItems: PortfolioType[] = [
 ];
 
 const Portfolio = React.forwardRef<HTMLDivElement, Props>(
-  ({ setTextHover, setPortfolio, ...props }, ref) => {
-    function handleHoverEnd() {
-      setTextHover("");
-    }
-
+  ({ setPortfolio, ...props }, ref) => {
     function renderItem() {
       return PortfolioItems.map((item) => {
         return (
           <motion.div
             layout
-            onHoverStart={() => {
-              setTextHover(item.toUpperCase());
-            }}
             onClick={() => {
               setPortfolio(item);
             }}
-            onHoverEnd={handleHoverEnd}
           >
             {item === "about" && <About />}
             {item === "work" && <Work />}

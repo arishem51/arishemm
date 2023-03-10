@@ -24,18 +24,13 @@ const Heading = styled.h1`
 
   display: inline-block;
 
-  font-size: 3.5em;
+  font-size: 7em;
   color: var(--color-black);
+  font-family: "Rampart One", cursive;
 
   transform: translate(-50%, -50%);
 
   user-select: none;
-`;
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 1em;
-  right: 1em;
 `;
 
 type MotionContextProps = {
@@ -56,8 +51,6 @@ export const useMotionContext = () => {
 };
 
 function App() {
-  const [textHover, setTextHover] = React.useState("");
-
   const {
     viewRef,
     handleMouseMoveOnView,
@@ -70,16 +63,12 @@ function App() {
   return (
     <Wrapper ref={viewRef} onMouseMove={handleMouseMoveOnView}>
       <Portfolio
-        setTextHover={setTextHover}
         setPortfolio={setPortfolio}
         layout
         style={{ x: viewX, y: viewY }}
         ref={contentRef}
       />
       <Heading>Arishemm</Heading>
-      <AnimatePresence>
-        {textHover && <TextHover>{textHover}</TextHover>}
-      </AnimatePresence>
     </Wrapper>
   );
 }
