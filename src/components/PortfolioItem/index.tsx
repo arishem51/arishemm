@@ -17,14 +17,17 @@ const Wrapper = styled(motion.div)`
   }
 
   ::after {
+    --offset: calc(1em / 2);
+    --size: calc(100% - 1em);
+
     content: "";
 
     position: absolute;
-    top: calc(1em / 2);
-    left: calc(1em / 2);
+    top: var(--offset);
+    left: var(--offset);
 
-    width: calc(100% - 1em);
-    height: calc(100% - 1em);
+    width: var(--size);
+    height: var(--size);
 
     z-index: 1;
 
@@ -48,6 +51,7 @@ const CenterFlex = styled(motion.div)`
   align-items: center;
 
   width: 100%;
+  height: 100%;
 `;
 
 type Props = {
