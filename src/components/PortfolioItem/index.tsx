@@ -1,9 +1,4 @@
-import {
-  motion,
-  Transition,
-  useAnimationControls,
-  Variants,
-} from "framer-motion";
+import { motion, Transition, useAnimationControls } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 import { useAnimationProvider } from "../../Provider/AnimationProvider";
@@ -143,15 +138,21 @@ function PortfolioItem({
   React.useEffect(() => {
     if (animationType === "expand") {
       if (isActive) {
+        // Portfolio is active will run this animation
         animationControls.start(animationExpand);
       } else if (previousPortfolio === name) {
+        // Portfolio was active run this aniamtion
         animationControls.start(initial);
       }
     } else {
+      // AnimationType === 'slideUp '
+
       if (isActive) {
+        // Portfolio is active will run this animation
         animationControls.set(animationSlideUp);
         animationControls.start(animationExpand);
       } else if (previousPortfolio === name) {
+        // Portfolio was active run this aniamtion
         animationControls.start(animationSlideUp).then(() => {
           animationControls.set(initial);
         });
