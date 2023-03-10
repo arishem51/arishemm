@@ -2,7 +2,7 @@ import { MotionValue } from "framer-motion";
 import React, { useContext, useEffect } from "react";
 import { createContext } from "react";
 import { useViewMove } from "../hooks/useViewMove";
-import { PortfolioType, SetState } from "../types";
+import { AnimationType, PortfolioType, SetState } from "../types";
 
 type AnimationProviderProsp = {
   viewRef: React.RefObject<HTMLDivElement>;
@@ -13,6 +13,8 @@ type AnimationProviderProsp = {
   reverseViewY: number;
   portfolio: PortfolioType | undefined;
   setPortfolio: SetState<PortfolioType | undefined>;
+  animationType: AnimationType;
+  setAnimationType: SetState<AnimationType>;
 };
 
 const AnimationContext = createContext<AnimationProviderProsp>(
@@ -27,6 +29,8 @@ export const useAnimationProvider = () => useContext(AnimationContext);
 
 export default function AnimationProvider({ children }: Props) {
   const [portfolio, setPortfolio] = React.useState<PortfolioType>();
+  const [animationType, setAnimationType] =
+    React.useState<AnimationType>("expand");
 
   const {
     viewRef,
@@ -59,6 +63,8 @@ export default function AnimationProvider({ children }: Props) {
     reverseViewY,
     portfolio,
     setPortfolio,
+    animationType,
+    setAnimationType,
   };
 
   return (

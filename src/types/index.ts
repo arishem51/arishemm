@@ -7,4 +7,6 @@ export type PortfolioType =
   | "experience"
   | "contact";
 
+export type AnimationType = "expand" | "slideUp";
+
 export type SetState<T> = React.Dispatch<React.SetStateAction<T>>;

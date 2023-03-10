@@ -30,12 +30,7 @@ function App() {
 
   return (
     <Wrapper ref={viewRef}>
-      <Portfolio
-        setPortfolio={setPortfolio}
-        layout
-        style={styles}
-        ref={contentRef}
-      />
+      <Portfolio layout style={styles} ref={contentRef} />
       <Heading portfolio={portfolio} onClick={handleHeadingClick}>
         Arishemm
       </Heading>

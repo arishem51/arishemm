@@ -31,14 +31,17 @@ const Menu: PortfolioType[] = [
 ];
 
 const Navbar = () => {
-  const { portfolio, setPortfolio } = useAnimationProvider();
+  const { portfolio, setPortfolio, setAnimationType } = useAnimationProvider();
 
   function renderItem() {
     return Menu.map((item, index) => {
       return (
         <ListItem
           key={item + index}
-          onClick={() => setPortfolio(item)}
+          onClick={() => {
+            setPortfolio(item);
+            setAnimationType("slideUp");
+          }}
           active={portfolio === item}
         >
           {item}
