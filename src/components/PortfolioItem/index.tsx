@@ -38,7 +38,7 @@ const Wrapper = styled(motion.div)`
     scale: 0;
   }
 
-  &[data-isActive="false"]:hover {
+  &[data-isExpand="false"]:hover {
     ::after {
       scale: 1;
     }
@@ -75,34 +75,34 @@ function PortfolioItem({
 }: Props) {
   const { portfolio, reverseViewX, reverseViewY } = useAnimationProvider();
 
-  const isActive = portfolio === name;
+  const isExpand = portfolio === name;
 
   const styles: MotionStyle = {
-    width: isActive ? window.innerWidth : width,
-    height: isActive ? window.innerHeight : height,
+    width: isExpand ? window.innerWidth : width,
+    height: isExpand ? window.innerHeight : height,
 
-    left: isActive ? reverseViewX.get() : left,
-    top: isActive ? reverseViewY.get() : top,
+    left: isExpand ? reverseViewX.get() : left,
+    top: isExpand ? reverseViewY.get() : top,
 
     background: bgColor,
 
-    zIndex: isActive ? 9999 : 2,
+    zIndex: isExpand ? 9999 : 2,
     overflow: "hidden scroll",
   };
 
   return (
     <Wrapper
       onMouseMove={(e) => {
-        if (isActive) {
+        if (isExpand) {
           e.stopPropagation();
         }
       }}
       layout
-      data-isActive={isActive}
+      data-isExpand={isExpand}
       style={styles}
     >
       <CenterFlex>{children}</CenterFlex>
-      {isActive && <div style={{ width: window.innerWidth, height: 1000 }} />}
+      {isExpand && <div style={{ width: window.innerWidth, height: 1000 }} />}
     </Wrapper>
   );
 }

@@ -1,10 +1,7 @@
 import React, { createContext, useContext } from "react";
-import { AnimatePresence, motion, MotionValue } from "framer-motion";
+import { motion, MotionValue } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
-import { useViewMove } from "../hooks/useViewMove";
-import { PortfolioType } from "../types";
-import TextHover from "./TextHover";
 import { useAnimationProvider } from "../Provider/AnimationProvider";
 
 const Wrapper = styled(motion.main)`
@@ -58,6 +55,7 @@ function App() {
     viewX,
     viewY,
     contentRef,
+    portfolio,
   } = useAnimationProvider();
 
   return (
