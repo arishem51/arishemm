@@ -142,18 +142,16 @@ function PortfolioItem({
 
   React.useEffect(() => {
     if (animationType === "expand") {
-      if (portfolio === name) {
+      if (isActive) {
         animationControls.start(animationExpand);
       } else if (previousPortfolio === name) {
         animationControls.start(initial);
       }
     } else {
-      if (portfolio === name) {
+      if (isActive) {
         animationControls.set(animationSlideUp);
-
         animationControls.start(animationExpand);
       } else if (previousPortfolio === name) {
-        console.log(previousPortfolio, name);
         animationControls.start(animationSlideUp).then(() => {
           animationControls.set(initial);
         });
@@ -165,8 +163,8 @@ function PortfolioItem({
     animationSlideUp,
     animationType,
     initial,
+    isActive,
     name,
-    portfolio,
     previousPortfolio,
   ]);
 
