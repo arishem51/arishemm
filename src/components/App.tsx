@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Portfolio from "./Portfolio";
 import { useAnimationProvider } from "../Provider/AnimationProvider";
 import Heading from "./Heading";
+import Navbar from "./Navbar";
 
 const Wrapper = styled(motion.main)`
   position: relative;
@@ -38,6 +39,7 @@ function App() {
       <Heading portfolio={portfolio} onClick={handleHeadingClick}>
         Arishemm
       </Heading>
+      {portfolio && <Navbar />}
     </Wrapper>
   );
 }

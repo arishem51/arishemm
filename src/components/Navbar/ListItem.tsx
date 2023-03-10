@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const Li = styled(motion.li)`
   padding: 0.8em 1.2em;
+  border-radius: 2em;
 
   color: var(--color-black);
   font-size: 0.9em;
@@ -17,6 +18,8 @@ const Li = styled(motion.li)`
 
 type Props = {
   children?: React.ReactNode;
+  active: boolean;
+  onClick: () => void;
 };
 
 const variants: Variants = {
@@ -31,11 +34,23 @@ const variants: Variants = {
       duration: 0.3,
     },
   },
+  animate: (custom: boolean) => {
+    return {
+      background: custom ? "red" : "transparent",
+    };
+  },
 };
 
-const ListItem = ({ children }: Props) => {
+const ListItem = ({ children, active, onClick }: Props) => {
   return (
-    <Li variants={variants} initial="initial" whileHover="hover">
+    <Li
+      custom={active}
+      animate="animate"
+      variants={variants}
+      initial="initial"
+      whileHover="hover"
+      onClick={onClick}
+    >
       {children}
     </Li>
   );
