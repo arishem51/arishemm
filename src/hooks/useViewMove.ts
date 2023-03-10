@@ -6,6 +6,10 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 
+const OPPOSITE = -1;
+
+const config: SpringOptions = { damping: 30, stiffness: 100 };
+
 export function useViewMove() {
   const viewRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -15,8 +19,6 @@ export function useViewMove() {
 
   const reverseMotionX = useMotionValue<number>(0);
   const reverseMotionY = useMotionValue<number>(0);
-
-  const config: SpringOptions = { damping: 30, stiffness: 100 };
 
   const springX: MotionValue<number> = useSpring(motionX, config);
   const springY: MotionValue<number> = useSpring(motionY, config);
@@ -39,14 +41,14 @@ export function useViewMove() {
     const maxX = contentWidth - viewWidth;
     const maxY = contentHeight - viewHeight;
 
-    const distanceX = percentageX * maxX * -1;
-    const distanceY = percentageY * maxY * -1;
+    const distanceX = percentageX * maxX * OPPOSITE;
+    const distanceY = percentageY * maxY * OPPOSITE;
 
     motionX.set(distanceX);
     motionY.set(distanceY);
 
-    reverseMotionX.set(distanceX / -1);
-    reverseMotionY.set(distanceY / -1);
+    reverseMotionX.set(distanceX * OPPOSITE);
+    reverseMotionY.set(distanceY * OPPOSITE);
   }
 
   const removeViewMoveEvent = () =>

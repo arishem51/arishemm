@@ -1,4 +1,4 @@
-import { motion, TargetAndTransition, Transition } from "framer-motion";
+import { motion, MotionStyle, Transition } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 import { useAnimationProvider } from "../../Provider/AnimationProvider";
@@ -83,34 +83,18 @@ function PortfolioItem({
 
   const isExpand = portfolio === name;
 
-  const initial = React.useMemo(
-    () => ({
-      width,
-      height,
-      left,
-      top,
-      background: "transparent",
-      padding: ".7em",
-      zIndex: 2,
-      overflow: "hidden scroll",
-    }),
-    [height, left, top, width]
-  );
+  const styles: MotionStyle = {
+    width: isExpand ? window.innerWidth : width,
+    height: isExpand ? window.innerHeight : height,
 
-  const animate: TargetAndTransition = isExpand
-    ? {
-        width: window.innerWidth,
-        height: window.innerHeight,
+    left: isExpand ? reverseViewX.get() : left,
+    top: isExpand ? reverseViewY.get() : top,
 
-        left: reverseViewX.get(),
-        top: reverseViewY.get(),
-
-        background: "rgb(242, 240, 233)",
-        padding: ".7em",
-        zIndex: 9999,
-        overflow: "hidden scroll",
-      }
-    : {};
+    background: isExpand ? "rgb(242, 240, 233)" : "transparent",
+    padding: ".7em",
+    zIndex: isExpand ? 9999 : 2,
+    overflow: "hidden scroll",
+  };
 
   return (
     <Wrapper
@@ -120,8 +104,7 @@ function PortfolioItem({
         }
       }}
       layout
-      initial={initial}
-      animate={animate}
+      style={styles}
       transition={transition}
     >
       <CenterFlex data-isExpand={isExpand} style={{ background: bgColor }}>
