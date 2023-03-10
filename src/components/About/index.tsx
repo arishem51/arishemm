@@ -11,9 +11,13 @@ function About() {
       left="42%"
       top="24%"
       bgColor="var(--color-blue-2)"
-    >
-      <Lottie src="https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json" />
-    </PortfolioItem>
+      backgroundComponent={
+        <Lottie src="https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json" />
+      }
+      expandedComponent={
+        <div style={{ width: window.innerWidth, height: 1000 }} />
+      }
+    />
   );
 }
 

@@ -61,23 +61,25 @@ const transition: Transition = {
 };
 
 type Props = {
-  children?: React.ReactNode;
   width: string;
   height: string;
   top: string;
   left: string;
   bgColor: string;
   name: PortfolioType;
+  backgroundComponent: React.ReactNode;
+  expandedComponent: React.ReactNode;
 };
 
 function PortfolioItem({
-  children,
   width,
   height,
   top,
   left,
   bgColor,
   name,
+  expandedComponent,
+  backgroundComponent,
 }: Props) {
   const { portfolio, reverseViewX, reverseViewY } = useAnimationProvider();
 
@@ -110,9 +112,9 @@ function PortfolioItem({
       transition={transition}
     >
       <CenterFlex data-isExpand={isExpand} style={{ background: bgColor }}>
-        {children}
+        {backgroundComponent}
       </CenterFlex>
-      {isExpand && <div style={{ width: window.innerWidth, height: 1000 }} />}
+      {isExpand && expandedComponent}
     </Wrapper>
   );
 }

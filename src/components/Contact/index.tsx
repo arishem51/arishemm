@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import React from "react";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 
@@ -11,9 +11,13 @@ function Contact() {
       width="12%"
       left="45%"
       top="62%"
-    >
-      <Lottie src="https://assets8.lottiefiles.com/packages/lf20_u25cckyh.json" />
-    </PortfolioItem>
+      backgroundComponent={
+        <Lottie src="https://assets8.lottiefiles.com/packages/lf20_u25cckyh.json" />
+      }
+      expandedComponent={
+        <div style={{ width: window.innerWidth, height: 1000 }} />
+      }
+    />
   );
 }
 
