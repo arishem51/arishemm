@@ -1,4 +1,4 @@
-import { motion, MotionStyle, Transition } from "framer-motion";
+import { motion, Transition, Variants } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 import { useAnimationProvider } from "../../Provider/AnimationProvider";
@@ -48,7 +48,7 @@ const CenterFlex = styled(motion.div)`
     scale: 0;
   }
 
-  &[data-isExpand="false"]:hover {
+  &[data-isActive="false"]:hover {
     ::after {
       scale: 1;
     }
@@ -81,27 +81,40 @@ function PortfolioItem({
   expandedComponent,
   backgroundComponent,
 }: Props) {
-  const { portfolio, reverseViewX, reverseViewY } = useAnimationProvider();
+  const { portfolio, reverseViewX, reverseViewY, animationType } =
+    useAnimationProvider();
 
   const [isHover, setIsHover] = React.useState(false);
 
-  const isExpand = portfolio === name;
+  const isActive = portfolio === name;
 
-  const styles: MotionStyle = {
-    width: isExpand ? window.innerWidth : width,
-    height: isExpand ? window.innerHeight : height,
-
-    left: isExpand ? reverseViewX : left,
-    top: isExpand ? reverseViewY : top,
-
-    background: isExpand ? "rgb(242, 240, 233)" : "transparent",
-    padding: ".7em",
-    zIndex: isExpand ? 4 : 2,
-    overflow: "hidden scroll",
+  const variants: Variants = {
+    initial: {
+      width,
+      height,
+      left,
+      top,
+      background: "transparent",
+      padding: ".7em",
+      zIndex: 2,
+      overflow: "hidden scroll",
+    },
+    animate: isActive
+      ? {
+          width: window.innerWidth,
+          height: window.innerHeight,
+          left: reverseViewX,
+          top: reverseViewY,
+          background: "rgb(242,240,233)",
+          padding: ".7em",
+          zIndex: 4,
+          overflow: "hidden scroll",
+        }
+      : {},
   };
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    if (isExpand) {
+    if (isActive) {
       e.stopPropagation();
     }
   }
@@ -118,16 +131,18 @@ function PortfolioItem({
     <Wrapper
       onMouseMove={handleMouseMove}
       layout
-      style={styles}
+      variants={variants}
+      initial="initial"
+      animate="animate"
       transition={transition}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
     >
-      <CenterFlex data-isExpand={isExpand} style={{ background: bgColor }}>
+      <CenterFlex data-isActive={isActive} style={{ background: bgColor }}>
         {backgroundComponent}
       </CenterFlex>
-      {isExpand && expandedComponent}
-      {!isExpand && <Title isParentHover={isHover}>{name}</Title>}
+      {isActive && expandedComponent}
+      {!isActive && <Title isParentHover={isHover}>{name}</Title>}
     </Wrapper>
   );
 }
