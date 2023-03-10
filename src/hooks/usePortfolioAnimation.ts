@@ -95,6 +95,10 @@ export function usePortfolioAnimation({
 
       if (portfolio === name) {
         // Portfolio is active will run this animation
+
+        // Reset previous if click too fast
+        animationControls.stop();
+
         animationControls.set({
           width: window.innerWidth,
           height: window.innerHeight,
