@@ -15,7 +15,7 @@ export function useViewMove() {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const motionX = useMotionValue<number>(0);
-  const motionY = useMotionValue<number>(-400);
+  const motionY = useMotionValue<number>(0);
 
   const reverseMotionX = useMotionValue<number>(0);
   const reverseMotionY = useMotionValue<number>(0);
