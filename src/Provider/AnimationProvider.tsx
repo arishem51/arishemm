@@ -1,5 +1,5 @@
 import { MotionValue } from "framer-motion";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { createContext } from "react";
 import { useViewMove } from "../hooks/useViewMove";
 import { AnimationType, PortfolioType, SetState } from "../types";
@@ -15,6 +15,7 @@ type AnimationProviderProsp = {
   setPortfolio: SetState<PortfolioType | undefined>;
   animationType: AnimationType;
   setAnimationType: SetState<AnimationType>;
+  previousPortfolio: PortfolioType | undefined;
 };
 
 const AnimationContext = createContext<AnimationProviderProsp>(
@@ -29,6 +30,7 @@ export const useAnimationProvider = () => useContext(AnimationContext);
 
 export default function AnimationProvider({ children }: Props) {
   const [portfolio, setPortfolio] = React.useState<PortfolioType>();
+  const previousPortfolio = usePrevious(portfolio);
   const [animationType, setAnimationType] =
     React.useState<AnimationType>("expand");
 
@@ -65,6 +67,7 @@ export default function AnimationProvider({ children }: Props) {
     setPortfolio,
     animationType,
     setAnimationType,
+    previousPortfolio,
   };
 
   return (
@@ -72,4 +75,18 @@ export default function AnimationProvider({ children }: Props) {
       {children}
     </AnimationContext.Provider>
   );
+}
+
+function usePrevious(value: PortfolioType | undefined) {
+  // The ref object is a generic container whose current property is mutable ...
+  // ... and can hold any value, similar to an instance property on a class
+  const ref = useRef<PortfolioType | undefined>();
+  // Store current value in ref
+  useEffect(() => {
+    if (value) {
+      ref.current = value;
+    }
+  }, [value]); // Only re-run if value changes
+  // Return previous value (happens before update in useEffect above)
+  return ref.current;
 }

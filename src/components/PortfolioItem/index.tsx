@@ -1,4 +1,9 @@
-import { motion, Transition, Variants } from "framer-motion";
+import {
+  motion,
+  Transition,
+  useAnimationControls,
+  Variants,
+} from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 import { useAnimationProvider } from "../../Provider/AnimationProvider";
@@ -81,37 +86,89 @@ function PortfolioItem({
   expandedComponent,
   backgroundComponent,
 }: Props) {
-  const { portfolio, reverseViewX, reverseViewY, animationType } =
-    useAnimationProvider();
+  const {
+    portfolio,
+    reverseViewX,
+    reverseViewY,
+    animationType,
+    previousPortfolio,
+  } = useAnimationProvider();
 
   const [isHover, setIsHover] = React.useState(false);
 
+  const animationControls = useAnimationControls();
+
   const isActive = portfolio === name;
 
-  const variants: Variants = {
-    initial: {
+  const initial = React.useMemo(() => {
+    return {
       width,
       height,
       left,
       top,
-      background: "transparent",
+      background: "rgba(255,255,255,0)",
       padding: ".7em",
       zIndex: 2,
       overflow: "hidden scroll",
-    },
-    animate: isActive
-      ? {
-          width: window.innerWidth,
-          height: window.innerHeight,
-          left: reverseViewX,
-          top: reverseViewY,
-          background: "rgb(242,240,233)",
-          padding: ".7em",
-          zIndex: 4,
-          overflow: "hidden scroll",
-        }
-      : {},
-  };
+      transition,
+    };
+  }, [height, left, top, width]);
+
+  const animationExpand = React.useMemo(() => {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      left: reverseViewX,
+      top: reverseViewY,
+      background: "rgb(242,240,233)",
+      padding: ".7em",
+      zIndex: 4,
+      overflow: "hidden scroll",
+      transition,
+    };
+  }, [reverseViewX, reverseViewY]);
+
+  const animationSlideUp = React.useMemo(() => {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      top: reverseViewY + window.innerHeight,
+      left: reverseViewX,
+      zIndex: 4,
+      overflow: "hidden scroll",
+      transition,
+    };
+  }, [reverseViewX, reverseViewY]);
+
+  React.useEffect(() => {
+    if (animationType === "expand") {
+      if (portfolio === name) {
+        animationControls.start(animationExpand);
+      } else if (previousPortfolio === name) {
+        animationControls.start(initial);
+      }
+    } else {
+      if (portfolio === name) {
+        animationControls.set(animationSlideUp);
+
+        animationControls.start(animationExpand);
+      } else if (previousPortfolio === name) {
+        console.log(previousPortfolio, name);
+        animationControls.start(animationSlideUp).then(() => {
+          animationControls.set(initial);
+        });
+      }
+    }
+  }, [
+    animationControls,
+    animationExpand,
+    animationSlideUp,
+    animationType,
+    initial,
+    name,
+    portfolio,
+    previousPortfolio,
+  ]);
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if (isActive) {
@@ -131,10 +188,8 @@ function PortfolioItem({
     <Wrapper
       onMouseMove={handleMouseMove}
       layout
-      variants={variants}
-      initial="initial"
-      animate="animate"
-      transition={transition}
+      initial={initial}
+      animate={animationControls}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
     >

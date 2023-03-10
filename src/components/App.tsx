@@ -16,11 +16,19 @@ const Wrapper = styled(motion.main)`
 `;
 
 function App() {
-  const { viewRef, setPortfolio, viewX, viewY, contentRef, portfolio } =
-    useAnimationProvider();
+  const {
+    viewRef,
+    setPortfolio,
+    viewX,
+    viewY,
+    contentRef,
+    portfolio,
+    setAnimationType,
+  } = useAnimationProvider();
 
   function handleHeadingClick() {
     setPortfolio(undefined);
+    setAnimationType("expand");
   }
 
   const styles = {
