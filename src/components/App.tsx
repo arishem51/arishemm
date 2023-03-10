@@ -1,5 +1,5 @@
-import React, { createContext, useContext } from "react";
-import { motion, MotionValue } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
 import { useAnimationProvider } from "../Provider/AnimationProvider";
@@ -23,23 +23,6 @@ const Heading = styled(motion.h1)`
 
   cursor: pointer;
 `;
-
-type MotionContextProps = {
-  x: MotionValue<number>;
-  y: MotionValue<number>;
-  reverseX: MotionValue<number>;
-  reverseY: MotionValue<number>;
-  portfolio: any;
-};
-
-const MotionContext = createContext<MotionContextProps>(
-  {} as MotionContextProps
-);
-
-export const useMotionContext = () => {
-  const value = useContext(MotionContext);
-  return value;
-};
 
 function App() {
   const { viewRef, setPortfolio, viewX, viewY, contentRef, portfolio } =

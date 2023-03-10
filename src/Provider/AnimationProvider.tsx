@@ -48,7 +48,7 @@ export default function AnimationProvider({ children }: Props) {
     return () => {
       removeViewMoveEvent();
     };
-  }, [portfolio]);
+  }, [addViewMoveEvent, portfolio, removeViewMoveEvent]);
 
   const value = {
     viewRef,
