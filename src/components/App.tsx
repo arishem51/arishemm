@@ -22,12 +22,17 @@ function App() {
     setPortfolio(undefined);
   }
 
+  const styles = {
+    x: viewX,
+    y: viewY,
+  };
+
   return (
     <Wrapper ref={viewRef}>
       <Portfolio
         setPortfolio={setPortfolio}
         layout
-        style={{ x: viewX, y: viewY }}
+        style={styles}
         ref={contentRef}
       />
       <Heading portfolio={portfolio} onClick={handleHeadingClick}>
