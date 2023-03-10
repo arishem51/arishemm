@@ -106,24 +106,28 @@ function PortfolioItem({
     }
   }
 
+  function handleHoverStart() {
+    setIsHover(true);
+  }
+
+  function handleHoverEnd() {
+    setIsHover(false);
+  }
+
   return (
     <Wrapper
       onMouseMove={handleMouseMove}
       layout
       style={styles}
       transition={transition}
-      onHoverStart={() => {
-        setIsHover(true);
-      }}
-      onHoverEnd={() => {
-        setIsHover(false);
-      }}
+      onHoverStart={handleHoverStart}
+      onHoverEnd={handleHoverEnd}
     >
       <CenterFlex data-isExpand={isExpand} style={{ background: bgColor }}>
         {backgroundComponent}
       </CenterFlex>
       {isExpand && expandedComponent}
-      <Title isParentHover={isHover}>{name}</Title>
+      {!isExpand && <Title isParentHover={isHover}>{name}</Title>}
     </Wrapper>
   );
 }
