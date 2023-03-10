@@ -3,10 +3,10 @@ import React from "react";
 import styled from "styled-components";
 import { useAnimationProvider } from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
+import Title from "./Title";
 
 const Wrapper = styled(motion.div)`
   position: absolute;
-
   cursor: pointer;
 
   ::-webkit-scrollbar {
@@ -83,6 +83,8 @@ function PortfolioItem({
 }: Props) {
   const { portfolio, reverseViewX, reverseViewY } = useAnimationProvider();
 
+  const [isHover, setIsHover] = React.useState(false);
+
   const isExpand = portfolio === name;
 
   const styles: MotionStyle = {
@@ -110,11 +112,18 @@ function PortfolioItem({
       layout
       style={styles}
       transition={transition}
+      onHoverStart={() => {
+        setIsHover(true);
+      }}
+      onHoverEnd={() => {
+        setIsHover(false);
+      }}
     >
       <CenterFlex data-isExpand={isExpand} style={{ background: bgColor }}>
         {backgroundComponent}
       </CenterFlex>
       {isExpand && expandedComponent}
+      <Title isParentHover={isHover}>{name}</Title>
     </Wrapper>
   );
 }
