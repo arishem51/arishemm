@@ -43,7 +43,7 @@ const variants: Variants = {
 };
 
 const transition: Transition = {
-  duration: 0.5,
+  duration: 0.4,
   ease: [0.2, 0, 1, 0.8],
 };
 

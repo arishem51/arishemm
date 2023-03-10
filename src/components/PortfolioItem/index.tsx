@@ -1,4 +1,4 @@
-import { motion, MotionStyle } from "framer-motion";
+import { motion, TargetAndTransition, Transition } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 import { useAnimationProvider } from "../../Provider/AnimationProvider";
@@ -55,6 +55,11 @@ const CenterFlex = styled(motion.div)`
   }
 `;
 
+const transition: Transition = {
+  duration: 0.4,
+  ease: [0.2, 0, 1, 0.8],
+};
+
 type Props = {
   children?: React.ReactNode;
   width: string;
@@ -78,20 +83,34 @@ function PortfolioItem({
 
   const isExpand = portfolio === name;
 
-  const styles: MotionStyle = {
-    width: isExpand ? window.innerWidth : width,
-    height: isExpand ? window.innerHeight : height,
+  const initial = React.useMemo(
+    () => ({
+      width,
+      height,
+      left,
+      top,
+      background: "transparent",
+      padding: ".7em",
+      zIndex: 2,
+      overflow: "hidden scroll",
+    }),
+    [height, left, top, width]
+  );
 
-    left: isExpand ? reverseViewX.get() : left,
-    top: isExpand ? reverseViewY.get() : top,
+  const animate: TargetAndTransition = isExpand
+    ? {
+        width: window.innerWidth,
+        height: window.innerHeight,
 
-    background: isExpand ? "rgb(242, 240, 233)" : "transparent",
+        left: reverseViewX.get(),
+        top: reverseViewY.get(),
 
-    padding: ".7em",
-
-    zIndex: isExpand ? 9999 : 2,
-    overflow: "hidden scroll",
-  };
+        background: "rgb(242, 240, 233)",
+        padding: ".7em",
+        zIndex: 9999,
+        overflow: "hidden scroll",
+      }
+    : {};
 
   return (
     <Wrapper
@@ -101,7 +120,9 @@ function PortfolioItem({
         }
       }}
       layout
-      style={styles}
+      initial={initial}
+      animate={animate}
+      transition={transition}
     >
       <CenterFlex data-isExpand={isExpand} style={{ background: bgColor }}>
         {children}

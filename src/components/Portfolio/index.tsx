@@ -50,6 +50,7 @@ const Portfolio = React.forwardRef<HTMLDivElement, Props>(
             onClick={() => {
               setPortfolio(item);
             }}
+            key={item}
           >
             {item === "about" && <About />}
             {item === "work" && <Work />}
@@ -74,5 +75,7 @@ const Portfolio = React.forwardRef<HTMLDivElement, Props>(
     );
   }
 );
+
+Portfolio.displayName = "Portfolio";
 
 export default motion(Portfolio);
