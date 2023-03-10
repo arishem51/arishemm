@@ -1,5 +1,5 @@
 import { MotionValue } from "framer-motion";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { createContext } from "react";
 import { useViewMove } from "../hooks/useViewMove";
 import { PortfolioType, SetState } from "../types";
@@ -9,7 +9,6 @@ type AnimationProviderProsp = {
   viewX: MotionValue<number>;
   viewY: MotionValue<number>;
   contentRef: React.RefObject<HTMLDivElement>;
-  handleMouseMoveOnView: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   reverseViewX: MotionValue<number>;
   reverseViewY: MotionValue<number>;
   portfolio: PortfolioType | undefined;
@@ -34,19 +33,28 @@ export default function AnimationProvider({ children }: Props) {
     viewX,
     viewY,
     contentRef,
-    handleMouseMoveOnView,
     reverseViewX,
     reverseViewY,
-  } = useViewMove({
-    stopMove: !!portfolio,
-  });
+    removeViewMoveEvent,
+    addViewMoveEvent,
+  } = useViewMove();
+
+  useEffect(() => {
+    if (portfolio) {
+      removeViewMoveEvent();
+      return;
+    }
+    addViewMoveEvent();
+    return () => {
+      removeViewMoveEvent();
+    };
+  }, [portfolio]);
 
   const value = {
     viewRef,
     viewX,
     viewY,
     contentRef,
-    handleMouseMoveOnView,
     reverseViewX,
     reverseViewY,
     portfolio,

@@ -1,17 +1,13 @@
+import React, { useEffect } from "react";
 import {
   MotionValue,
   SpringOptions,
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import React from "react";
 import { useRef } from "react";
 
-type Props = {
-  stopMove: boolean;
-};
-
-export function useViewMove({ stopMove }: Props) {
+export function useViewMove() {
   const viewRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -26,11 +22,7 @@ export function useViewMove({ stopMove }: Props) {
   const springX: MotionValue<number> = useSpring(motionX, config);
   const springY: MotionValue<number> = useSpring(motionY, config);
 
-  function handleMouseMoveOnView(e: React.MouseEvent<HTMLElement, MouseEvent>) {
-    if (stopMove) {
-      return;
-    }
-
+  function handleMouseMoveOnView(e: MouseEvent) {
     const { clientX, clientY } = e;
 
     const viewWidth = viewRef?.current?.offsetWidth;
@@ -58,6 +50,19 @@ export function useViewMove({ stopMove }: Props) {
     reverseMotionY.set(distanceY / -1);
   }
 
+  const removeViewMoveEvent = () =>
+    viewRef.current?.removeEventListener("mousemove", handleMouseMoveOnView);
+
+  const addViewMoveEvent = () =>
+    viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView);
+
+  useEffect(() => {
+    addViewMoveEvent();
+    return () => {
+      removeViewMoveEvent();
+    };
+  }, []);
+
   return {
     handleMouseMoveOnView,
     viewRef,
@@ -66,5 +71,7 @@ export function useViewMove({ stopMove }: Props) {
     viewY: springY,
     reverseViewX: reverseMotionX,
     reverseViewY: reverseMotionY,
+    removeViewMoveEvent,
+    addViewMoveEvent,
   };
 }

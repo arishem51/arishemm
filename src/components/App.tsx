@@ -42,18 +42,11 @@ export const useMotionContext = () => {
 };
 
 function App() {
-  const {
-    viewRef,
-    handleMouseMoveOnView,
-    setPortfolio,
-    viewX,
-    viewY,
-    contentRef,
-    portfolio,
-  } = useAnimationProvider();
+  const { viewRef, setPortfolio, viewX, viewY, contentRef, portfolio } =
+    useAnimationProvider();
 
   return (
-    <Wrapper ref={viewRef} onMouseMove={handleMouseMoveOnView}>
+    <Wrapper ref={viewRef}>
       <Portfolio
         setPortfolio={setPortfolio}
         layout
