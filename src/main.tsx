@@ -89,6 +89,9 @@ p, h1, h2, h3, h4, h5, h6 {
 #root, #__next {
   isolation: isolate;
 }
+.lf-player-container{
+  height:100%
+}
 `;
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
