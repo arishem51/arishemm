@@ -96,7 +96,7 @@ function PortfolioItem({
 
     background: isExpand ? "rgb(242, 240, 233)" : "transparent",
     padding: ".7em",
-    zIndex: isExpand ? 9999 : 2,
+    zIndex: isExpand ? 4 : 2,
     overflow: "hidden scroll",
   };
 
