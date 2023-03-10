@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
 import { useAnimationProvider } from "../Provider/AnimationProvider";
+import Heading from "./Heading";
 
 const Wrapper = styled(motion.main)`
   position: relative;
@@ -13,20 +14,13 @@ const Wrapper = styled(motion.main)`
   overflow: hidden;
 `;
 
-const Heading = styled(motion.h1)`
-  position: relative;
-  left: 50%;
-
-  display: inline-block;
-
-  font-family: "Rampart One", cursive;
-
-  cursor: pointer;
-`;
-
 function App() {
   const { viewRef, setPortfolio, viewX, viewY, contentRef, portfolio } =
     useAnimationProvider();
+
+  function handleHeadingClick() {
+    setPortfolio(undefined);
+  }
 
   return (
     <Wrapper ref={viewRef}>
@@ -36,27 +30,7 @@ function App() {
         style={{ x: viewX, y: viewY }}
         ref={contentRef}
       />
-      <Heading
-        onClick={() => setPortfolio(undefined)}
-        initial={{
-          top: "50%",
-          zIndex: 1,
-          transform: "translate(-50%, -50%)",
-          fontSize: "7em",
-          color: "var(--color-black)",
-        }}
-        animate={
-          portfolio
-            ? {
-                top: "1rem",
-                zIndex: 3,
-                transform: "translate(-50%, 0)",
-                fontSize: "2em",
-                color: "var(--color-white)",
-              }
-            : {}
-        }
-      >
+      <Heading portfolio={portfolio} onClick={handleHeadingClick}>
         Arishemm
       </Heading>
     </Wrapper>
