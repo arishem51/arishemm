@@ -96,13 +96,15 @@ function PortfolioItem({
     overflow: "hidden scroll",
   };
 
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    if (isExpand) {
+      e.stopPropagation();
+    }
+  }
+
   return (
     <Wrapper
-      onMouseMove={(e) => {
-        if (isExpand) {
-          e.stopPropagation();
-        }
-      }}
+      onMouseMove={handleMouseMove}
       layout
       style={styles}
       transition={transition}
