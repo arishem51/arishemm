@@ -6,7 +6,7 @@ function Experience() {
   return (
     <PortfolioItem
       name="experience"
-      bgColor="var(--color-red-2)"
+      bgColor="rgba(142,135,168,1)"
       height="18%"
       width="16%"
       left="12%"

@@ -6,7 +6,7 @@ function Work() {
   return (
     <PortfolioItem
       name="work"
-      bgColor="var(--color-orange)"
+      bgColor="rgba(228,179,87,1)"
       height="24%"
       width="24%"
       left="68%"

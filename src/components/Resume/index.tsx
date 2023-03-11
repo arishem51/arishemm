@@ -6,7 +6,7 @@ function Resume() {
   return (
     <PortfolioItem
       name="resume"
-      bgColor="var(--color-green)"
+      bgColor="rgba(203,188,161,1)"
       height="18%"
       width="20%"
       left="5%"

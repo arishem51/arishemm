@@ -10,7 +10,7 @@ function About() {
       width="14%"
       left="42%"
       top="24%"
-      bgColor="var(--color-blue-2)"
+      bgColor="rgba(221,229,216,1)"
       backgroundComponent={
         <Lottie src="https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json" />
       }
