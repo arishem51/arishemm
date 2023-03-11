@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import AboutMe from "../../assets/me02.jpg";
 import { motion, Variants } from "framer-motion";
+import AboutTitle from "./AboutTitle";
 
 const TextWrapper = styled.section`
   display: flex;
@@ -9,11 +10,6 @@ const TextWrapper = styled.section`
   align-items: flex-start;
   width: 60%;
   margin: auto;
-`;
-
-const Heading = styled.h1`
-  font-size: 3.2em;
-  color: var(--color-black);
 `;
 
 const Paragraph = styled.p`
@@ -81,7 +77,7 @@ const variants: Variants = {
 const AboutMeSection = () => {
   return (
     <TextWrapper>
-      <Heading>About Me</Heading>
+      <AboutTitle>About Me</AboutTitle>
       <Flex>
         <div>
           <Paragraph>
