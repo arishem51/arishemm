@@ -42,7 +42,6 @@ const Navbar = () => {
         <ListItem
           key={item + index}
           onClick={() => {
-            console.log(time);
             if (time < 1) {
               return;
             }
