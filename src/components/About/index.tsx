@@ -1,6 +1,7 @@
 import React from "react";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
+import ExpandedAbout from "./Expanded";
 
 function About() {
   return (
@@ -14,9 +15,7 @@ function About() {
       backgroundComponent={
         <Lottie src="https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json" />
       }
-      expandedComponent={
-        <div style={{ width: window.innerWidth, height: 1000 }} />
-      }
+      expandedComponent={<ExpandedAbout />}
     />
   );
 }
