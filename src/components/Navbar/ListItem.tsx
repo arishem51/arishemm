@@ -63,9 +63,9 @@ const variants: Variants = {
 const CHILDREN_COLORS: { [key in PortfolioType]: string } = {
   about: "var(--color-blue)",
   work: "var(--color-orange)",
-  resume: "var(--color-green)",
+  resume: "var(--color-brown-2)",
   experience: "var(--color-red)",
-  contact: "var(--color-brown-2)",
+  contact: "var(--color-green)",
 };
 
 const ListItem = ({ children, active, onClick }: Props) => {
