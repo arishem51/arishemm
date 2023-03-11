@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
+import { useIsScrollUp } from "../../hooks/useIsScrollUp";
 import { usePortfolioAnimation } from "../../hooks/usePortfolioAnimation";
 import { useAnimationProvider } from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
@@ -89,6 +90,8 @@ function PortfolioItem({
 
   const [isHover, setIsHover] = React.useState(false);
 
+  const { scrollRef } = useIsScrollUp();
+
   const isActive = portfolio === name;
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
@@ -113,6 +116,7 @@ function PortfolioItem({
       animate={animationControls}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
+      ref={scrollRef}
     >
       <CenterFlex data-isActive={isActive} style={{ background: bgColor }}>
         {backgroundComponent}

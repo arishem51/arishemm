@@ -24,6 +24,7 @@ function App() {
     contentRef,
     portfolio,
     setAnimationType,
+    isScrollUp,
   } = useAnimationProvider();
 
   function handleHeadingClick() {
@@ -36,10 +37,16 @@ function App() {
     y: viewY,
   };
 
+  console.log(isScrollUp);
+
   return (
     <Wrapper ref={viewRef}>
       <Portfolio layout style={styles} ref={contentRef} />
-      <Heading portfolio={portfolio} onClick={handleHeadingClick}>
+      <Heading
+        isScrollUp={isScrollUp}
+        portfolio={portfolio}
+        onClick={handleHeadingClick}
+      >
         Arishemm
       </Heading>
       {portfolio && <Navbar />}

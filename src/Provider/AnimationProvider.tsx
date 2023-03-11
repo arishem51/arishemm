@@ -17,6 +17,8 @@ type AnimationProviderProsp = {
   animationType: AnimationType;
   setAnimationType: SetState<AnimationType>;
   previousPortfolio: PortfolioType | undefined;
+  isScrollUp: boolean;
+  setIsScrollUp: SetState<boolean>;
 };
 
 const AnimationContext = createContext<AnimationProviderProsp>(
@@ -34,6 +36,7 @@ export default function AnimationProvider({ children }: Props) {
   const previousPortfolio = usePrevious<PortfolioType | undefined>(portfolio);
   const [animationType, setAnimationType] =
     React.useState<AnimationType>("expand");
+  const [isScrollUp, setIsScrollUp] = React.useState(true);
 
   const {
     viewRef,
@@ -69,6 +72,8 @@ export default function AnimationProvider({ children }: Props) {
     animationType,
     setAnimationType,
     previousPortfolio,
+    setIsScrollUp,
+    isScrollUp,
   };
 
   return (
