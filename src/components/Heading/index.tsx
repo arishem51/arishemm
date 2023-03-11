@@ -36,7 +36,7 @@ const variants: Variants = {
           top: "1rem",
           zIndex: 3,
           transform: "translate(-50%, 0)",
-          fontSize: "2.5em",
+          fontSize: "3.2em",
           color: "var(--color-white)",
         }
       : {};
