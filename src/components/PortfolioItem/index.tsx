@@ -8,7 +8,6 @@ import Title from "./Title";
 
 const Wrapper = styled(motion.div)`
   position: absolute;
-  cursor: pointer;
 
   ::-webkit-scrollbar {
     display: none;
@@ -50,6 +49,7 @@ const CenterFlex = styled(motion.div)`
   }
 
   &[data-isActive="false"]:hover {
+    cursor: pointer;
     ::after {
       scale: 1;
     }
