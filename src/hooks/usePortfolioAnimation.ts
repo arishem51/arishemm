@@ -107,10 +107,13 @@ export function usePortfolioAnimation({
         animationControls.start("initial");
       }
     } else if (animationType === "slideUp") {
-      if (portfolio === name) {
+      if (portfolio === name && portfolio !== previousPortfolio) {
         animationControls.set("setBeforeSlideUp");
         animationControls.start("slideUp");
-      } else if (previousPortfolio === name) {
+      } else if (
+        previousPortfolio === name &&
+        portfolio !== previousPortfolio
+      ) {
         animationControls.start("scaleDown").then(async () => {
           await timeOut(500);
           animationControls.set("initial");
