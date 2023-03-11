@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import AboutMe from "../../assets/me02.jpg";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 const TextWrapper = styled.section`
   display: flex;
@@ -67,6 +67,17 @@ const Overlay = styled(motion.div)`
   cursor: pointer;
 `;
 
+const variants: Variants = {
+  init: {
+    outline: "200px solid rgba(0,0,0,0.7)",
+    outlineOffset: "-200px",
+  },
+  hover: {
+    outline: "8px solid rgb(52, 229, 235)",
+    outlineOffset: "16px",
+  },
+};
+
 const AboutMeSection = () => {
   return (
     <TextWrapper>
@@ -94,16 +105,7 @@ const AboutMeSection = () => {
         </div>
         <ImageWrapper>
           <Img src={AboutMe} />
-          <Overlay
-            initial={{
-              outline: "200px solid rgba(0,0,0,0.7)",
-              outlineOffset: "-200px",
-            }}
-            whileHover={{
-              outline: "8px solid rgb(52, 229, 235)",
-              outlineOffset: "16px",
-            }}
-          />
+          <Overlay variants={variants} initial="init" whileHover="hover" />
         </ImageWrapper>
       </Flex>
     </TextWrapper>
