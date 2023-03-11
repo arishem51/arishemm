@@ -80,7 +80,7 @@ function PortfolioItem({
 }: Props) {
   const { portfolio } = useAnimationProvider();
 
-  const { initial, animationControls } = usePortfolioAnimation({
+  const { animationControls, variants } = usePortfolioAnimation({
     width,
     height,
     left,
@@ -110,9 +110,10 @@ function PortfolioItem({
 
   return (
     <Wrapper
+      variants={variants}
       onMouseMove={handleMouseMove}
       layout
-      initial={initial}
+      initial="initial"
       animate={animationControls}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}

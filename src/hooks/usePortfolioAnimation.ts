@@ -1,4 +1,9 @@
-import { cubicBezier, Transition, useAnimationControls } from "framer-motion";
+import {
+  cubicBezier,
+  Transition,
+  useAnimationControls,
+  Variants,
+} from "framer-motion";
 import React from "react";
 import { timeOut } from "../helpers";
 import { useAnimationProvider } from "../Provider/AnimationProvider";
@@ -33,131 +38,99 @@ export function usePortfolioAnimation({
   } = useAnimationProvider();
   const animationControls = useAnimationControls();
 
-  const initial = React.useMemo(() => {
+  const variants: Variants = React.useMemo(() => {
     return {
-      width,
-      height,
-      left,
-      top,
-      background: "rgba(255,255,255,0)",
-      padding: ".7em",
-      zIndex: 2,
-      overflow: "hidden scroll",
-      transition,
-      scaleX: 1,
-      scaleY: 1,
-      transformOrigin: "center",
-    };
-  }, [height, left, top, width]);
+      initial: {
+        top,
+        left,
+        zIndex: 1,
 
-  const animationExpand = React.useMemo(() => {
-    return {
-      width: window.innerWidth,
-      height: window.innerHeight,
-      left: reverseViewX,
-      top: reverseViewY,
-      background: "rgb(242,240,233)",
-      padding: ".7em",
-      zIndex: 3,
-      overflow: "hidden scroll",
-      transition,
-    };
-  }, [reverseViewX, reverseViewY]);
+        width,
+        height,
+        padding: ".7em",
 
-  const animationSlideUp = React.useMemo(() => {
-    return {
-      width: window.innerWidth,
-      height: window.innerHeight,
-      top: reverseViewY + window.innerHeight,
-      left: reverseViewX,
-      zIndex: 4,
-      overflow: "hidden scroll",
-      scaleX: 1,
-      scaleY: 1,
-      transition,
-      transformOrigin: "center",
+        background: "rgba(255,255,255,0)",
+        overflow: "hidden scroll",
+
+        transition,
+        scale: 1,
+        transformOrigin: "center center",
+      },
+      expand: {
+        top: reverseViewY,
+        left: reverseViewX,
+        zIndex: 3,
+
+        width: window.innerWidth,
+        height: window.innerHeight,
+
+        background: "rgb(242,240,233)",
+      },
+
+      slideUp: {
+        top: reverseViewY,
+        transition: {
+          delay: 0.4,
+          ease: cubicBezier(0.3, 0.7, 0.3, 0.8),
+          duration: 0.4,
+        },
+      },
+
+      setBeforeSlideUp: {
+        top: reverseViewY + window.innerHeight,
+        left: reverseViewX,
+        zIndex: 4,
+
+        width: window.innerWidth,
+        height: window.innerHeight,
+        background: "rgb(242,240,233)",
+      },
+
+      scaleDown: {
+        zIndex: 2,
+
+        scale: 0.85,
+        transformOrigin: "center bottom",
+        transition: {
+          ease: cubicBezier(0.3, 0.7, 0.3, 0.8),
+          duration: 0.4,
+        },
+      },
     };
-  }, [reverseViewX, reverseViewY]);
+  }, [height, left, reverseViewX, reverseViewY, top, width]);
 
   React.useEffect(() => {
     if (animationType === "expand") {
       if (portfolio === name) {
-        // Portfolio is active will run this animation
-        animationControls.start(animationExpand);
+        animationControls.start("expand");
       } else if (previousPortfolio === name) {
-        // Portfolio was active run this aniamtion
-        animationControls.start(initial);
+        animationControls.start("initial");
       }
-    } else {
-      // AnimationType === 'slideUp '
-
+    } else if (animationType === "slideUp") {
       if (portfolio === name) {
-        // Portfolio is active will run this animation
-
-        // Reset previous if click too fast
         animationControls.stop();
 
-        animationControls.set({
-          width: window.innerWidth,
-          height: window.innerHeight,
-          top: reverseViewY + window.innerHeight,
-          left: reverseViewX,
-          zIndex: 4,
-          overflow: "hidden scroll",
-          scaleX: 1,
-          scaleY: 1,
-          transition,
-          transformOrigin: "center",
-        });
+        if (portfolio === "about") {
+          console.log("setBeforeSlideUp");
+        }
 
-        animationControls.start({
-          width: window.innerWidth,
-          height: window.innerHeight,
-          left: reverseViewX,
-          top: reverseViewY,
-          background: "rgb(242,240,233)",
-          padding: ".7em",
-          overflow: "hidden scroll",
-          zIndex: 4,
-          transition: {
-            delay: 0.4,
-            duration: 0.4,
-            ease: cubicBezier(0.3, 0.7, 0.3, 0.8),
-          },
-        });
+        animationControls.set("setBeforeSlideUp");
+        animationControls.start("slideUp");
       } else if (previousPortfolio === name) {
-        // Portfolio was active run this aniamtion
-        animationControls
-          .start({
-            ...animationExpand,
-            scaleY: 0.9,
-            scaleX: 0.95,
-            transformOrigin: "bottom",
-            transition: {
-              ease: cubicBezier(0.3, 0.7, 0.3, 0.8),
-              duration: 0.4,
-            },
-          })
-          .then(async () => {
-            await timeOut(500);
-            animationControls.set(initial);
-          });
+        animationControls.start("scaleDown").then(async () => {
+          await timeOut(500);
+          animationControls.set("initial");
+        });
       }
     }
-  }, [
-    animationControls,
-    animationExpand,
-    animationSlideUp,
-    animationType,
-    initial,
-    name,
-    portfolio,
-    previousPortfolio,
-    reverseViewX,
-    reverseViewY,
-  ]);
+  }, [animationControls, animationType, name, portfolio, previousPortfolio]);
+
+  // useMotionValueEvent(animationControls, 'change', e => {
+
+  // })
+
   return {
-    initial,
     animationControls,
+    variants,
   };
 }
