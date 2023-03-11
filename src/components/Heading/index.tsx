@@ -10,6 +10,7 @@ const Wrapper = styled(motion.h1)`
   display: inline-block;
 
   font-family: "Rampart One", cursive;
+  font-weight: bolder;
 
   cursor: pointer;
   mix-blend-mode: difference;

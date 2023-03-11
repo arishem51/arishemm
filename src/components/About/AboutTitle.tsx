@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 const Text = styled.h1`
   color: var(--color-black);
-  font-size: 3em;
+  font-size: 2.8em;
+  font-family: "Rampart One", cursive;
 `;
 
 type Props = {
