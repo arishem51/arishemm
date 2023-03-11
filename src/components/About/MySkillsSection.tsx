@@ -85,7 +85,6 @@ const SKILLS: { name: string; logo: string }[] = [
 ];
 
 const MySkills = () => {
-  console.log(Logo.FramerMotion);
   return (
     <Wrapper>
       <AboutTitle>My Skills</AboutTitle>

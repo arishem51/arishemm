@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 
   width: 100%;
   padding: 8em 0;
-  padding-bottom: 12em;
+  padding-bottom: 10em;
 `;
 
 const ExpandedAbout = () => {
