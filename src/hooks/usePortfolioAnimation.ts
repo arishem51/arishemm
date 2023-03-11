@@ -86,11 +86,14 @@ export function usePortfolioAnimation({
         background: "rgb(242,240,233)",
       },
 
+      setBeforeScaleDown: {
+        transformOrigin: "50% 100%",
+      },
+
       scaleDown: {
         zIndex: 2,
 
         scale: 0.85,
-        transformOrigin: "center bottom",
         transition: {
           ease: cubicBezier(0.3, 0.7, 0.3, 0.8),
           duration: 0.4,
@@ -114,6 +117,7 @@ export function usePortfolioAnimation({
         previousPortfolio === name &&
         portfolio !== previousPortfolio
       ) {
+        animationControls.set("setBeforeScaleDown");
         animationControls.start("scaleDown").then(async () => {
           await timeOut(500);
           animationControls.set("initial");

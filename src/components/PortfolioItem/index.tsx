@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 import { useIsScrollUp } from "../../hooks/useIsScrollUp";
@@ -68,6 +68,18 @@ type Props = {
   expandedComponent: React.ReactNode;
 };
 
+const expandedVariants: Variants = {
+  initial: {
+    scale: 1,
+  },
+  exit: {
+    scale: 0.99,
+    transition: {
+      delay: 0.6,
+    },
+  },
+};
+
 function PortfolioItem({
   width,
   height,
@@ -92,10 +104,8 @@ function PortfolioItem({
 
   const { scrollRef } = useIsScrollUp();
 
-  const isActive = portfolio === name;
-
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    if (isActive) {
+    if (portfolio === name) {
       e.stopPropagation();
     }
   }
@@ -117,13 +127,25 @@ function PortfolioItem({
       animate={animationControls}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
+      whileHover="hover"
       ref={scrollRef}
     >
-      <CenterFlex data-isActive={isActive} style={{ background: bgColor }}>
+      <CenterFlex
+        data-isActive={portfolio === name}
+        style={{ background: bgColor }}
+      >
         {backgroundComponent}
       </CenterFlex>
-      {isActive && expandedComponent}
-      {!isActive && <Title isParentHover={isHover}>{name}</Title>}
+
+      {/*  This hack use for change portfolio item, the portofolio was change is lost children so it will not at the scroll position when exit => Animating the exit children so it can keep children for a while! */}
+      <AnimatePresence>
+        {portfolio === name && (
+          <motion.div variants={expandedVariants} initial="initial" exit="exit">
+            {expandedComponent}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {portfolio !== name && <Title isParentHover={isHover}>{name}</Title>}
     </Wrapper>
   );
 }
