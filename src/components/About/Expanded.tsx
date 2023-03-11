@@ -6,11 +6,10 @@ import MySkills from "./MySkillsSection";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-
-  gap: 5em;
+  gap: 8em;
 
   width: 100%;
-  padding: 10% 0;
+  padding: 8em 0;
 `;
 
 const ExpandedAbout = () => {
