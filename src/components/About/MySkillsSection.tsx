@@ -7,7 +7,7 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2em;
+  gap: 4em;
 
   width: 70%;
   margin: auto;
@@ -15,7 +15,10 @@ const Wrapper = styled.section`
 
 const SkillWrapper = styled.div`
   display: flex;
-  gap: 5em;
+  gap: 3.5em;
+
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
 const SkillItem = styled.div`
@@ -40,6 +43,14 @@ const TextItem = styled.h1`
 
 const SKILLS: { name: string; logo: string }[] = [
   {
+    name: "HTML 5",
+    logo: Logo.HTML,
+  },
+  {
+    name: "CSS 3",
+    logo: Logo.CSS,
+  },
+  {
     name: "Javascript",
     logo: Logo.Javascript,
   },
@@ -52,8 +63,20 @@ const SKILLS: { name: string; logo: string }[] = [
     logo: Logo.ReactLogo,
   },
   {
-    name: "Styled Components",
+    name: "Styled-components",
     logo: Logo.StyledComponents,
+  },
+  {
+    name: "Tailwind CSS",
+    logo: Logo.TailwindCSS,
+  },
+  {
+    name: "Tanstack Query",
+    logo: Logo.TanstackQuery,
+  },
+  {
+    name: "Redux",
+    logo: Logo.Redux,
   },
   {
     name: "Framer Motion",
