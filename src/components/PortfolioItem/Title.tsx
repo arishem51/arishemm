@@ -1,4 +1,9 @@
-import { motion, Variants } from "framer-motion";
+import {
+  motion,
+  Transition,
+  useAnimationControls,
+  Variants,
+} from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 
@@ -32,57 +37,58 @@ type Props = {
   children?: React.ReactNode;
 };
 
-const leftVariants: Variants = {
+const variantsLeftText: Variants = {
   initial: {
     transform: "translate(105%,0)",
   },
-  animate: (custom: boolean) => {
-    return custom
-      ? {
-          transform: "translate(0)",
-          transition: {
-            delay: 0.3,
-          },
-        }
-      : {};
+  animate: {
+    transform: "translate(0,0)",
   },
 };
 
-const rightVariants: Variants = {
+const variantsRightText: Variants = {
   initial: {
     transform: "translate(-200%,0)",
   },
-  animate: (custom: boolean) => {
-    return custom
-      ? {
-          transform: "translate(-100%, 0%)",
-          transition: {
-            delay: 0.3,
-          },
-        }
-      : {};
+  animate: {
+    transform: "translate(-100%, 0%)",
   },
 };
 
+const transitionOverride: Transition = {
+  delay: 0.2,
+};
+
 const Title = ({ isParentHover, children }: Props) => {
+  const controlsLeftText = useAnimationControls();
+  const controlsRightText = useAnimationControls();
+
+  React.useEffect(() => {
+    if (isParentHover) {
+      controlsLeftText.start("animate", transitionOverride);
+      controlsRightText.start("animate", transitionOverride);
+    } else {
+      controlsLeftText.start("initial");
+      controlsRightText.start("initial");
+    }
+  }, [controlsLeftText, controlsRightText, isParentHover]);
+
   return (
     <WrapperText>
       <Side>
         <Text
-          variants={leftVariants}
+          variants={variantsLeftText}
           initial="initial"
-          animate="animate"
-          custom={isParentHover}
+          animate={controlsLeftText}
         >
           {children}
         </Text>
       </Side>
       <Side>
         <Text
+          variants={variantsRightText}
           initial="initial"
-          animate="animate"
-          variants={rightVariants}
-          custom={isParentHover}
+          animate={controlsRightText}
         >
           {children}
         </Text>
