@@ -77,23 +77,12 @@ function PortfolioItem({
   expandedComponent,
   backgroundComponent,
 }: Props) {
-  const {
-    portfolio,
-    reverseViewX,
-    reverseViewY,
-    animationType,
-    previousPortfolio,
-  } = useAnimationProvider();
+  const { portfolio } = useAnimationProvider();
 
   const { initial, animationControls } = usePortfolioAnimation({
     width,
     height,
     left,
-    reverseViewX,
-    reverseViewY,
-    animationType,
-    previousPortfolio,
-    portfolio,
     name,
     top,
   });

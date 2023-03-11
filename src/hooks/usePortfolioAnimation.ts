@@ -1,7 +1,8 @@
 import { cubicBezier, Transition, useAnimationControls } from "framer-motion";
 import React from "react";
 import { timeOut } from "../helpers";
-import { AnimationType, PortfolioType } from "../types";
+import { useAnimationProvider } from "../Provider/AnimationProvider";
+import { PortfolioType } from "../types";
 
 const transition: Transition = {
   duration: 0.4,
@@ -13,26 +14,23 @@ type Props = {
   height: string;
   left: string;
   top: string;
-  reverseViewX: number;
-  reverseViewY: number;
   name: PortfolioType;
-  animationType: AnimationType;
-  portfolio: PortfolioType | undefined;
-  previousPortfolio: PortfolioType | undefined;
 };
 
 export function usePortfolioAnimation({
   width,
   height,
   left,
-  reverseViewX,
-  reverseViewY,
-  name,
-  animationType,
-  portfolio,
-  previousPortfolio,
   top,
+  name,
 }: Props) {
+  const {
+    portfolio,
+    previousPortfolio,
+    reverseViewX,
+    reverseViewY,
+    animationType,
+  } = useAnimationProvider();
   const animationControls = useAnimationControls();
 
   const initial = React.useMemo(() => {
