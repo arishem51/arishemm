@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useAnimationProvider } from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
 import ListItem from "./ListItem";
+import useTime from "../../hooks/useTime";
 
 const Wrapper = styled.nav`
   position: fixed;
@@ -33,14 +34,21 @@ const Menu: PortfolioType[] = [
 const Navbar = () => {
   const { portfolio, setPortfolio, setAnimationType } = useAnimationProvider();
 
+  const { time, setTime } = useTime({ initialTime: 0 });
+
   function renderItem() {
     return Menu.map((item, index) => {
       return (
         <ListItem
           key={item + index}
           onClick={() => {
+            console.log(time);
+            if (time < 1) {
+              return;
+            }
             setPortfolio(item);
             setAnimationType("slideUp");
+            setTime(0);
           }}
           active={portfolio === item}
         >

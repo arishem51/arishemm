@@ -108,12 +108,6 @@ export function usePortfolioAnimation({
       }
     } else if (animationType === "slideUp") {
       if (portfolio === name) {
-        animationControls.stop();
-
-        if (portfolio === "about") {
-          console.log("setBeforeSlideUp");
-        }
-
         animationControls.set("setBeforeSlideUp");
         animationControls.start("slideUp");
       } else if (previousPortfolio === name) {
@@ -124,10 +118,6 @@ export function usePortfolioAnimation({
       }
     }
   }, [animationControls, animationType, name, portfolio, previousPortfolio]);
-
-  // useMotionValueEvent(animationControls, 'change', e => {
-
-  // })
 
   return {
     animationControls,
