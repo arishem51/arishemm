@@ -37,8 +37,6 @@ function App() {
     y: viewY,
   };
 
-  console.log(isScrollUp);
-
   return (
     <Wrapper ref={viewRef}>
       <Portfolio layout style={styles} ref={contentRef} />
