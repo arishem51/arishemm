@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { useIsScrollUp } from "../../hooks/useIsScrollUp";
 import { usePortfolioAnimation } from "../../hooks/usePortfolioAnimation";
-import { useAnimationProvider } from "../../Provider/AnimationProvider";
+import { useAnimationData } from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
 import Title from "./Title";
 
@@ -90,7 +90,7 @@ function PortfolioItem({
   expandedComponent,
   backgroundComponent,
 }: Props) {
-  const { portfolio } = useAnimationProvider();
+  const { portfolio } = useAnimationData();
 
   const { animationControls, variants } = usePortfolioAnimation({
     width,

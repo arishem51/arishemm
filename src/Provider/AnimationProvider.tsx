@@ -5,7 +5,7 @@ import { usePrevious } from "../hooks/usePrevious";
 import { useViewMove } from "../hooks/useViewMove";
 import { AnimationType, PortfolioType, SetState } from "../types";
 
-type AnimationProviderProsp = {
+type AnimationDataContextProps = {
   viewRef: React.RefObject<HTMLDivElement>;
   viewX: MotionValue<number>;
   viewY: MotionValue<number>;
@@ -13,23 +13,31 @@ type AnimationProviderProsp = {
   reverseViewX: number;
   reverseViewY: number;
   portfolio: PortfolioType | undefined;
-  setPortfolio: SetState<PortfolioType | undefined>;
   animationType: AnimationType;
-  setAnimationType: SetState<AnimationType>;
   previousPortfolio: PortfolioType | undefined;
   isScrollUp: boolean;
+};
+
+type AnimationAPIContextProps = {
+  setPortfolio: SetState<PortfolioType | undefined>;
+  setAnimationType: SetState<AnimationType>;
   setIsScrollUp: SetState<boolean>;
 };
 
-const AnimationContext = createContext<AnimationProviderProsp>(
-  {} as AnimationProviderProsp
+const AnimationDataContext = createContext<AnimationDataContextProps>(
+  {} as AnimationDataContextProps
+);
+
+const AnimationAPIContext = createContext<AnimationAPIContextProps>(
+  {} as AnimationAPIContextProps
 );
 
 type Props = {
   children: React.ReactNode;
 };
 
-export const useAnimationProvider = () => useContext(AnimationContext);
+export const useAnimationData = () => useContext(AnimationDataContext);
+export const useAnimationAPI = () => useContext(AnimationAPIContext);
 
 export default function AnimationProvider({ children }: Props) {
   const [portfolio, setPortfolio] = React.useState<PortfolioType>();
@@ -60,7 +68,7 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, [addViewMoveEvent, portfolio, removeViewMoveEvent]);
 
-  const value = {
+  const animationDataValue = {
     viewRef,
     viewX,
     viewY,
@@ -68,17 +76,22 @@ export default function AnimationProvider({ children }: Props) {
     reverseViewX,
     reverseViewY,
     portfolio,
-    setPortfolio,
     animationType,
-    setAnimationType,
     previousPortfolio,
-    setIsScrollUp,
     isScrollUp,
   };
 
+  const animationAPIValue = {
+    setAnimationType,
+    setIsScrollUp,
+    setPortfolio,
+  };
+
   return (
-    <AnimationContext.Provider value={value}>
-      {children}
-    </AnimationContext.Provider>
+    <AnimationDataContext.Provider value={animationDataValue}>
+      <AnimationAPIContext.Provider value={animationAPIValue}>
+        {children}
+      </AnimationAPIContext.Provider>
+    </AnimationDataContext.Provider>
   );
 }

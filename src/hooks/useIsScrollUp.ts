@@ -1,10 +1,10 @@
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import React, { useRef } from "react";
-import { useAnimationProvider } from "../Provider/AnimationProvider";
+import { useAnimationAPI } from "../Provider/AnimationProvider";
 
 export const useIsScrollUp = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { setIsScrollUp } = useAnimationProvider();
+  const { setIsScrollUp } = useAnimationAPI();
   const { scrollY } = useScroll({ container: scrollRef });
   useMotionValueEvent(scrollY, "change", (current) => {
     if (scrollRef.current) {

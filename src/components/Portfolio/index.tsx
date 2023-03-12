@@ -7,7 +7,7 @@ import Contact from "../Contact";
 import Work from "../Work";
 import Resume from "../Resume";
 import { PortfolioType } from "../../types";
-import { useAnimationProvider } from "../../Provider/AnimationProvider";
+import { useAnimationAPI } from "../../Provider/AnimationProvider";
 
 const ViewContent = styled(motion.div)`
   width: 140vmax;
@@ -38,7 +38,7 @@ const PortfolioItems: PortfolioType[] = [
 ];
 
 const Portfolio = React.forwardRef<HTMLDivElement>(({ ...props }, ref) => {
-  const { setAnimationType, setPortfolio } = useAnimationProvider();
+  const { setAnimationType, setPortfolio } = useAnimationAPI();
 
   function renderItem() {
     return PortfolioItems.map((item) => {

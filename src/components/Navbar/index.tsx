@@ -1,7 +1,10 @@
 import React from "react";
 import { LayoutGroup } from "framer-motion";
 import styled from "styled-components";
-import { useAnimationProvider } from "../../Provider/AnimationProvider";
+import {
+  useAnimationAPI,
+  useAnimationData,
+} from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
 import ListItem from "./ListItem";
 import useTime from "../../hooks/useTime";
@@ -32,7 +35,8 @@ const Menu: PortfolioType[] = [
 ];
 
 const Navbar = () => {
-  const { portfolio, setPortfolio, setAnimationType } = useAnimationProvider();
+  const { setPortfolio, setAnimationType } = useAnimationAPI();
+  const { portfolio } = useAnimationData();
 
   const { time, setTime } = useTime({ initialTime: 0 });
 

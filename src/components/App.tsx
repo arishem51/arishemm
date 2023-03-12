@@ -2,7 +2,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
-import { useAnimationProvider } from "../Provider/AnimationProvider";
+import {
+  useAnimationAPI,
+  useAnimationData,
+} from "../Provider/AnimationProvider";
 import Heading from "./Heading";
 import Navbar from "./Navbar";
 
@@ -16,16 +19,10 @@ const Wrapper = styled(motion.main)`
 `;
 
 function App() {
-  const {
-    viewRef,
-    setPortfolio,
-    viewX,
-    viewY,
-    contentRef,
-    portfolio,
-    setAnimationType,
-    isScrollUp,
-  } = useAnimationProvider();
+  const { viewRef, viewX, viewY, contentRef, portfolio, isScrollUp } =
+    useAnimationData();
+
+  const { setAnimationType, setPortfolio } = useAnimationAPI();
 
   function handleHeadingClick() {
     setPortfolio(undefined);
