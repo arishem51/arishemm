@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import AboutMe from "../../assets/me02.jpg";
 import { motion, Variants } from "framer-motion";

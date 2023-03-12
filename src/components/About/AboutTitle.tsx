@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode } from "react";
 import styled from "styled-components";
 
 const Text = styled.h1`
@@ -8,7 +8,7 @@ const Text = styled.h1`
 `;
 
 type Props = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 const Heading = ({ children }: Props) => {

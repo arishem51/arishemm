@@ -1,4 +1,3 @@
-import React from "react";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 import ExpandedAbout from "./Expanded";
