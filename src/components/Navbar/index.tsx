@@ -1,8 +1,8 @@
 import { LayoutGroup } from "framer-motion";
 import styled from "styled-components";
 import {
-  useAnimationAPI,
-  usePortfolio,
+  useAnimationAPIProvider,
+  usePortfolioProvider,
 } from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
 import ListItem from "./ListItem";
@@ -34,8 +34,8 @@ const Menu: PortfolioType[] = [
 ];
 
 const Navbar = () => {
-  const { setPortfolio, setAnimationType } = useAnimationAPI();
-  const { portfolio } = usePortfolio();
+  const { setPortfolio, setAnimationType } = useAnimationAPIProvider();
+  const { portfolio } = usePortfolioProvider();
 
   const { time, setTime } = useTime({ initialTime: 0 });
 

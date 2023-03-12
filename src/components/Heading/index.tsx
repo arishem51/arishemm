@@ -7,8 +7,8 @@ import {
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import {
-  useAnimationAPI,
-  usePortfolio,
+  useAnimationAPIProvider,
+  usePortfolioProvider,
   useScrollProvider,
 } from "../../Provider/AnimationProvider";
 
@@ -66,8 +66,8 @@ const variants: Variants = {
 
 const Heading = ({ children, ...props }: Props) => {
   const controls = useAnimationControls();
-  const { portfolio } = usePortfolio();
-  const { setAnimationType, setPortfolio } = useAnimationAPI();
+  const { portfolio } = usePortfolioProvider();
+  const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
   const { scrollState } = useScrollProvider();
 
   const handleClick = useCallback(() => {

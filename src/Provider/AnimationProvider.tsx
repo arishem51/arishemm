@@ -57,9 +57,9 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const useAnimationData = () => useContext(AnimationDataContext);
-export const useAnimationAPI = () => useContext(AnimationAPIContext);
-export const usePortfolio = () => useContext(PortfolioContext);
+export const useAnimationDataProvider = () => useContext(AnimationDataContext);
+export const useAnimationAPIProvider = () => useContext(AnimationAPIContext);
+export const usePortfolioProvider = () => useContext(PortfolioContext);
 export const useScrollProvider = () => useContext(ScrollContext);
 export const useAnimationRefProvider = () => useContext(AnimationRefContext);
 

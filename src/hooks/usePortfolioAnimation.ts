@@ -6,7 +6,10 @@ import {
 } from "framer-motion";
 import React from "react";
 import { timeOut } from "../helpers";
-import { useAnimationData, usePortfolio } from "../Provider/AnimationProvider";
+import {
+  useAnimationDataProvider,
+  usePortfolioProvider,
+} from "../Provider/AnimationProvider";
 import { PortfolioType } from "../types";
 
 const transition: Transition = {
@@ -29,8 +32,9 @@ export function usePortfolioAnimation({
   top,
   name,
 }: Props) {
-  const { reverseViewX, reverseViewY, animationType } = useAnimationData();
-  const { portfolio, previousPortfolio } = usePortfolio();
+  const { reverseViewX, reverseViewY, animationType } =
+    useAnimationDataProvider();
+  const { portfolio, previousPortfolio } = usePortfolioProvider();
   const animationControls = useAnimationControls();
 
   const variants: Variants = React.useMemo(() => {
