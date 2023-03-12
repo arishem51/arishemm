@@ -29,9 +29,8 @@ export function usePortfolioAnimation({
   top,
   name,
 }: Props) {
-  const { previousPortfolio, reverseViewX, reverseViewY, animationType } =
-    useAnimationData();
-  const { portfolio } = usePortfolio();
+  const { reverseViewX, reverseViewY, animationType } = useAnimationData();
+  const { portfolio, previousPortfolio } = usePortfolio();
   const animationControls = useAnimationControls();
 
   const variants: Variants = React.useMemo(() => {
