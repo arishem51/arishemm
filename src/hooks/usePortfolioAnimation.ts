@@ -10,8 +10,8 @@ import { useAnimationProvider } from "../Provider/AnimationProvider";
 import { PortfolioType } from "../types";
 
 const transition: Transition = {
+  ease: cubicBezier(0.3, 0.7, 0.3, 0.8),
   duration: 0.4,
-  ease: [0.2, 0, 1, 0.8],
 };
 
 type Props = {
@@ -69,11 +69,6 @@ export function usePortfolioAnimation({
 
       slideUp: {
         top: reverseViewY,
-        transition: {
-          delay: 0.4,
-          ease: cubicBezier(0.3, 0.7, 0.3, 0.8),
-          duration: 0.4,
-        },
       },
 
       setBeforeSlideUp: {
@@ -92,12 +87,7 @@ export function usePortfolioAnimation({
 
       scaleDown: {
         zIndex: 2,
-
         scale: 0.85,
-        transition: {
-          ease: cubicBezier(0.3, 0.7, 0.3, 0.8),
-          duration: 0.4,
-        },
       },
     };
   }, [height, left, reverseViewX, reverseViewY, top, width]);
@@ -105,20 +95,23 @@ export function usePortfolioAnimation({
   React.useEffect(() => {
     if (animationType === "expand") {
       if (portfolio === name) {
-        animationControls.start("expand");
+        animationControls.start("expand", transition);
       } else if (previousPortfolio === name) {
-        animationControls.start("initial");
+        animationControls.start("initial", transition);
       }
     } else if (animationType === "slideUp") {
       if (portfolio === name && portfolio !== previousPortfolio) {
         animationControls.set("setBeforeSlideUp");
-        animationControls.start("slideUp");
+        animationControls.start("slideUp", {
+          delay: 0.4,
+          ...transition,
+        });
       } else if (
         previousPortfolio === name &&
         portfolio !== previousPortfolio
       ) {
         animationControls.set("setBeforeScaleDown");
-        animationControls.start("scaleDown").then(async () => {
+        animationControls.start("scaleDown", transition).then(async () => {
           await timeOut(500);
           animationControls.set("initial");
         });
