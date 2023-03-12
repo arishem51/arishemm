@@ -12,7 +12,6 @@ type AnimationDataContextProps = {
   contentRef: React.RefObject<HTMLDivElement>;
   reverseViewX: number;
   reverseViewY: number;
-  portfolio: PortfolioType | undefined;
   animationType: AnimationType;
   previousPortfolio: PortfolioType | undefined;
   isScrollUp: boolean;
@@ -24,6 +23,10 @@ type AnimationAPIContextProps = {
   setIsScrollUp: SetState<boolean>;
 };
 
+type PortfolioContextProps = {
+  portfolio: PortfolioType | undefined;
+};
+
 const AnimationDataContext = createContext<AnimationDataContextProps>(
   {} as AnimationDataContextProps
 );
@@ -32,12 +35,17 @@ const AnimationAPIContext = createContext<AnimationAPIContextProps>(
   {} as AnimationAPIContextProps
 );
 
+const PortfolioContext = createContext<PortfolioContextProps>(
+  {} as PortfolioContextProps
+);
+
 type Props = {
   children: React.ReactNode;
 };
 
 export const useAnimationData = () => useContext(AnimationDataContext);
 export const useAnimationAPI = () => useContext(AnimationAPIContext);
+export const usePortfolio = () => useContext(PortfolioContext);
 
 export default function AnimationProvider({ children }: Props) {
   const [portfolio, setPortfolio] = useState<PortfolioType>();
@@ -74,7 +82,6 @@ export default function AnimationProvider({ children }: Props) {
     contentRef,
     reverseViewX,
     reverseViewY,
-    portfolio,
     animationType,
     previousPortfolio,
     isScrollUp,
@@ -88,11 +95,17 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, []);
 
+  const portfolioValue = {
+    portfolio,
+  };
+
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
-      <AnimationAPIContext.Provider value={animationAPIValue}>
-        {children}
-      </AnimationAPIContext.Provider>
+      <PortfolioContext.Provider value={portfolioValue}>
+        <AnimationAPIContext.Provider value={animationAPIValue}>
+          {children}
+        </AnimationAPIContext.Provider>
+      </PortfolioContext.Provider>
     </AnimationDataContext.Provider>
   );
 }

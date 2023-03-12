@@ -4,8 +4,13 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
+import {
+  useAnimationAPI,
+  useAnimationData,
+  usePortfolio,
+} from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
 
 const Wrapper = styled(motion.h1)`
@@ -22,11 +27,8 @@ const Wrapper = styled(motion.h1)`
 `;
 
 type Props = {
-  onClick?: () => void;
-  portfolio: PortfolioType | undefined;
   children?: React.ReactNode;
   className?: string;
-  isScrollUp: boolean;
 };
 
 const transition: Transition = {
@@ -63,14 +65,16 @@ const variants: Variants = {
   },
 };
 
-const Heading = ({
-  children,
-  onClick,
-  portfolio,
-  isScrollUp,
-  ...props
-}: Props) => {
+const Heading = ({ children, ...props }: Props) => {
   const controls = useAnimationControls();
+  const { portfolio } = usePortfolio();
+  const { isScrollUp } = useAnimationData();
+  const { setAnimationType, setPortfolio } = useAnimationAPI();
+
+  const handleClick = useCallback(() => {
+    setPortfolio(undefined);
+    setAnimationType("expand");
+  }, [setAnimationType, setPortfolio]);
 
   React.useEffect(() => {
     if (portfolio) {
@@ -95,7 +99,7 @@ const Heading = ({
       initial="initial"
       transition={transition}
       animate={controls}
-      onClick={onClick}
+      onClick={handleClick}
     >
       {children}
     </Wrapper>
