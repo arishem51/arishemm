@@ -39,16 +39,16 @@ type Props = {
 
 const variantsLeftText: Variants = {
   initial: {
-    transform: "translate(105%,0)",
+    transform: "translate(105%,0%)",
   },
   animate: {
-    transform: "translate(0,0)",
+    transform: "translate(0%,0%)",
   },
 };
 
 const variantsRightText: Variants = {
   initial: {
-    transform: "translate(-200%,0)",
+    transform: "translate(-200%,0%)",
   },
   animate: {
     transform: "translate(-100%, 0%)",
