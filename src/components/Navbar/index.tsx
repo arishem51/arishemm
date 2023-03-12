@@ -39,18 +39,22 @@ const Navbar = () => {
 
   const { time, setTime } = useTime({ initialTime: 0 });
 
+  function handleItemClick(item: PortfolioType) {
+    if (time < 1) {
+      return;
+    }
+    setPortfolio(item);
+    setAnimationType("slideUp");
+    setTime(0);
+  }
+
   function renderItem() {
     return Menu.map((item, index) => {
       return (
         <ListItem
           key={item + index}
           onClick={() => {
-            if (time < 1) {
-              return;
-            }
-            setPortfolio(item);
-            setAnimationType("slideUp");
-            setTime(0);
+            handleItemClick(item);
           }}
           active={portfolio === item}
         >
