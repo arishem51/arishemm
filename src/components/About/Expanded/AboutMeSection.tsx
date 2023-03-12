@@ -1,11 +1,7 @@
 import styled from "styled-components";
-import AboutMe from "../../assets/me02.jpg";
+import Paragraph from "../../Paragraph";
 import ShowcaseSection from "../../ShowcaseSection";
-
-const Paragraph = styled.p`
-  font-size: 1.8em;
-  color: var(--color-black);
-`;
+import AboutMe from "../../../assets/me02.jpg";
 
 const Font = styled.span`
   font-family: "Rampart One", cursive;
@@ -27,7 +23,7 @@ const AboutMeSection = () => {
           Hello! I&apos;m Arishemm. I love building something creative that
           people can interact with.
         </Paragraph>
-        <Paragraph style={{ marginTop: "1em" }}>
+        <Paragraph style={{ marginTop: ".5em" }}>
           I&apos;m a student at{" "}
           <Font>
             <a

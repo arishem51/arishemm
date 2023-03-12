@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Logo from "../../Logo";
-import AboutTitle from "./AboutTitle";
+import Title from "../../Title";
 
 const Wrapper = styled.section`
   display: flex;
@@ -86,7 +86,7 @@ const SKILLS: { name: string; logo: string }[] = [
 const MySkills = () => {
   return (
     <Wrapper>
-      <AboutTitle>My Skills</AboutTitle>
+      <Title>My Skills</Title>
       <SkillWrapper>
         {SKILLS.map(({ name, logo }, index) => {
           return (
