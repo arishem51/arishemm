@@ -1,4 +1,3 @@
-import React from "react";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 
@@ -6,7 +5,7 @@ function Experience() {
   return (
     <PortfolioItem
       name="experience"
-      bgColor="rgba(142,135,168,1)"
+      bgColor="rgba(90,84,168,1)"
       height="18%"
       width="16%"
       left="12%"
