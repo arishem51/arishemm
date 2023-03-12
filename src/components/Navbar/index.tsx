@@ -60,6 +60,10 @@ const Navbar = () => {
     });
   }
 
+  if (!portfolio) {
+    return null;
+  }
+
   return (
     <Wrapper>
       <LayoutGroup>

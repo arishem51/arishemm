@@ -11,7 +11,6 @@ import {
   useAnimationData,
   usePortfolio,
 } from "../../Provider/AnimationProvider";
-import { PortfolioType } from "../../types";
 
 const Wrapper = styled(motion.h1)`
   position: relative;
