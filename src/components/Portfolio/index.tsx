@@ -1,4 +1,3 @@
-import React from "react";
 import { motion, Variants } from "framer-motion";
 import styled from "styled-components";
 import About from "../About";
@@ -7,7 +6,11 @@ import Contact from "../Contact";
 import Work from "../Work";
 import Resume from "../Resume";
 import { PortfolioType } from "../../types";
-import { useAnimationAPIProvider } from "../../Provider/AnimationProvider";
+import {
+  useAnimationAPIProvider,
+  useAnimationDataProvider,
+  useAnimationRefProvider,
+} from "../../Provider/AnimationProvider";
 
 const ViewContent = styled(motion.div)`
   width: 140vmax;
@@ -37,8 +40,15 @@ const PortfolioItems: PortfolioType[] = [
   "work",
 ];
 
-const Portfolio = React.forwardRef<HTMLDivElement>(({ ...props }, ref) => {
+const Portfolio = () => {
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
+  const { contentRef } = useAnimationRefProvider();
+  const { viewX, viewY } = useAnimationDataProvider();
+
+  const styles = {
+    x: viewX,
+    y: viewY,
+  };
 
   function renderItem() {
     return PortfolioItems.map((item) => {
@@ -63,17 +73,16 @@ const Portfolio = React.forwardRef<HTMLDivElement>(({ ...props }, ref) => {
 
   return (
     <ViewContent
+      layout
       initial="init"
       animate="enter"
       variants={variants}
-      ref={ref}
-      {...props}
+      ref={contentRef}
+      style={styles}
     >
       {renderItem()}
     </ViewContent>
   );
-});
+};
 
-Portfolio.displayName = "Portfolio";
-
-export default motion(Portfolio);
+export default Portfolio;

@@ -18,18 +18,11 @@ const Wrapper = styled(motion.main)`
 `;
 
 function App() {
-  const { viewX, viewY } = useAnimationDataProvider();
-
-  const { viewRef, contentRef } = useAnimationRefProvider();
-
-  const styles = {
-    x: viewX,
-    y: viewY,
-  };
+  const { viewRef } = useAnimationRefProvider();
 
   return (
     <Wrapper ref={viewRef}>
-      <Portfolio layout style={styles} ref={contentRef} />
+      <Portfolio />
       <Heading>Arishemm</Heading>
       <Navbar />
     </Wrapper>
