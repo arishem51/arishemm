@@ -107,10 +107,16 @@ function PortfolioItem({
   }
 
   function handleHoverStart() {
+    if (portfolio) {
+      return;
+    }
     setIsHover(true);
   }
 
   function handleHoverEnd() {
+    if (portfolio) {
+      return;
+    }
     setIsHover(false);
   }
 
