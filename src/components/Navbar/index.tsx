@@ -37,6 +37,7 @@ const Navbar = () => {
   const { setPortfolio, setAnimationType } = useAnimationAPIProvider();
   const { portfolio } = usePortfolioProvider();
 
+  // Will re-render 1 2 time more because of time state
   const { time, setTime } = useTime({ initialTime: 0 });
 
   function handleItemClick(item: PortfolioType) {
