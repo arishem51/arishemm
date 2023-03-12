@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, Variants } from "framer-motion";
-import React from "react";
+import React, { CSSProperties } from "react";
 import styled from "styled-components";
 import { useIsScrollUp } from "../../hooks/useIsScrollUp";
 import { usePortfolioAnimation } from "../../hooks/usePortfolioAnimation";
@@ -25,6 +25,9 @@ const CenterFlex = styled(motion.div)`
   width: 100%;
   height: 100%;
 
+  background-color: var(--bgColor);
+  cursor: var(--cursor);
+
   border-radius: 1.5em;
 
   ::after {
@@ -47,13 +50,6 @@ const CenterFlex = styled(motion.div)`
 
     transition: scale 0.5s ease;
     scale: 0;
-  }
-
-  &[data-isActive="false"]:hover {
-    cursor: pointer;
-    ::after {
-      scale: 1;
-    }
   }
 `;
 
@@ -118,6 +114,11 @@ function PortfolioItem({
     setIsHover(false);
   }
 
+  const style = {
+    "--bgColor": bgColor,
+    "--cursor": !portfolio ? "pointer" : "default",
+  } as CSSProperties;
+
   return (
     <Wrapper
       variants={variants}
@@ -130,12 +131,7 @@ function PortfolioItem({
       whileHover="hover"
       ref={scrollRef}
     >
-      <CenterFlex
-        data-isActive={portfolio === name}
-        style={{ background: bgColor }}
-      >
-        {backgroundComponent}
-      </CenterFlex>
+      <CenterFlex style={style}>{backgroundComponent}</CenterFlex>
 
       {/*  This hack use for change portfolio item, the portofolio was change is lost children so it will not at the scroll position when exit => Animating the exit children so it can keep children for a while! */}
       <AnimatePresence>
