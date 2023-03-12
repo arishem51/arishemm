@@ -5,12 +5,14 @@ import Link from "../../Link";
 import { motion, Variants } from "framer-motion";
 import styled from "styled-components";
 
+const SIZE = 400;
+
 const ImageWrapper = styled.div`
   position: relative;
 
-  width: 400px;
+  width: ${SIZE}px;
   height: 525px;
-  flex: 1 0 400px;
+  flex: 1 0 ${SIZE}px;
 
   border-radius: 2em;
 `;
@@ -34,8 +36,8 @@ const Overlay = styled(motion.div)`
 
 const variants: Variants = {
   init: {
-    outline: "200px solid rgba(0,0,0,0.7)",
-    outlineOffset: "-200px",
+    outline: `${SIZE / 2}px solid rgba(0,0,0,0.7)`,
+    outlineOffset: `-${SIZE / 2}px`,
   },
   hover: {
     outline: "8px solid rgb(52, 229, 235)",
