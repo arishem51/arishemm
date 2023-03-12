@@ -1,7 +1,7 @@
 import ExpandedWrapper from "../../ExpandedWrapper";
 import ProjectSection from "./ProjectSection";
 
-const ExpandedWork = () => {
+const ExpandedProject = () => {
   return (
     <ExpandedWrapper>
       <ProjectSection />
@@ -9,4 +9,4 @@ const ExpandedWork = () => {
   );
 };
 
-export default ExpandedWork;
+export default ExpandedProject;

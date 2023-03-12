@@ -27,7 +27,7 @@ const List = styled.ul`
 
 const Menu: PortfolioType[] = [
   "about",
-  "work",
+  "project",
   "experience",
   "contact",
   "resume",

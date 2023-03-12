@@ -3,7 +3,7 @@ import React from "react";
 export type PortfolioType =
   | "about"
   | "resume"
-  | "work"
+  | "project"
   | "experience"
   | "contact";
 

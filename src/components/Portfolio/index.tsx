@@ -3,7 +3,7 @@ import styled from "styled-components";
 import About from "../About";
 import Experience from "../Experience";
 import Contact from "../Contact";
-import Work from "../Work";
+import Project from "../Project";
 import Resume from "../Resume";
 import { PortfolioType } from "../../types";
 import {
@@ -37,7 +37,7 @@ const PortfolioItems: PortfolioType[] = [
   "contact",
   "resume",
   "experience",
-  "work",
+  "project",
 ];
 
 const Portfolio = () => {
@@ -62,7 +62,7 @@ const Portfolio = () => {
           key={item}
         >
           {item === "about" && <About />}
-          {item === "work" && <Work />}
+          {item === "project" && <Project />}
           {item === "experience" && <Experience />}
           {item === "contact" && <Contact />}
           {item === "resume" && <Resume />}

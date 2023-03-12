@@ -62,7 +62,7 @@ const variants: Variants = {
 
 const CHILDREN_COLORS: { [key in PortfolioType]: string } = {
   about: "var(--color-blue)",
-  work: "var(--color-orange)",
+  project: "var(--color-orange)",
   resume: "var(--color-brown-2)",
   experience: "var(--color-red)",
   contact: "var(--color-green)",
