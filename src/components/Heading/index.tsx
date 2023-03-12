@@ -8,8 +8,8 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import {
   useAnimationAPI,
-  useAnimationData,
   usePortfolio,
+  useScrollProvider,
 } from "../../Provider/AnimationProvider";
 
 const Wrapper = styled(motion.h1)`
@@ -67,8 +67,8 @@ const variants: Variants = {
 const Heading = ({ children, ...props }: Props) => {
   const controls = useAnimationControls();
   const { portfolio } = usePortfolio();
-  const { isScrollUp } = useAnimationData();
   const { setAnimationType, setPortfolio } = useAnimationAPI();
+  const { scrollState } = useScrollProvider();
 
   const handleClick = useCallback(() => {
     setPortfolio(undefined);
@@ -78,7 +78,7 @@ const Heading = ({ children, ...props }: Props) => {
   React.useEffect(() => {
     if (portfolio) {
       controls.start("portfolio");
-      if (isScrollUp) {
+      if (scrollState === "up" || scrollState === "initial") {
         controls.set("zIndexUp");
         controls.start("scrollUp");
       } else {
@@ -89,7 +89,7 @@ const Heading = ({ children, ...props }: Props) => {
     } else {
       controls.start("initial");
     }
-  }, [controls, isScrollUp, portfolio]);
+  }, [controls, portfolio, scrollState]);
 
   return (
     <Wrapper

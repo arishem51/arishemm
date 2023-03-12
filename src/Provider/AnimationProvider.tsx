@@ -3,7 +3,7 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { createContext } from "react";
 import { usePrevious } from "../hooks/usePrevious";
 import { useViewMove } from "../hooks/useViewMove";
-import { AnimationType, PortfolioType, SetState } from "../types";
+import { AnimationType, PortfolioType, ScrollType, SetState } from "../types";
 
 type AnimationDataContextProps = {
   viewRef: React.RefObject<HTMLDivElement>;
@@ -14,17 +14,20 @@ type AnimationDataContextProps = {
   reverseViewY: number;
   animationType: AnimationType;
   previousPortfolio: PortfolioType | undefined;
-  isScrollUp: boolean;
 };
 
 type AnimationAPIContextProps = {
   setPortfolio: SetState<PortfolioType | undefined>;
   setAnimationType: SetState<AnimationType>;
-  setIsScrollUp: SetState<boolean>;
+  setScrollState: SetState<ScrollType>;
 };
 
 type PortfolioContextProps = {
   portfolio: PortfolioType | undefined;
+};
+
+type ScrollContextProps = {
+  scrollState: ScrollType;
 };
 
 const AnimationDataContext = createContext<AnimationDataContextProps>(
@@ -39,6 +42,10 @@ const PortfolioContext = createContext<PortfolioContextProps>(
   {} as PortfolioContextProps
 );
 
+const ScrollContext = createContext<ScrollContextProps>(
+  {} as ScrollContextProps
+);
+
 type Props = {
   children: React.ReactNode;
 };
@@ -46,12 +53,13 @@ type Props = {
 export const useAnimationData = () => useContext(AnimationDataContext);
 export const useAnimationAPI = () => useContext(AnimationAPIContext);
 export const usePortfolio = () => useContext(PortfolioContext);
+export const useScrollProvider = () => useContext(ScrollContext);
 
 export default function AnimationProvider({ children }: Props) {
   const [portfolio, setPortfolio] = useState<PortfolioType>();
   const previousPortfolio = usePrevious<PortfolioType | undefined>(portfolio);
   const [animationType, setAnimationType] = useState<AnimationType>("expand");
-  const [isScrollUp, setIsScrollUp] = useState(true);
+  const [scrollState, setScrollState] = useState<ScrollType>("initial");
 
   const {
     viewRef,
@@ -84,13 +92,12 @@ export default function AnimationProvider({ children }: Props) {
     reverseViewY,
     animationType,
     previousPortfolio,
-    isScrollUp,
   };
 
   const animationAPIValue = useMemo(() => {
     return {
       setAnimationType,
-      setIsScrollUp,
+      setScrollState,
       setPortfolio,
     };
   }, []);
@@ -99,12 +106,18 @@ export default function AnimationProvider({ children }: Props) {
     portfolio,
   };
 
+  const scrollValue = {
+    scrollState,
+  };
+
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
       <PortfolioContext.Provider value={portfolioValue}>
-        <AnimationAPIContext.Provider value={animationAPIValue}>
-          {children}
-        </AnimationAPIContext.Provider>
+        <ScrollContext.Provider value={scrollValue}>
+          <AnimationAPIContext.Provider value={animationAPIValue}>
+            {children}
+          </AnimationAPIContext.Provider>
+        </ScrollContext.Provider>
       </PortfolioContext.Provider>
     </AnimationDataContext.Provider>
   );
