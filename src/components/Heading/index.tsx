@@ -43,23 +43,18 @@ const variants: Variants = {
     fontSize: "7em",
     color: "var(--color-black)",
   },
-  portfolio: {
+  animateWhenHavePortfolio: {
     top: "1rem",
     zIndex: 3,
+    opacity: 1,
     transform: "translate(-50%, 0)",
     fontSize: "3.2em",
     color: "var(--color-white)",
   },
-  scrollUp: {
-    opacity: 1,
-  },
   scrollDown: {
     opacity: 0,
   },
-  zIndexUp: {
-    zIndex: 3,
-  },
-  zIndexDown: {
+  setAfterScrollDown: {
     zIndex: 1,
   },
 };
@@ -80,13 +75,11 @@ const Heading = ({ children, ...props }: Props) => {
 
   React.useEffect(() => {
     if (portfolio) {
-      controls.start("portfolio");
       if (scrollState === "initial") {
-        controls.set("zIndexUp");
-        controls.start("scrollUp");
-      } else {
+        controls.start("animateWhenHavePortfolio");
+      } else if (scrollState === "down") {
         controls.start("scrollDown").then(() => {
-          controls.set("zIndexDown");
+          controls.set("setAfterScrollDown");
         });
       }
     } else {
