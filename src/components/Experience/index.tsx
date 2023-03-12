@@ -1,5 +1,6 @@
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
+import Expanded from "./Expanded";
 
 function Experience() {
   return (
@@ -10,9 +11,7 @@ function Experience() {
       width="16%"
       left="12%"
       top="40%"
-      expandedComponent={
-        <div style={{ width: window.innerWidth, height: 1000 }} />
-      }
+      expandedComponent={<Expanded />}
       backgroundComponent={
         <Lottie src="https://assets2.lottiefiles.com/packages/lf20_7hKWkHQFtm.json" />
       }
