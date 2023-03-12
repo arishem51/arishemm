@@ -24,9 +24,7 @@ const ProjectSection = () => {
             vercelLink="https://iuniverse.vercel.app/"
           />
         </div>
-        <div>
-          <img src={IUniverseProject} />
-        </div>
+        <Image src={IUniverseProject} />
       </ShowcaseSection>
       <ShowcaseSection title="Project">
         <div>
@@ -41,11 +39,17 @@ const ProjectSection = () => {
             vercelLink="https://movies-arishem51.vercel.app/"
           />
         </div>
-        <div>
-          <img src={MovieProject} />
-        </div>
+        <Image src={MovieProject} />
       </ShowcaseSection>
     </>
+  );
+};
+
+const Image = ({ src }: { src: string }) => {
+  return (
+    <div>
+      <img src={src} />
+    </div>
   );
 };
 
