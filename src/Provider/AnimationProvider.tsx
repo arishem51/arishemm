@@ -21,6 +21,9 @@ type AnimationAPIContextProps = {
 
 type PortfolioContextProps = {
   portfolio: PortfolioType | undefined;
+};
+
+type PreviousPortfolioContextProps = {
   previousPortfolio: PortfolioType | undefined;
 };
 
@@ -45,6 +48,10 @@ const PortfolioContext = createContext<PortfolioContextProps>(
   {} as PortfolioContextProps
 );
 
+const PreviousPortfolioContext = createContext<PreviousPortfolioContextProps>(
+  {} as PreviousPortfolioContextProps
+);
+
 const ScrollContext = createContext<ScrollContextProps>(
   {} as ScrollContextProps
 );
@@ -60,6 +67,8 @@ type Props = {
 export const useAnimationDataProvider = () => useContext(AnimationDataContext);
 export const useAnimationAPIProvider = () => useContext(AnimationAPIContext);
 export const usePortfolioProvider = () => useContext(PortfolioContext);
+export const usePreviousPortfolioProvider = () =>
+  useContext(PreviousPortfolioContext);
 export const useScrollProvider = () => useContext(ScrollContext);
 export const useAnimationRefProvider = () => useContext(AnimationRefContext);
 
@@ -112,9 +121,14 @@ export default function AnimationProvider({ children }: Props) {
   const portfolioValue = useMemo<PortfolioContextProps>(() => {
     return {
       portfolio,
+    };
+  }, [portfolio]);
+
+  const previousPortfolioValue = useMemo<PreviousPortfolioContextProps>(() => {
+    return {
       previousPortfolio,
     };
-  }, [portfolio, previousPortfolio]);
+  }, [previousPortfolio]);
 
   const scrollValue = useMemo<ScrollContextProps>(() => {
     return {
@@ -132,13 +146,15 @@ export default function AnimationProvider({ children }: Props) {
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
       <PortfolioContext.Provider value={portfolioValue}>
-        <ScrollContext.Provider value={scrollValue}>
-          <AnimationRefContext.Provider value={refValue}>
-            <AnimationAPIContext.Provider value={animationAPIValue}>
-              {children}
-            </AnimationAPIContext.Provider>
-          </AnimationRefContext.Provider>
-        </ScrollContext.Provider>
+        <PreviousPortfolioContext.Provider value={previousPortfolioValue}>
+          <ScrollContext.Provider value={scrollValue}>
+            <AnimationRefContext.Provider value={refValue}>
+              <AnimationAPIContext.Provider value={animationAPIValue}>
+                {children}
+              </AnimationAPIContext.Provider>
+            </AnimationRefContext.Provider>
+          </ScrollContext.Provider>
+        </PreviousPortfolioContext.Provider>
       </PortfolioContext.Provider>
     </AnimationDataContext.Provider>
   );

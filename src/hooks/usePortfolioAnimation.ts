@@ -9,6 +9,7 @@ import { timeOut } from "../helpers";
 import {
   useAnimationDataProvider,
   usePortfolioProvider,
+  usePreviousPortfolioProvider,
 } from "../Provider/AnimationProvider";
 import { PortfolioType } from "../types";
 
@@ -34,7 +35,8 @@ export function usePortfolioAnimation({
 }: Props) {
   const { reverseViewX, reverseViewY, animationType } =
     useAnimationDataProvider();
-  const { portfolio, previousPortfolio } = usePortfolioProvider();
+  const { portfolio } = usePortfolioProvider();
+  const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
 
   const variants: Variants = React.useMemo(() => {
