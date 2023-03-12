@@ -1,5 +1,6 @@
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
+import ExpandedWork from "./Expanded";
 
 function Work() {
   return (
@@ -13,9 +14,7 @@ function Work() {
       backgroundComponent={
         <Lottie src="https://assets2.lottiefiles.com/packages/lf20_eeuhulsy.json" />
       }
-      expandedComponent={
-        <div style={{ width: window.innerWidth, height: 1000 }} />
-      }
+      expandedComponent={<ExpandedWork />}
     />
   );
 }

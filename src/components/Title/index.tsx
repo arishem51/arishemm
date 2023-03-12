@@ -11,8 +11,8 @@ type Props = {
   children?: ReactNode;
 };
 
-const Heading = ({ children }: Props) => {
+const Title = ({ children }: Props) => {
   return <Text>{children}</Text>;
 };
 
-export default Heading;
+export default Title;
