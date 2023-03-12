@@ -4,7 +4,7 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import React, { useCallback } from "react";
+import React from "react";
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
