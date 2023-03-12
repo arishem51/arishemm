@@ -81,11 +81,13 @@ export default function AnimationProvider({ children }: Props) {
     isScrollUp,
   };
 
-  const animationAPIValue = {
-    setAnimationType,
-    setIsScrollUp,
-    setPortfolio,
-  };
+  const animationAPIValue = React.useMemo(() => {
+    return {
+      setAnimationType,
+      setIsScrollUp,
+      setPortfolio,
+    };
+  }, []);
 
   return (
     <AnimationDataContext.Provider value={animationDataValue}>

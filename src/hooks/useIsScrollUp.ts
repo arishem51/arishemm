@@ -1,5 +1,5 @@
-import { useMotionValueEvent, useScroll } from "framer-motion";
 import React, { useRef } from "react";
+import { useMotionValueEvent, useScroll } from "framer-motion";
 import { useAnimationAPI } from "../Provider/AnimationProvider";
 
 export const useIsScrollUp = () => {
