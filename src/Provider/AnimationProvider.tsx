@@ -1,5 +1,5 @@
 import { MotionValue } from "framer-motion";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { createContext } from "react";
 import { usePrevious } from "../hooks/usePrevious";
 import { useViewMove } from "../hooks/useViewMove";
@@ -40,11 +40,10 @@ export const useAnimationData = () => useContext(AnimationDataContext);
 export const useAnimationAPI = () => useContext(AnimationAPIContext);
 
 export default function AnimationProvider({ children }: Props) {
-  const [portfolio, setPortfolio] = React.useState<PortfolioType>();
+  const [portfolio, setPortfolio] = useState<PortfolioType>();
   const previousPortfolio = usePrevious<PortfolioType | undefined>(portfolio);
-  const [animationType, setAnimationType] =
-    React.useState<AnimationType>("expand");
-  const [isScrollUp, setIsScrollUp] = React.useState(true);
+  const [animationType, setAnimationType] = useState<AnimationType>("expand");
+  const [isScrollUp, setIsScrollUp] = useState(true);
 
   const {
     viewRef,
@@ -81,7 +80,7 @@ export default function AnimationProvider({ children }: Props) {
     isScrollUp,
   };
 
-  const animationAPIValue = React.useMemo(() => {
+  const animationAPIValue = useMemo(() => {
     return {
       setAnimationType,
       setIsScrollUp,
