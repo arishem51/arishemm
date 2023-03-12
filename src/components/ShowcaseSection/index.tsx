@@ -14,7 +14,7 @@ const Flex = styled.div<{ reverse: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: ${(props) => (props.reverse ? "row-reverse" : "row")};
-  margin-top: 1em;
+  margin-top: 1.5em;
   gap: 3em;
 `;
 

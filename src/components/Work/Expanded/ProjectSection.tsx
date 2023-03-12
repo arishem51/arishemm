@@ -8,7 +8,7 @@ import Actions from "./Actions";
 const ProjectSection = () => {
   return (
     <>
-      <ShowcaseSection title="" reverseContent>
+      <ShowcaseSection title="Project" reverseContent>
         <div>
           <Paragraph>
             A collection of UIs that I made inspired mainly by{" "}
@@ -26,7 +26,7 @@ const ProjectSection = () => {
         </div>
         <Image src={IUniverseProject} />
       </ShowcaseSection>
-      <ShowcaseSection title="Project">
+      <ShowcaseSection title="">
         <div>
           <Paragraph>
             A side project inspired by{" "}
