@@ -1,11 +1,7 @@
-import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
-import {
-  useAnimationAPI,
-  useAnimationData,
-} from "../Provider/AnimationProvider";
+import { useAnimationData } from "../Provider/AnimationProvider";
 import Heading from "./Heading";
 import Navbar from "./Navbar";
 
@@ -19,15 +15,9 @@ const Wrapper = styled(motion.main)`
 `;
 
 function App() {
-  const { viewRef, viewX, viewY, contentRef, portfolio, isScrollUp } =
-    useAnimationData();
+  const { viewRef, viewX, viewY, contentRef } = useAnimationData();
 
-  const { setAnimationType, setPortfolio } = useAnimationAPI();
-
-  function handleHeadingClick() {
-    setPortfolio(undefined);
-    setAnimationType("expand");
-  }
+  console.log("App re render");
 
   const styles = {
     x: viewX,
@@ -37,14 +27,8 @@ function App() {
   return (
     <Wrapper ref={viewRef}>
       <Portfolio layout style={styles} ref={contentRef} />
-      <Heading
-        isScrollUp={isScrollUp}
-        portfolio={portfolio}
-        onClick={handleHeadingClick}
-      >
-        Arishemm
-      </Heading>
-      {portfolio && <Navbar />}
+      <Heading>Arishemm</Heading>
+      <Navbar />
     </Wrapper>
   );
 }

@@ -13,7 +13,6 @@ type AnimationDataContextProps = {
   reverseViewX: number;
   reverseViewY: number;
   animationType: AnimationType;
-  previousPortfolio: PortfolioType | undefined;
 };
 
 type AnimationAPIContextProps = {
@@ -24,6 +23,7 @@ type AnimationAPIContextProps = {
 
 type PortfolioContextProps = {
   portfolio: PortfolioType | undefined;
+  previousPortfolio: PortfolioType | undefined;
 };
 
 type ScrollContextProps = {
@@ -83,18 +83,27 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, [addViewMoveEvent, portfolio, removeViewMoveEvent]);
 
-  const animationDataValue = {
-    viewRef,
-    viewX,
-    viewY,
+  const animationDataValue = useMemo<AnimationDataContextProps>(() => {
+    return {
+      viewRef,
+      viewX,
+      viewY,
+      contentRef,
+      reverseViewX,
+      reverseViewY,
+      animationType,
+    };
+  }, [
+    animationType,
     contentRef,
     reverseViewX,
     reverseViewY,
-    animationType,
-    previousPortfolio,
-  };
+    viewRef,
+    viewX,
+    viewY,
+  ]);
 
-  const animationAPIValue = useMemo(() => {
+  const animationAPIValue = useMemo<AnimationAPIContextProps>(() => {
     return {
       setAnimationType,
       setScrollState,
@@ -102,13 +111,18 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, []);
 
-  const portfolioValue = {
-    portfolio,
-  };
+  const portfolioValue = useMemo<PortfolioContextProps>(() => {
+    return {
+      portfolio,
+      previousPortfolio,
+    };
+  }, [portfolio, previousPortfolio]);
 
-  const scrollValue = {
-    scrollState,
-  };
+  const scrollValue = useMemo<ScrollContextProps>(() => {
+    return {
+      scrollState,
+    };
+  }, [scrollState]);
 
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
