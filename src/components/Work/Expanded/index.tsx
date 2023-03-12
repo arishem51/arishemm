@@ -1,17 +1,11 @@
-import styled from "styled-components";
+import ExpandedWrapper from "../../ExpandedWrapper";
 import ProjectSection from "./ProjectSection";
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  widows: 100%;
-`;
 
 const ExpandedWork = () => {
   return (
-    <Wrapper>
+    <ExpandedWrapper>
       <ProjectSection />
-    </Wrapper>
+    </ExpandedWrapper>
   );
 };
 
