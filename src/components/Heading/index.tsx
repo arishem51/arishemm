@@ -70,15 +70,18 @@ const Heading = ({ children, ...props }: Props) => {
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
   const { scrollState } = useScrollProvider();
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
+    if (scrollState !== "initial") {
+      return;
+    }
     setPortfolio(undefined);
     setAnimationType("expand");
-  }, [setAnimationType, setPortfolio]);
+  };
 
   React.useEffect(() => {
     if (portfolio) {
       controls.start("portfolio");
-      if (scrollState === "up" || scrollState === "initial") {
+      if (scrollState === "initial") {
         controls.set("zIndexUp");
         controls.start("scrollUp");
       } else {

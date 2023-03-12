@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import React, { CSSProperties } from "react";
 import styled from "styled-components";
-import { useIsScrollUp } from "../../hooks/useIsScrollUp";
+import { usePortfolioScroll } from "../../hooks/usePortfolioScroll";
 import { usePortfolioAnimation } from "../../hooks/usePortfolioAnimation";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
@@ -98,7 +98,7 @@ function PortfolioItem({
 
   const [isHover, setIsHover] = React.useState(false);
 
-  const { scrollRef } = useIsScrollUp();
+  const { scrollRef } = usePortfolioScroll();
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if (portfolio === name) {
