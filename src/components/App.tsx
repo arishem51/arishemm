@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
-import { useAnimationData } from "../Provider/AnimationProvider";
+import {
+  useAnimationData,
+  useAnimationRefProvider,
+} from "../Provider/AnimationProvider";
 import Heading from "./Heading";
 import Navbar from "./Navbar";
 
@@ -15,9 +18,9 @@ const Wrapper = styled(motion.main)`
 `;
 
 function App() {
-  const { viewRef, viewX, viewY, contentRef } = useAnimationData();
+  const { viewX, viewY } = useAnimationData();
 
-  console.log("App re render");
+  const { viewRef, contentRef } = useAnimationRefProvider();
 
   const styles = {
     x: viewX,

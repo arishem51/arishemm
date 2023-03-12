@@ -6,10 +6,8 @@ import { useViewMove } from "../hooks/useViewMove";
 import { AnimationType, PortfolioType, ScrollType, SetState } from "../types";
 
 type AnimationDataContextProps = {
-  viewRef: React.RefObject<HTMLDivElement>;
   viewX: MotionValue<number>;
   viewY: MotionValue<number>;
-  contentRef: React.RefObject<HTMLDivElement>;
   reverseViewX: number;
   reverseViewY: number;
   animationType: AnimationType;
@@ -30,6 +28,11 @@ type ScrollContextProps = {
   scrollState: ScrollType;
 };
 
+type AnimationRefContextProps = {
+  contentRef: React.RefObject<HTMLDivElement>;
+  viewRef: React.RefObject<HTMLDivElement>;
+};
+
 const AnimationDataContext = createContext<AnimationDataContextProps>(
   {} as AnimationDataContextProps
 );
@@ -46,6 +49,10 @@ const ScrollContext = createContext<ScrollContextProps>(
   {} as ScrollContextProps
 );
 
+const AnimationRefContext = createContext<AnimationRefContextProps>(
+  {} as AnimationRefContextProps
+);
+
 type Props = {
   children: React.ReactNode;
 };
@@ -54,6 +61,7 @@ export const useAnimationData = () => useContext(AnimationDataContext);
 export const useAnimationAPI = () => useContext(AnimationAPIContext);
 export const usePortfolio = () => useContext(PortfolioContext);
 export const useScrollProvider = () => useContext(ScrollContext);
+export const useAnimationRefProvider = () => useContext(AnimationRefContext);
 
 export default function AnimationProvider({ children }: Props) {
   const [portfolio, setPortfolio] = useState<PortfolioType>();
@@ -85,23 +93,13 @@ export default function AnimationProvider({ children }: Props) {
 
   const animationDataValue = useMemo<AnimationDataContextProps>(() => {
     return {
-      viewRef,
       viewX,
       viewY,
-      contentRef,
       reverseViewX,
       reverseViewY,
       animationType,
     };
-  }, [
-    animationType,
-    contentRef,
-    reverseViewX,
-    reverseViewY,
-    viewRef,
-    viewX,
-    viewY,
-  ]);
+  }, [animationType, reverseViewX, reverseViewY, viewX, viewY]);
 
   const animationAPIValue = useMemo<AnimationAPIContextProps>(() => {
     return {
@@ -124,13 +122,22 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, [scrollState]);
 
+  const refValue = useMemo<AnimationRefContextProps>(() => {
+    return {
+      viewRef,
+      contentRef,
+    };
+  }, [contentRef, viewRef]);
+
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
       <PortfolioContext.Provider value={portfolioValue}>
         <ScrollContext.Provider value={scrollValue}>
-          <AnimationAPIContext.Provider value={animationAPIValue}>
-            {children}
-          </AnimationAPIContext.Provider>
+          <AnimationRefContext.Provider value={refValue}>
+            <AnimationAPIContext.Provider value={animationAPIValue}>
+              {children}
+            </AnimationAPIContext.Provider>
+          </AnimationRefContext.Provider>
         </ScrollContext.Provider>
       </PortfolioContext.Provider>
     </AnimationDataContext.Provider>
