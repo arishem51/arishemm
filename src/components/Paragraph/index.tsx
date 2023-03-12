@@ -2,8 +2,9 @@ import { HTMLAttributes, ReactNode } from "react";
 import styled from "styled-components";
 
 const Text = styled.p`
-  font-size: 1.8em;
+  font-size: 1.6em;
   color: var(--color-black);
+  font-style: italic;
 `;
 
 type Props = {

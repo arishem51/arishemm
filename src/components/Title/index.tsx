@@ -1,18 +1,18 @@
-import { ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 import styled from "styled-components";
 
 const Text = styled.h1`
   color: var(--color-black);
-  font-size: 2.8em;
+  font-size: 2.8rem;
   font-family: "Rampart One", cursive;
 `;
 
 type Props = {
   children?: ReactNode;
-};
+} & HTMLAttributes<HTMLHeadingElement>;
 
-const Title = ({ children }: Props) => {
-  return <Text>{children}</Text>;
+const Title = ({ children, ...props }: Props) => {
+  return <Text {...props}>{children}</Text>;
 };
 
 export default Title;

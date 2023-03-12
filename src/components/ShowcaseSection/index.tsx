@@ -10,9 +10,10 @@ const Wrapper = styled.section`
   margin: auto;
 `;
 
-const Flex = styled.div`
+const Flex = styled.div<{ reverse: boolean }>`
   display: flex;
   align-items: center;
+  flex-direction: ${(props) => (props.reverse ? "row-reverse" : "row")};
   margin-top: 1em;
   gap: 3em;
 `;
@@ -20,13 +21,18 @@ const Flex = styled.div`
 type Props = {
   children: ReactNode;
   title: string;
+  reverseContent?: boolean;
 };
 
-const ShowcaseSection = ({ children, title }: Props) => {
+const ShowcaseSection = ({
+  children,
+  title,
+  reverseContent = false,
+}: Props) => {
   return (
     <Wrapper>
       <Title>{title}</Title>
-      <Flex>{children}</Flex>
+      <Flex reverse={reverseContent}>{children}</Flex>
     </Wrapper>
   );
 };
