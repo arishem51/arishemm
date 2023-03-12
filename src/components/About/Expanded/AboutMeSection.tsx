@@ -13,17 +13,9 @@ const AboutMeSection = () => {
         </Paragraph>
         <Paragraph style={{ marginTop: ".5em" }}>
           I&apos;m a student at{" "}
-          <Link>
-            <a
-              rel="noreferrer"
-              target="_blank"
-              href="https://hanoi.fpt.edu.vn/"
-            >
-              FPT University
-            </a>
-          </Link>{" "}
-          in Hanoi, majoring in software engineering, focusing on things that
-          are creative and performant to provide a good user experience.
+          <Link href="https://hanoi.fpt.edu.vn/">FPT University</Link> in Hanoi,
+          majoring in software engineering, focusing on things that are creative
+          and performant to provide a good user experience.
         </Paragraph>
       </div>
     </ShowcaseSection>

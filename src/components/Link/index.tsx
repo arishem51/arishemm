@@ -15,10 +15,17 @@ const Font = styled.span`
 
 type Props = {
   children: ReactNode;
+  href: string;
 };
 
-const Link = ({ children }: Props) => {
-  return <Font>{children}</Font>;
+const Link = ({ children, href }: Props) => {
+  return (
+    <Font>
+      <a rel="noreferrer" target="_blank" href={href}>
+        {children}
+      </a>
+    </Font>
+  );
 };
 
 export default Link;
