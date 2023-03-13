@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import styled, { CSSProperties } from "styled-components";
 
-const Wrapper = styled.div<Props>`
+const Wrapper = styled.div<StackProps>`
   display: flex;
   justify-content: ${(props) => props.justifyContent};
   align-items: ${(props) => props.alignItems};
@@ -10,7 +10,7 @@ const Wrapper = styled.div<Props>`
   flex-wrap: ${(props) => props.flexWrap};
 `;
 
-type Props = {
+export type StackProps = {
   children: ReactNode;
   direction?: CSSProperties["flexDirection"];
   justifyContent?: CSSProperties["justifyContent"];
@@ -28,7 +28,7 @@ const Stack = ({
   gap = "0",
   flexWrap = "unset",
   ...props
-}: Props) => {
+}: StackProps) => {
   return (
     <Wrapper
       direction={direction}

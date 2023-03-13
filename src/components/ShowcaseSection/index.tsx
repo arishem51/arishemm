@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
 import Title from "../Title";
-import Stack from "../Stack";
+import Stack, { StackProps } from "../Stack";
 
 const Wrapper = styled(Stack)`
   width: 60%;
@@ -16,15 +16,21 @@ type Props = {
   children: ReactNode;
   title: string;
   reverseContent?: boolean;
-};
+} & StackProps;
 
 const ShowcaseSection = ({
   children,
   title,
   reverseContent = false,
+  ...props
 }: Props) => {
   return (
-    <Wrapper htmlElement="section" direction="column" alignItems="start">
+    <Wrapper
+      htmlElement="section"
+      direction="column"
+      alignItems="start"
+      {...props}
+    >
       <Title>{title}</Title>
       <Flex
         alignItems="center"
