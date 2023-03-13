@@ -15,12 +15,14 @@ const Slash = styled.span`
   font-family: "Rampart One", cursive;
 `;
 
+const style = { margin: ".8em 0" };
+
 const ExpandedContact = () => {
   return (
     <ExpandedWrapper>
       <ShowcaseSection title="Get in touch">
         <Stack direction="column" gap=".8em">
-          <Paragraph style={{ margin: ".8em 0" }}>
+          <Paragraph style={style}>
             Currently I&apos;m looking for new opportunities. Contact me if you
             need help 😸😸
           </Paragraph>
