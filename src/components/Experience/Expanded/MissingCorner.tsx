@@ -62,7 +62,6 @@ const Overlay = styled(motion.div)`
   inset: 0;
 
   cursor: pointer;
-
   border-radius: inherit;
 `;
 
