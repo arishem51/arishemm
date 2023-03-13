@@ -7,6 +7,7 @@ import {
 import { PortfolioType } from "../../types";
 import ListItem from "./ListItem";
 import useTime from "../../hooks/useTime";
+import Stack from "../Stack";
 
 const Wrapper = styled.nav`
   position: fixed;
@@ -16,10 +17,8 @@ const Wrapper = styled.nav`
   z-index: 2;
 `;
 
-const List = styled.ul`
-  display: flex;
-
-  padding: 2px;
+const List = styled(Stack)`
+  padding: 0.25em;
 
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 2em;
@@ -72,7 +71,7 @@ const Navbar = () => {
   return (
     <Wrapper>
       <LayoutGroup>
-        <List>{renderItem()}</List>
+        <List htmlElement="ul">{renderItem()}</List>
       </LayoutGroup>
     </Wrapper>
   );
