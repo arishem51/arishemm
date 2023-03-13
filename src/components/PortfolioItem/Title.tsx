@@ -6,6 +6,7 @@ import {
 } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
+import Stack from "../Stack";
 
 const Text = styled(motion.h1)`
   white-space: nowrap;
@@ -15,14 +16,11 @@ const Text = styled(motion.h1)`
   font-size: 2em;
 `;
 
-const WrapperText = styled.div`
+const WrapperText = styled(Stack)`
   position: absolute;
   bottom: 1em;
   left: 50%;
   z-index: 4;
-
-  display: flex;
-  justify-content: center;
 
   transform: translate(-50%, 0);
 `;
@@ -74,7 +72,7 @@ const Title = ({ isParentHover, children }: Props) => {
   }, [controlsLeftText, controlsRightText, isParentHover]);
 
   return (
-    <WrapperText>
+    <WrapperText justifyContent="center">
       <Side>
         <Text
           variants={variantsLeftText}

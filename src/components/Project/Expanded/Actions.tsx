@@ -1,9 +1,7 @@
 import styled from "styled-components";
+import Stack from "../../Stack";
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 3em;
+const Wrapper = styled(Stack)`
   margin-top: 2em;
 `;
 
@@ -30,7 +28,7 @@ type Props = {
 
 const Actions = ({ githubLink, vercelLink }: Props) => {
   return (
-    <Wrapper>
+    <Wrapper justifyContent="center" gap="3em">
       <a rel="noreferrer" target="_blank" href={githubLink}>
         <Button>View in Github</Button>
       </a>

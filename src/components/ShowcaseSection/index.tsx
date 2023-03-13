@@ -1,19 +1,14 @@
 import styled from "styled-components";
 import Title from "../Title";
 import { ReactNode } from "react";
+import Stack from "../Stack";
 
-const Wrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+const Wrapper = styled(Stack)`
   width: 60%;
   margin: auto;
 `;
 
-const Flex = styled.div<{ reverse: boolean }>`
-  display: flex;
-  align-items: center;
-  flex-direction: ${(props) => (props.reverse ? "row-reverse" : "row")};
+const Flex = styled(Stack)`
   margin-top: 1.5em;
   gap: 3em;
 `;
@@ -30,9 +25,15 @@ const ShowcaseSection = ({
   reverseContent = false,
 }: Props) => {
   return (
-    <Wrapper>
+    <Wrapper htmlElement="section" direction="column" alignItems="start">
       <Title>{title}</Title>
-      <Flex reverse={reverseContent}>{children}</Flex>
+      <Flex
+        alignItems="center"
+        gap="3em"
+        direction={reverseContent ? "row-reverse" : "row"}
+      >
+        {children}
+      </Flex>
     </Wrapper>
   );
 };
