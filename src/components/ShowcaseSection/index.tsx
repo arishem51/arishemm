@@ -1,6 +1,6 @@
+import { ReactNode } from "react";
 import styled from "styled-components";
 import Title from "../Title";
-import { ReactNode } from "react";
 import Stack from "../Stack";
 
 const Wrapper = styled(Stack)`
@@ -10,7 +10,6 @@ const Wrapper = styled(Stack)`
 
 const Flex = styled(Stack)`
   margin-top: 1.5em;
-  gap: 3em;
 `;
 
 type Props = {
