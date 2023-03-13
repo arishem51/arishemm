@@ -12,7 +12,7 @@ const Wrapper = styled.div<Props>`
 
 type Props = {
   children: ReactNode;
-  direction?: "row" | "column";
+  direction?: CSSProperties["flexDirection"];
   justifyContent?: CSSProperties["justifyContent"];
   alignItems?: CSSProperties["alignItems"];
   gap?: CSSProperties["gap"];
