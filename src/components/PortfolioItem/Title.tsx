@@ -14,6 +14,7 @@ const Text = styled(motion.h1)`
   font-family: "Rampart One", cursive;
   color: black;
   font-size: 2em;
+  cursor: pointer;
 `;
 
 const WrapperText = styled(Stack)`
@@ -53,18 +54,14 @@ const variantsRightText: Variants = {
   },
 };
 
-const transitionOverride: Transition = {
-  delay: 0.2,
-};
-
 const Title = ({ isParentHover, children }: Props) => {
   const controlsLeftText = useAnimationControls();
   const controlsRightText = useAnimationControls();
 
   React.useEffect(() => {
     if (isParentHover) {
-      controlsLeftText.start("animate", transitionOverride);
-      controlsRightText.start("animate", transitionOverride);
+      controlsLeftText.start("animate");
+      controlsRightText.start("animate");
     } else {
       controlsLeftText.start("initial");
       controlsRightText.start("initial");
