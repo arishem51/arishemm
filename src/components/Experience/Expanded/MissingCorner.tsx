@@ -2,6 +2,7 @@ import { motion, Variants } from "framer-motion";
 import styled from "styled-components";
 import Link from "../../Link";
 import Paragraph from "../../Paragraph";
+import Stack from "../../Stack";
 import M1 from "./Missing Corner/ms1.jpg";
 import M2 from "./Missing Corner/ms2.jpg";
 import M3 from "./Missing Corner/ms4.jpg";
@@ -10,13 +11,9 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const Flex = styled.div`
+const Flex = styled(Stack)`
   position: relative;
   z-index: 2;
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
 
   margin-top: 1em;
   padding: 1em;
@@ -48,10 +45,7 @@ const Img = styled.img`
   border-radius: inherit;
 `;
 
-const ImgContainer = styled.div`
-  display: flex;
-  gap: 2em;
-
+const ImgContainer = styled(Stack)`
   margin-top: 1em;
   border-radius: 1em;
 `;
@@ -79,7 +73,7 @@ const variants: Variants = {
 const MissingCorner = () => {
   return (
     <Wrapper>
-      <Flex>
+      <Flex gap="0.5em" direction="column">
         <Heading>
           <Link href="https://www.missingcorner.com/">• Missing Corner</Link>
         </Heading>
@@ -90,7 +84,7 @@ const MissingCorner = () => {
           typescript, react and react native to develop and maintain projects.
         </Paragraph>
       </Flex>
-      <ImgContainer>
+      <ImgContainer gap="2em">
         <ImgWrapper>
           <Img src={M1} />
           <Overlay variants={variants} initial="initial" whileHover="hover" />
