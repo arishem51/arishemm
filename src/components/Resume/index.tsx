@@ -1,6 +1,6 @@
-import React from "react";
 import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
+import ExpandedResume from "./Expanded";
 
 function Resume() {
   return (
@@ -11,9 +11,7 @@ function Resume() {
       width="20%"
       left="5%"
       top="12%"
-      expandedComponent={
-        <div style={{ width: window.innerWidth, height: 1000 }} />
-      }
+      expandedComponent={<ExpandedResume />}
       backgroundComponent={
         <Lottie src="https://assets3.lottiefiles.com/packages/lf20_4DLPlW.json" />
       }
