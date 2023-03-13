@@ -1,9 +1,4 @@
-import {
-  motion,
-  Transition,
-  useAnimationControls,
-  Variants,
-} from "framer-motion";
+import { motion, useAnimationControls, Variants } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 import Stack from "../Stack";
