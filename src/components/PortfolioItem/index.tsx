@@ -4,7 +4,7 @@ import {
   useWillChange,
   Variants,
 } from "framer-motion";
-import React, { CSSProperties, useMemo } from "react";
+import React, { CSSProperties, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { usePortfolioScroll } from "../../hooks/usePortfolioScroll";
 import { usePortfolioAnimation } from "../../hooks/usePortfolioAnimation";
@@ -92,6 +92,7 @@ function PortfolioItem({
   backgroundComponent,
 }: Props) {
   const { portfolio } = usePortfolioProvider();
+  const ref = useRef<HTMLDivElement>(null);
 
   const { animationControls, variants } = usePortfolioAnimation({
     width,
@@ -109,7 +110,7 @@ function PortfolioItem({
 
   const [isHover, setIsHover] = React.useState(false);
 
-  const { scrollRef } = usePortfolioScroll();
+  usePortfolioScroll({ scrollRef: ref });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (portfolio === name) {
@@ -146,7 +147,7 @@ function PortfolioItem({
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
       whileHover="hover"
-      ref={scrollRef}
+      ref={ref}
       style={styles}
     >
       <CenterFlex style={style}>{backgroundComponent}</CenterFlex>

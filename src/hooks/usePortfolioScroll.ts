@@ -1,9 +1,12 @@
-import { useRef } from "react";
+import { RefObject } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import { useAnimationAPIProvider } from "../Provider/AnimationProvider";
 
-export const usePortfolioScroll = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+type Props = {
+  scrollRef: RefObject<HTMLElement>;
+};
+
+export const usePortfolioScroll = ({ scrollRef }: Props) => {
   const { setScrollState } = useAnimationAPIProvider();
   const { scrollY } = useScroll({ container: scrollRef });
   useMotionValueEvent(scrollY, "change", (current) => {
@@ -18,5 +21,4 @@ export const usePortfolioScroll = () => {
       }
     }
   });
-  return { scrollRef };
 };
