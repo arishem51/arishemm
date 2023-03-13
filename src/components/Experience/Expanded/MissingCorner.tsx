@@ -37,25 +37,23 @@ const Time = styled.h4`
 `;
 
 const ImgWrapper = styled.div`
+  position: relative;
+  flex: 1 0 33%;
+  border-radius: inherit;
+`;
+
+const Img = styled.img`
+  width: 100%;
+  aspect-ratio: 2/3;
+  border-radius: inherit;
+`;
+
+const ImgContainer = styled.div`
   display: flex;
   gap: 2em;
 
   margin-top: 1em;
   border-radius: 1em;
-
-  > div {
-    position: relative;
-    flex: 1 0 33%;
-    height: 600px;
-    max-height: 600px;
-    border-radius: inherit;
-  }
-`;
-
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
 `;
 
 const Overlay = styled(motion.div)`
@@ -93,20 +91,20 @@ const MissingCorner = () => {
           typescript, react and react native to develop and maintain projects.
         </Paragraph>
       </Flex>
-      <ImgWrapper>
-        <div>
+      <ImgContainer>
+        <ImgWrapper>
           <Img src={M1} />
           <Overlay variants={variants} initial="initial" whileHover="hover" />
-        </div>
-        <div>
+        </ImgWrapper>
+        <ImgWrapper>
           <Img src={M2} />
           <Overlay variants={variants} initial="initial" whileHover="hover" />
-        </div>
-        <div>
+        </ImgWrapper>
+        <ImgWrapper>
           <Img src={M3} />
           <Overlay variants={variants} initial="initial" whileHover="hover" />
-        </div>
-      </ImgWrapper>
+        </ImgWrapper>
+      </ImgContainer>
     </Wrapper>
   );
 };
