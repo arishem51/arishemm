@@ -1,12 +1,30 @@
 import ExpandedWrapper from "../../ExpandedWrapper";
 import ShowcaseSection from "../../ShowcaseSection";
-import Resume from "../../../assets/New-Front-end-CV.pdf";
+import Image from "../../../assets/CV-Image.jpg";
+import styled from "styled-components";
+import Stack from "../../Stack";
+
+const Img = styled.img`
+  width: 80%;
+  max-width: 1200px;
+`;
+
+const Wrapper = styled(Stack)`
+  width: 100%;
+  height: 100%;
+`;
 
 const ExpandedResume = () => {
   return (
     <ExpandedWrapper>
-      <ShowcaseSection title="Resume">
-        <iframe width={1000} height={1000} src={Resume} />
+      <ShowcaseSection
+        title="Resume"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Wrapper justifyContent="center">
+          <Img src={Image} />
+        </Wrapper>
       </ShowcaseSection>
     </ExpandedWrapper>
   );
