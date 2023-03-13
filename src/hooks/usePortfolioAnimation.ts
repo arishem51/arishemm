@@ -7,6 +7,7 @@ import {
 import React from "react";
 import { timeOut } from "../helpers";
 import {
+  useAnimationAPIProvider,
   useAnimationDataProvider,
   usePortfolioProvider,
   usePreviousPortfolioProvider,
@@ -36,6 +37,7 @@ export function usePortfolioAnimation({
   const { reverseViewX, reverseViewY, animationType } =
     useAnimationDataProvider();
   const { portfolio } = usePortfolioProvider();
+  const { setisAnimationSlideUpRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
 
@@ -115,10 +117,18 @@ export function usePortfolioAnimation({
         animationControls.start("scaleDown", transition).then(async () => {
           await timeOut(500);
           animationControls.set("initial");
+          setisAnimationSlideUpRunning(false);
         });
       }
     }
-  }, [animationControls, animationType, name, portfolio, previousPortfolio]);
+  }, [
+    animationControls,
+    animationType,
+    name,
+    portfolio,
+    previousPortfolio,
+    setisAnimationSlideUpRunning,
+  ]);
 
   return {
     animationControls,

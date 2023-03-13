@@ -2,11 +2,11 @@ import { LayoutGroup } from "framer-motion";
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
+  useAnimationSlideUpProvider,
   usePortfolioProvider,
 } from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
 import ListItem from "./ListItem";
-import useTime from "../../hooks/useTime";
 import Stack from "../Stack";
 
 const Wrapper = styled.nav`
@@ -33,19 +33,18 @@ const Menu: PortfolioType[] = [
 ];
 
 const Navbar = () => {
-  const { setPortfolio, setAnimationType } = useAnimationAPIProvider();
+  const { setPortfolio, setAnimationType, setisAnimationSlideUpRunning } =
+    useAnimationAPIProvider();
   const { portfolio } = usePortfolioProvider();
-
-  // Will re-render 1 2 time more because of time state
-  const { time, setTime } = useTime({ initialTime: 0 });
+  const { isAnimationSlideUpRunning } = useAnimationSlideUpProvider();
 
   function handleItemClick(item: PortfolioType) {
-    if (time < 1) {
+    if (isAnimationSlideUpRunning || portfolio === item) {
       return;
     }
+    setisAnimationSlideUpRunning(true);
     setPortfolio(item);
     setAnimationType("slideUp");
-    setTime(0);
   }
 
   function renderItem() {

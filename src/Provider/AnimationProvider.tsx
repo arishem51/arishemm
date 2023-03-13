@@ -17,6 +17,7 @@ type AnimationAPIContextProps = {
   setPortfolio: SetState<PortfolioType | undefined>;
   setAnimationType: SetState<AnimationType>;
   setScrollState: SetState<ScrollType>;
+  setisAnimationSlideUpRunning: SetState<boolean>;
 };
 
 type PortfolioContextProps = {
@@ -34,6 +35,10 @@ type ScrollContextProps = {
 type AnimationRefContextProps = {
   contentRef: React.RefObject<HTMLDivElement>;
   viewRef: React.RefObject<HTMLDivElement>;
+};
+
+type AnimationSlideUpContext = {
+  isAnimationSlideUpRunning: boolean;
 };
 
 const AnimationDataContext = createContext<AnimationDataContextProps>(
@@ -60,6 +65,10 @@ const AnimationRefContext = createContext<AnimationRefContextProps>(
   {} as AnimationRefContextProps
 );
 
+const AnimationSlideUpContext = createContext<AnimationSlideUpContext>(
+  {} as AnimationSlideUpContext
+);
+
 type Props = {
   children: React.ReactNode;
 };
@@ -71,11 +80,15 @@ export const usePreviousPortfolioProvider = () =>
   useContext(PreviousPortfolioContext);
 export const useScrollProvider = () => useContext(ScrollContext);
 export const useAnimationRefProvider = () => useContext(AnimationRefContext);
+export const useAnimationSlideUpProvider = () =>
+  useContext(AnimationSlideUpContext);
 
 export default function AnimationProvider({ children }: Props) {
   const [portfolio, setPortfolio] = useState<PortfolioType>();
   const previousPortfolio = usePrevious<PortfolioType | undefined>(portfolio);
   const [animationType, setAnimationType] = useState<AnimationType>("expand");
+  const [isAnimationSlideUpRunning, setisAnimationSlideUpRunning] =
+    useState(false);
   const [scrollState, setScrollState] = useState<ScrollType>("initial");
 
   const {
@@ -115,6 +128,7 @@ export default function AnimationProvider({ children }: Props) {
       setAnimationType,
       setScrollState,
       setPortfolio,
+      setisAnimationSlideUpRunning,
     };
   }, []);
 
@@ -143,15 +157,23 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, [contentRef, viewRef]);
 
+  const animationSlideUpValue = useMemo(() => {
+    return {
+      isAnimationSlideUpRunning,
+    };
+  }, [isAnimationSlideUpRunning]);
+
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
       <PortfolioContext.Provider value={portfolioValue}>
         <PreviousPortfolioContext.Provider value={previousPortfolioValue}>
           <ScrollContext.Provider value={scrollValue}>
             <AnimationRefContext.Provider value={refValue}>
-              <AnimationAPIContext.Provider value={animationAPIValue}>
-                {children}
-              </AnimationAPIContext.Provider>
+              <AnimationSlideUpContext.Provider value={animationSlideUpValue}>
+                <AnimationAPIContext.Provider value={animationAPIValue}>
+                  {children}
+                </AnimationAPIContext.Provider>
+              </AnimationSlideUpContext.Provider>
             </AnimationRefContext.Provider>
           </ScrollContext.Provider>
         </PreviousPortfolioContext.Provider>
