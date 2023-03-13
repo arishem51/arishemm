@@ -1,37 +1,18 @@
 import styled from "styled-components";
 import Logo from "../../Logo";
+import Stack from "../../Stack";
 import Title from "../../Title";
 
-const Wrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4em;
-
+const Wrapper = styled(Stack)`
   width: 70%;
   margin: auto;
 `;
 
-const SkillWrapper = styled.div`
-  display: flex;
-  gap: 3.5em;
-
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const SkillItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1em;
-
-  > img {
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-    filter: drop-shadow(8px 10px 2px hsl(0deg 0% 0% / 0.4));
-  }
+const Img = styled.img`
+  width: 100px;
+  aspect-ratio: 1;
+  cursor: pointer;
+  filter: drop-shadow(8px 10px 2px hsl(0deg 0% 0% / 0.4));
 `;
 
 const TextItem = styled.h1`
@@ -85,18 +66,33 @@ const SKILLS: { name: string; logo: string }[] = [
 
 const MySkills = () => {
   return (
-    <Wrapper>
+    <Wrapper
+      direction="column"
+      alignItems="center"
+      gap="4em"
+      htmlElement="section"
+    >
       <Title>My Skills</Title>
-      <SkillWrapper>
+      <Stack
+        gap="3.5em"
+        alignItems="center"
+        flexWrap="wrap"
+        justifyContent="center"
+      >
         {SKILLS.map(({ name, logo }, index) => {
           return (
-            <SkillItem key={name + index}>
-              <img src={logo} />
+            <Stack
+              direction="column"
+              alignItems="center"
+              gap="1em"
+              key={name + index}
+            >
+              <Img src={logo} />
               <TextItem>{name}</TextItem>
-            </SkillItem>
+            </Stack>
           );
         })}
-      </SkillWrapper>
+      </Stack>
     </Wrapper>
   );
 };
