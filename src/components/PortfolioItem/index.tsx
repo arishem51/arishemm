@@ -91,8 +91,8 @@ function PortfolioItem({
   expandedComponent,
   backgroundComponent,
 }: Props) {
-  const { portfolio } = usePortfolioProvider();
   const ref = useRef<HTMLDivElement>(null);
+  const { portfolio } = usePortfolioProvider();
 
   const { animationControls, variants } = usePortfolioAnimation({
     width,
