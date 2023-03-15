@@ -13,9 +13,6 @@ const config: SpringOptions = { damping: 30, stiffness: 100 };
 
 type Dimensions = { width: number; height: number };
 
-let reverseViewX = 0;
-let reverseViewY = 0;
-
 const state: Dimensions = {
   width: 0,
   height: 0,
@@ -85,16 +82,11 @@ export function useViewMove() {
     [handleMouseMoveOnView]
   );
 
-  reverseViewX = motionX.get() * OPPOSITE;
-  reverseViewY = motionY.get() * OPPOSITE;
-
   return {
     viewRef,
     contentRef,
     viewX: springX,
     viewY: springY,
-    reverseViewX,
-    reverseViewY,
     removeViewMoveEvent,
     addViewMoveEvent,
     motionX,
