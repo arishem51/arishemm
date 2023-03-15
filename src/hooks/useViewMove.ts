@@ -71,16 +71,19 @@ export function useViewMove() {
     [content.height, content.width, motionX, motionY, view.height, view.width]
   );
 
-  const removeViewMoveEvent = useCallback(
-    () =>
-      viewRef.current?.removeEventListener("mousemove", handleMouseMoveOnView),
-    [handleMouseMoveOnView]
-  );
+  const removeViewMoveEvent = useCallback(() => {
+    if (!viewRef?.current) {
+      return;
+    }
+    viewRef.current?.removeEventListener("mousemove", handleMouseMoveOnView);
+  }, [handleMouseMoveOnView]);
 
-  const addViewMoveEvent = useCallback(
-    () => viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView),
-    [handleMouseMoveOnView]
-  );
+  const addViewMoveEvent = useCallback(() => {
+    if (!viewRef?.current) {
+      return;
+    }
+    viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView);
+  }, [handleMouseMoveOnView]);
 
   return {
     viewRef,
