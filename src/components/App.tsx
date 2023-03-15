@@ -32,7 +32,6 @@ function App() {
   const { viewRef } = useAnimationRefProvider();
 
   const handleAnimation = useCallback(() => {
-    console.log("?");
     controls.start("visible");
   }, [controls]);
 
