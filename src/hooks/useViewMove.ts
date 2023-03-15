@@ -97,5 +97,7 @@ export function useViewMove() {
     reverseViewY,
     removeViewMoveEvent,
     addViewMoveEvent,
+    motionX,
+    motionY,
   };
 }

@@ -8,6 +8,8 @@ import { AnimationType, PortfolioType, ScrollType, SetState } from "../types";
 type AnimationDataContextProps = {
   viewX: MotionValue<number>;
   viewY: MotionValue<number>;
+  motionX: MotionValue<number>;
+  motionY: MotionValue<number>;
   reverseViewX: number;
   reverseViewY: number;
   animationType: AnimationType;
@@ -100,6 +102,8 @@ export default function AnimationProvider({ children }: Props) {
     reverseViewY,
     removeViewMoveEvent,
     addViewMoveEvent,
+    motionX,
+    motionY,
   } = useViewMove();
 
   useEffect(() => {
@@ -120,8 +124,18 @@ export default function AnimationProvider({ children }: Props) {
       reverseViewX,
       reverseViewY,
       animationType,
+      motionX,
+      motionY,
     };
-  }, [animationType, reverseViewX, reverseViewY, viewX, viewY]);
+  }, [
+    animationType,
+    motionX,
+    motionY,
+    reverseViewX,
+    reverseViewY,
+    viewX,
+    viewY,
+  ]);
 
   const animationAPIValue = useMemo<AnimationAPIContextProps>(() => {
     return {
