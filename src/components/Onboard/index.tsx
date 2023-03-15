@@ -38,6 +38,10 @@ type Props = {
   onOnboardUnmount: () => void;
 };
 
+const TIME = 600; // Miliseconds
+const HELLO = "Hello I'm Arishemm";
+const initial = { translateY: "100%" };
+
 const containerVariants: Variants = {
   initial: {
     opacity: 1,
@@ -47,16 +51,10 @@ const containerVariants: Variants = {
   },
 };
 
-const TIME = 600; // Miliseconds
-
 const transition: Transition = {
   ease: "easeInOut",
   duration: TIME / 1000, // Seconds,
 };
-
-const HELLO = "Hello I'm Arishemm";
-
-const initial = { translateY: "100%" };
 
 const Onboard = ({ onOnboardUnmount }: Props) => {
   const [isPresent, setIsPresent] = useState(true);
