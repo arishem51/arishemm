@@ -78,7 +78,7 @@ export function useAnimationControlsPortfolioItem({
       },
 
       slideUp: {
-        top: motionY.get() * -1,
+        y: -window.innerHeight,
       },
 
       setBeforeSlideUp: {
