@@ -53,6 +53,7 @@ export function usePortfolioAnimation({
   const [translate, setTranslate] = useState<Coordinates>(InitialCoordinates);
 
   useEffect(() => {
+    // Sync motionX/Y instead of SpringX/Y
     if (portfolio === name) {
       setOffset({
         x: motionX.get() * -1,
@@ -67,6 +68,7 @@ export function usePortfolioAnimation({
   }, [name, portfolio, motionX, motionY]);
 
   useEffect(() => {
+    // Calculate the translationX/Y of portfolioItem
     if (portfolio === name && (offset.x > 0 || offset.y > 0)) {
       const x =
         (+left.slice(0, -1) * (contentRef?.current?.clientWidth || 0)) / 100 -
