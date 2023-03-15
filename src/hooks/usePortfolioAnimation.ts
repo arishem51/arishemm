@@ -35,12 +35,11 @@ export function usePortfolioAnimation({
   left,
   top,
   name,
-  ref,
 }: Props) {
   const { reverseViewX, reverseViewY, animationType, motionX, motionY } =
     useAnimationDataProvider();
   const { portfolio } = usePortfolioProvider();
-  const { viewRef, contentRef } = useAnimationRefProvider();
+  const { contentRef } = useAnimationRefProvider();
   const { setisAnimationSlideUpRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
@@ -141,41 +140,6 @@ export function usePortfolioAnimation({
     width,
   ]);
 
-  // React.useEffect(() => {
-  //   if (animationType === "expand") {
-  //     if (portfolio === name) {
-  //       animationControls.start("expand", transition);
-  //     } else if (previousPortfolio === name) {
-  //       animationControls.start("initial", transition);
-  //     }
-  //   } else if (animationType === "slideUp") {
-  //     if (portfolio === name && portfolio !== previousPortfolio) {
-  //       animationControls.set("setBeforeSlideUp");
-  //       animationControls.start("slideUp", {
-  //         delay: 0.4,
-  //         ...transition,
-  //       });
-  //     } else if (
-  //       previousPortfolio === name &&
-  //       portfolio !== previousPortfolio
-  //     ) {
-  //       animationControls.set("setBeforeScaleDown");
-  //       animationControls.start("scaleDown", transition).then(async () => {
-  //         await timeOut(500);
-  //         animationControls.set("initial");
-  //         setisAnimationSlideUpRunning(false);
-  //       });
-  //     }
-  //   }
-  // }, [
-  //   animationControls,
-  //   animationType,
-  //   name,
-  //   portfolio,
-  //   previousPortfolio,
-  //   setisAnimationSlideUpRunning,
-  // ]);
-
   useEffect(() => {
     if (animationType === "expand") {
       if (portfolio === name) {
@@ -192,6 +156,35 @@ export function usePortfolioAnimation({
     previousPortfolio,
     // Must include translate state to update translate item
     translate,
+  ]);
+
+  useEffect(() => {
+    if (animationType === "slideUp") {
+      if (portfolio === name && portfolio !== previousPortfolio) {
+        animationControls.set("setBeforeSlideUp");
+        animationControls.start("slideUp", {
+          delay: 0.4,
+          ...transition,
+        });
+      } else if (
+        previousPortfolio === name &&
+        portfolio !== previousPortfolio
+      ) {
+        animationControls.set("setBeforeScaleDown");
+        animationControls.start("scaleDown", transition).then(async () => {
+          await timeOut(800);
+          animationControls.set("initial");
+          setisAnimationSlideUpRunning(false);
+        });
+      }
+    }
+  }, [
+    animationControls,
+    animationType,
+    name,
+    portfolio,
+    previousPortfolio,
+    setisAnimationSlideUpRunning,
   ]);
 
   return {
