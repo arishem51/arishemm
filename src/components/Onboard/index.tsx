@@ -5,7 +5,7 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { createAnimationDefination } from "../../helpers";
 import Stack from "../Stack";
@@ -58,6 +58,7 @@ const transition: Transition = {
 
 const Onboard = ({ onOnboardUnmount }: Props) => {
   const [isPresent, setIsPresent] = useState(true);
+  const isFirstRender = useRef(true);
   const controls = useAnimationControls();
 
   useEffect(() => {
@@ -70,6 +71,7 @@ const Onboard = ({ onOnboardUnmount }: Props) => {
         createAnimationDefination(i, "-100%", transition)
       );
       setIsPresent(false);
+      isFirstRender.current = false;
       setTimeout(() => {
         onOnboardUnmount();
       }, TIME);
@@ -78,7 +80,7 @@ const Onboard = ({ onOnboardUnmount }: Props) => {
 
   return (
     <AnimatePresence>
-      {isPresent && (
+      {isPresent && isFirstRender.current && (
         <Container
           exit="exit"
           initial="initial"
