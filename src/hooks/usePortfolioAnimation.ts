@@ -15,9 +15,11 @@ import {
 } from "../Provider/AnimationProvider";
 import { PortfolioType } from "../types";
 
+const TIME = 750; // Miliseconds
+
 const transition: Transition = {
   ease: cubicBezier(0.5, 0, 0.4, 1),
-  duration: 0.8,
+  duration: TIME / 1000, // Seconds,
 };
 
 type Props = {
@@ -163,7 +165,7 @@ export function usePortfolioAnimation({
       if (portfolio === name && portfolio !== previousPortfolio) {
         animationControls.set("setBeforeSlideUp");
         animationControls.start("slideUp", {
-          delay: 0.4,
+          delay: TIME / 1000, // seconds,
           ...transition,
         });
       } else if (
@@ -172,7 +174,7 @@ export function usePortfolioAnimation({
       ) {
         animationControls.set("setBeforeScaleDown");
         animationControls.start("scaleDown", transition).then(async () => {
-          await timeOut(800);
+          await timeOut(TIME);
           animationControls.set("initial");
           setisAnimationSlideUpRunning(false);
         });
