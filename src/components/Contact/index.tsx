@@ -12,7 +12,10 @@ function Contact() {
       left="45%"
       top="62%"
       backgroundComponent={
-        <Lottie src="https://assets8.lottiefiles.com/packages/lf20_u25cckyh.json" />
+        <Lottie
+          defaultFrame={61}
+          src="https://assets8.lottiefiles.com/packages/lf20_u25cckyh.json"
+        />
       }
       expandedComponent={<ExpandedContact />}
     />

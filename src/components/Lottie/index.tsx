@@ -1,7 +1,11 @@
 import { Player, IPlayerProps } from "@lottiefiles/react-lottie-player";
+import { AnimationItem } from "lottie-web";
+import { useEffect, useState } from "react";
 import { CSSProperties } from "styled-components";
 
-type Props = IPlayerProps;
+type Props = IPlayerProps & {
+  defaultFrame: number;
+};
 
 const styles: CSSProperties = {
   position: "relative",
@@ -12,6 +16,21 @@ const styles: CSSProperties = {
   alignItems: "center",
 };
 
-export default function Lottie(props: Props) {
-  return <Player className="player" style={styles} {...props} />;
+export default function Lottie({ defaultFrame, ...props }: Props) {
+  const [lottie, setLottile] = useState<AnimationItem | undefined>(undefined);
+
+  useEffect(() => {
+    if (lottie) {
+      lottie.goToAndStop(defaultFrame, true, lottie.name);
+    }
+  }, [defaultFrame, lottie]);
+
+  return (
+    <Player
+      lottieRef={(lottie) => setLottile(lottie)}
+      className="player"
+      style={styles}
+      {...props}
+    />
+  );
 }

@@ -11,10 +11,14 @@ function Experience() {
       width="16%"
       left="12%"
       top="40%"
-      expandedComponent={<Expanded />}
       backgroundComponent={
-        <Lottie src="https://assets2.lottiefiles.com/packages/lf20_7hKWkHQFtm.json" />
+        <Lottie
+          defaultFrame={55}
+          src="https://assets1.lottiefiles.com/packages/lf20_POwu1GiXc2.json
+          "
+        />
       }
+      expandedComponent={<Expanded />}
     />
   );
 }

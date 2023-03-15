@@ -12,7 +12,10 @@ function About() {
       top="24%"
       bgColor="rgba(221,229,216,1)"
       backgroundComponent={
-        <Lottie src="https://assets2.lottiefiles.com/packages/lf20_v1yudlrx.json" />
+        <Lottie
+          defaultFrame={105}
+          src="https://assets7.lottiefiles.com/packages/lf20_puciaact.json"
+        />
       }
       expandedComponent={<ExpandedAbout />}
     />

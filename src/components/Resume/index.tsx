@@ -13,7 +13,10 @@ function Resume() {
       top="12%"
       expandedComponent={<ExpandedResume />}
       backgroundComponent={
-        <Lottie src="https://assets3.lottiefiles.com/packages/lf20_4DLPlW.json" />
+        <Lottie
+          defaultFrame={120}
+          src="https://assets3.lottiefiles.com/packages/lf20_4DLPlW.json"
+        />
       }
     />
   );
