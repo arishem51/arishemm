@@ -4,7 +4,7 @@ import Portfolio from "./Portfolio";
 import { useAnimationRefProvider } from "../Provider/AnimationProvider";
 import Heading from "./Heading";
 import Navbar from "./Navbar";
-import { useCallback } from "react";
+import { useEffect, useState } from "react";
 import Onboard from "./Onboard";
 
 const Wrapper = styled(motion.main)`
@@ -28,24 +28,33 @@ const variants: Variants = {
 };
 
 function App() {
+  const [shouldRenderOnboard, setShouldRenderOnboard] = useState(true);
   const controls = useAnimationControls();
   const { viewRef } = useAnimationRefProvider();
 
-  const handleAnimation = useCallback(() => {
-    controls.start("visible");
-  }, [controls]);
+  useEffect(() => {
+    if (!shouldRenderOnboard) {
+      controls.start("visible");
+    }
+  }, [controls, shouldRenderOnboard]);
 
-  return (
-    <>
-      <Onboard onOnboardUnmount={handleAnimation} />
-      <motion.div variants={variants} initial="initial" animate={controls}>
-        <Wrapper ref={viewRef}>
-          <Portfolio />
-          <Heading>Arishemm</Heading>
-          <Navbar />
-        </Wrapper>
-      </motion.div>
-    </>
+  function handleAnimatedEnd() {
+    setShouldRenderOnboard(false);
+  }
+
+  return shouldRenderOnboard ? (
+    <Onboard onAnimatedEnd={handleAnimatedEnd} />
+  ) : (
+    <Wrapper
+      ref={viewRef}
+      variants={variants}
+      initial="initial"
+      animate={controls}
+    >
+      <Portfolio />
+      <Heading>Arishemm</Heading>
+      <Navbar />
+    </Wrapper>
   );
 }
 
