@@ -30,7 +30,7 @@ type Props = {
   name: PortfolioType;
 };
 
-export function useAnimationControlsPortfolio({
+export function useAnimationControlsPortfolioItem({
   width,
   height,
   left,

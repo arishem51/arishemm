@@ -7,7 +7,7 @@ import {
 import React, { CSSProperties, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { usePortfolioScroll } from "../../hooks/usePortfolioScroll";
-import { useAnimationControlsPortfolio } from "../../hooks/useAnimationControlsPortfolio";
+import { useAnimationControlsPortfolioItem } from "../../hooks/useAnimationControlsPortfolioItem";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
 import Title from "./Title";
@@ -94,7 +94,7 @@ function PortfolioItem({
   const ref = useRef<HTMLDivElement>(null);
   const { portfolio } = usePortfolioProvider();
 
-  const { animationControls, variants } = useAnimationControlsPortfolio({
+  const { animationControls, variants } = useAnimationControlsPortfolioItem({
     width,
     height,
     left,
