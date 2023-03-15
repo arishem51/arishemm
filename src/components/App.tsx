@@ -38,7 +38,7 @@ function App() {
   return (
     <>
       <Onboard onOnboardUnmount={handleAnimation} />
-      <motion.div animate={controls} initial="initial" variants={variants}>
+      <motion.div variants={variants}>
         <Wrapper ref={viewRef}>
           <Portfolio />
           <Heading>Arishemm</Heading>

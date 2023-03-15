@@ -4,7 +4,7 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import React from "react";
+import React, { useEffect } from "react";
 import { timeOut } from "../helpers";
 import {
   useAnimationAPIProvider,
@@ -13,10 +13,13 @@ import {
   usePreviousPortfolioProvider,
 } from "../Provider/AnimationProvider";
 import { PortfolioType } from "../types";
+import { useCalculatePortfolioItemTranslate } from "./useCalculatePortfolioItemTranslate";
+
+const TIME = 750; // Miliseconds
 
 const transition: Transition = {
-  ease: cubicBezier(0.3, 0.7, 0.3, 0.8),
-  duration: 0.4,
+  ease: cubicBezier(0.5, 0, 0.4, 1),
+  duration: TIME / 1000, // Seconds,
 };
 
 type Props = {
@@ -27,7 +30,7 @@ type Props = {
   name: PortfolioType;
 };
 
-export function usePortfolioAnimation({
+export function useAnimationControlsPortfolioItem({
   width,
   height,
   left,
@@ -37,9 +40,11 @@ export function usePortfolioAnimation({
   const { reverseViewX, reverseViewY, animationType } =
     useAnimationDataProvider();
   const { portfolio } = usePortfolioProvider();
-  const { setisAnimationSlideUpRunning } = useAnimationAPIProvider();
+  const { setIsAnimationSlideUpRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
+
+  const { translate } = useCalculatePortfolioItemTranslate({ name, left, top });
 
   const variants: Variants = React.useMemo(() => {
     return {
@@ -47,6 +52,9 @@ export function usePortfolioAnimation({
         top,
         left,
         zIndex: 1,
+
+        x: 0,
+        y: 0,
 
         width,
         height,
@@ -60,8 +68,8 @@ export function usePortfolioAnimation({
         transformOrigin: "center center",
       },
       expand: {
-        top: reverseViewY,
-        left: reverseViewX,
+        x: portfolio === name ? -translate.x : 0,
+        y: portfolio === name ? -translate.y : 0,
         zIndex: 3,
 
         width: window.innerWidth,
@@ -93,20 +101,44 @@ export function usePortfolioAnimation({
         scale: 0.85,
       },
     };
-  }, [height, left, reverseViewX, reverseViewY, top, width]);
+  }, [
+    height,
+    left,
+    name,
+    portfolio,
+    reverseViewX,
+    reverseViewY,
+    top,
+    translate.x,
+    translate.y,
+    width,
+  ]);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    // Expand goes here
     if (animationType === "expand") {
       if (portfolio === name) {
         animationControls.start("expand", transition);
       } else if (previousPortfolio === name) {
         animationControls.start("initial", transition);
       }
-    } else if (animationType === "slideUp") {
+    }
+  }, [
+    animationControls,
+    animationType,
+    name,
+    portfolio,
+    previousPortfolio,
+    translate,
+  ]);
+
+  useEffect(() => {
+    // Slide Up goes here
+    if (animationType === "slideUp") {
       if (portfolio === name && portfolio !== previousPortfolio) {
         animationControls.set("setBeforeSlideUp");
         animationControls.start("slideUp", {
-          delay: 0.4,
+          delay: TIME / 1000, // seconds,
           ...transition,
         });
       } else if (
@@ -115,9 +147,9 @@ export function usePortfolioAnimation({
       ) {
         animationControls.set("setBeforeScaleDown");
         animationControls.start("scaleDown", transition).then(async () => {
-          await timeOut(500);
+          await timeOut(TIME);
           animationControls.set("initial");
-          setisAnimationSlideUpRunning(false);
+          setIsAnimationSlideUpRunning(false);
         });
       }
     }
@@ -127,7 +159,7 @@ export function usePortfolioAnimation({
     name,
     portfolio,
     previousPortfolio,
-    setisAnimationSlideUpRunning,
+    setIsAnimationSlideUpRunning,
   ]);
 
   return {

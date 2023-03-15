@@ -8,6 +8,8 @@ import { AnimationType, PortfolioType, ScrollType, SetState } from "../types";
 type AnimationDataContextProps = {
   viewX: MotionValue<number>;
   viewY: MotionValue<number>;
+  motionX: MotionValue<number>;
+  motionY: MotionValue<number>;
   reverseViewX: number;
   reverseViewY: number;
   animationType: AnimationType;
@@ -17,7 +19,7 @@ type AnimationAPIContextProps = {
   setPortfolio: SetState<PortfolioType | undefined>;
   setAnimationType: SetState<AnimationType>;
   setScrollState: SetState<ScrollType>;
-  setisAnimationSlideUpRunning: SetState<boolean>;
+  setIsAnimationSlideUpRunning: SetState<boolean>;
 };
 
 type PortfolioContextProps = {
@@ -87,7 +89,7 @@ export default function AnimationProvider({ children }: Props) {
   const [portfolio, setPortfolio] = useState<PortfolioType>();
   const previousPortfolio = usePrevious<PortfolioType | undefined>(portfolio);
   const [animationType, setAnimationType] = useState<AnimationType>("expand");
-  const [isAnimationSlideUpRunning, setisAnimationSlideUpRunning] =
+  const [isAnimationSlideUpRunning, setIsAnimationSlideUpRunning] =
     useState(false);
   const [scrollState, setScrollState] = useState<ScrollType>("initial");
 
@@ -100,6 +102,8 @@ export default function AnimationProvider({ children }: Props) {
     reverseViewY,
     removeViewMoveEvent,
     addViewMoveEvent,
+    motionX,
+    motionY,
   } = useViewMove();
 
   useEffect(() => {
@@ -120,15 +124,25 @@ export default function AnimationProvider({ children }: Props) {
       reverseViewX,
       reverseViewY,
       animationType,
+      motionX,
+      motionY,
     };
-  }, [animationType, reverseViewX, reverseViewY, viewX, viewY]);
+  }, [
+    animationType,
+    motionX,
+    motionY,
+    reverseViewX,
+    reverseViewY,
+    viewX,
+    viewY,
+  ]);
 
   const animationAPIValue = useMemo<AnimationAPIContextProps>(() => {
     return {
       setAnimationType,
       setScrollState,
       setPortfolio,
-      setisAnimationSlideUpRunning,
+      setIsAnimationSlideUpRunning,
     };
   }, []);
 
