@@ -95,8 +95,8 @@ export function usePortfolioAnimation({
         transformOrigin: "center center",
       },
       expand: {
-        top: reverseViewY,
-        left: reverseViewX,
+        x: portfolio === name ? -translate.x : 0,
+        y: portfolio === name ? -translate.y : 0,
         zIndex: 3,
 
         width: window.innerWidth,
@@ -128,7 +128,18 @@ export function usePortfolioAnimation({
         scale: 0.85,
       },
     };
-  }, [height, left, reverseViewX, reverseViewY, top, width]);
+  }, [
+    height,
+    left,
+    name,
+    portfolio,
+    reverseViewX,
+    reverseViewY,
+    top,
+    translate.x,
+    translate.y,
+    width,
+  ]);
 
   // React.useEffect(() => {
   //   if (animationType === "expand") {
@@ -168,19 +179,7 @@ export function usePortfolioAnimation({
   useEffect(() => {
     if (animationType === "expand") {
       if (portfolio === name) {
-        animationControls.start(
-          {
-            x: portfolio === name ? -translate.x : 0,
-            y: portfolio === name ? -translate.y : 0,
-            zIndex: 3,
-
-            width: window.innerWidth,
-            height: window.innerHeight,
-
-            background: "rgb(242,240,233)",
-          },
-          transition
-        );
+        animationControls.start("expand", transition);
       } else if (previousPortfolio === name) {
         animationControls.start("initial", transition);
       }
@@ -191,8 +190,8 @@ export function usePortfolioAnimation({
     name,
     portfolio,
     previousPortfolio,
-    translate.x,
-    translate.y,
+    // Must include translate state to update translate item
+    translate,
   ]);
 
   return {
