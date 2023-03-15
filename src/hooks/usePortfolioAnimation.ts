@@ -4,7 +4,7 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import React, { RefObject, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { timeOut } from "../helpers";
 import {
   useAnimationAPIProvider,
@@ -28,7 +28,6 @@ type Props = {
   left: string;
   top: string;
   name: PortfolioType;
-  ref: RefObject<HTMLElement>;
 };
 
 export function usePortfolioAnimation({

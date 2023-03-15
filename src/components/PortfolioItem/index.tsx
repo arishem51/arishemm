@@ -100,7 +100,6 @@ function PortfolioItem({
     left,
     name,
     top,
-    ref,
   });
 
   const willChange = useWillChange();
