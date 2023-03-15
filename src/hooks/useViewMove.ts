@@ -18,21 +18,27 @@ const state: Dimensions = {
   height: 0,
 };
 
-export function useViewMove() {
+type Props = {
+  shouldRenderOnboard: boolean;
+};
+
+export function useViewMove({ shouldRenderOnboard }: Props) {
   const [view, setView] = React.useState<Dimensions>(state);
   const [content, setContent] = React.useState<Dimensions>(state);
 
   React.useEffect(() => {
-    setView({
-      width: viewRef.current?.offsetWidth || 0,
-      height: viewRef.current?.offsetHeight || 0,
-    });
+    if (!shouldRenderOnboard) {
+      setView({
+        width: viewRef.current?.offsetWidth || 0,
+        height: viewRef.current?.offsetHeight || 0,
+      });
 
-    setContent({
-      width: contentRef.current?.offsetWidth || 0,
-      height: contentRef.current?.offsetHeight || 0,
-    });
-  }, []);
+      setContent({
+        width: contentRef.current?.offsetWidth || 0,
+        height: contentRef.current?.offsetHeight || 0,
+      });
+    }
+  }, [shouldRenderOnboard]);
 
   const viewRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -72,16 +78,10 @@ export function useViewMove() {
   );
 
   const removeViewMoveEvent = useCallback(() => {
-    if (!viewRef?.current) {
-      return;
-    }
     viewRef.current?.removeEventListener("mousemove", handleMouseMoveOnView);
   }, [handleMouseMoveOnView]);
 
   const addViewMoveEvent = useCallback(() => {
-    if (!viewRef?.current) {
-      return;
-    }
     viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView);
   }, [handleMouseMoveOnView]);
 

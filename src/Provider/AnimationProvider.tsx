@@ -18,6 +18,7 @@ type AnimationAPIContextProps = {
   setAnimationType: SetState<AnimationType>;
   setScrollState: SetState<ScrollType>;
   setIsAnimationSlideUpRunning: SetState<boolean>;
+  setShouldRenderOnboard: SetState<boolean>;
 };
 
 type PortfolioContextProps = {
@@ -39,6 +40,10 @@ type AnimationRefContextProps = {
 
 type AnimationSlideUpContext = {
   isAnimationSlideUpRunning: boolean;
+};
+
+type OnboardContextProps = {
+  shouldRenderOnboard: boolean;
 };
 
 const AnimationDataContext = createContext<AnimationDataContextProps>(
@@ -69,6 +74,10 @@ const AnimationSlideUpContext = createContext<AnimationSlideUpContext>(
   {} as AnimationSlideUpContext
 );
 
+const OnboardContext = createContext<OnboardContextProps>(
+  {} as OnboardContextProps
+);
+
 type Props = {
   children: React.ReactNode;
 };
@@ -82,8 +91,10 @@ export const useScrollProvider = () => useContext(ScrollContext);
 export const useAnimationRefProvider = () => useContext(AnimationRefContext);
 export const useAnimationSlideUpProvider = () =>
   useContext(AnimationSlideUpContext);
+export const useOnboardContextProvider = () => useContext(OnboardContext);
 
 export default function AnimationProvider({ children }: Props) {
+  const [shouldRenderOnboard, setShouldRenderOnboard] = useState(true);
   const [portfolio, setPortfolio] = useState<PortfolioType>();
   const previousPortfolio = usePrevious<PortfolioType | undefined>(portfolio);
   const [animationType, setAnimationType] = useState<AnimationType>("expand");
@@ -100,7 +111,7 @@ export default function AnimationProvider({ children }: Props) {
     addViewMoveEvent,
     motionX,
     motionY,
-  } = useViewMove();
+  } = useViewMove({ shouldRenderOnboard });
 
   useEffect(() => {
     if (portfolio) {
@@ -111,7 +122,13 @@ export default function AnimationProvider({ children }: Props) {
     return () => {
       removeViewMoveEvent();
     };
-  }, [addViewMoveEvent, portfolio, removeViewMoveEvent]);
+  }, [addViewMoveEvent, portfolio, removeViewMoveEvent, viewRef]);
+
+  useEffect(() => {
+    if (!shouldRenderOnboard) {
+      addViewMoveEvent();
+    }
+  }, [addViewMoveEvent, shouldRenderOnboard]);
 
   const animationDataValue = useMemo<AnimationDataContextProps>(() => {
     return {
@@ -129,6 +146,7 @@ export default function AnimationProvider({ children }: Props) {
       setScrollState,
       setPortfolio,
       setIsAnimationSlideUpRunning,
+      setShouldRenderOnboard,
     };
   }, []);
 
@@ -163,6 +181,12 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, [isAnimationSlideUpRunning]);
 
+  const onboardValue = useMemo(() => {
+    return {
+      shouldRenderOnboard,
+    };
+  }, [shouldRenderOnboard]);
+
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
       <PortfolioContext.Provider value={portfolioValue}>
@@ -170,9 +194,11 @@ export default function AnimationProvider({ children }: Props) {
           <ScrollContext.Provider value={scrollValue}>
             <AnimationRefContext.Provider value={refValue}>
               <AnimationSlideUpContext.Provider value={animationSlideUpValue}>
-                <AnimationAPIContext.Provider value={animationAPIValue}>
-                  {children}
-                </AnimationAPIContext.Provider>
+                <OnboardContext.Provider value={onboardValue}>
+                  <AnimationAPIContext.Provider value={animationAPIValue}>
+                    {children}
+                  </AnimationAPIContext.Provider>
+                </OnboardContext.Provider>
               </AnimationSlideUpContext.Provider>
             </AnimationRefContext.Provider>
           </ScrollContext.Provider>

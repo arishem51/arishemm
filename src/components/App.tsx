@@ -1,10 +1,14 @@
 import { motion, useAnimationControls, Variants } from "framer-motion";
 import styled from "styled-components";
 import Portfolio from "./Portfolio";
-import { useAnimationRefProvider } from "../Provider/AnimationProvider";
+import {
+  useAnimationAPIProvider,
+  useAnimationRefProvider,
+  useOnboardContextProvider,
+} from "../Provider/AnimationProvider";
 import Heading from "./Heading";
 import Navbar from "./Navbar";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Onboard from "./Onboard";
 
 const Wrapper = styled(motion.main)`
@@ -28,9 +32,10 @@ const variants: Variants = {
 };
 
 function App() {
-  const [shouldRenderOnboard, setShouldRenderOnboard] = useState(true);
   const controls = useAnimationControls();
   const { viewRef } = useAnimationRefProvider();
+  const { setShouldRenderOnboard } = useAnimationAPIProvider();
+  const { shouldRenderOnboard } = useOnboardContextProvider();
 
   useEffect(() => {
     if (!shouldRenderOnboard) {
