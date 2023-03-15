@@ -19,7 +19,7 @@ type AnimationAPIContextProps = {
   setPortfolio: SetState<PortfolioType | undefined>;
   setAnimationType: SetState<AnimationType>;
   setScrollState: SetState<ScrollType>;
-  setisAnimationSlideUpRunning: SetState<boolean>;
+  setIsAnimationSlideUpRunning: SetState<boolean>;
 };
 
 type PortfolioContextProps = {
@@ -89,7 +89,7 @@ export default function AnimationProvider({ children }: Props) {
   const [portfolio, setPortfolio] = useState<PortfolioType>();
   const previousPortfolio = usePrevious<PortfolioType | undefined>(portfolio);
   const [animationType, setAnimationType] = useState<AnimationType>("expand");
-  const [isAnimationSlideUpRunning, setisAnimationSlideUpRunning] =
+  const [isAnimationSlideUpRunning, setIsAnimationSlideUpRunning] =
     useState(false);
   const [scrollState, setScrollState] = useState<ScrollType>("initial");
 
@@ -142,7 +142,7 @@ export default function AnimationProvider({ children }: Props) {
       setAnimationType,
       setScrollState,
       setPortfolio,
-      setisAnimationSlideUpRunning,
+      setIsAnimationSlideUpRunning,
     };
   }, []);
 

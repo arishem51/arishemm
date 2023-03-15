@@ -33,7 +33,7 @@ const Menu: PortfolioType[] = [
 ];
 
 const Navbar = () => {
-  const { setPortfolio, setAnimationType, setisAnimationSlideUpRunning } =
+  const { setPortfolio, setAnimationType, setIsAnimationSlideUpRunning } =
     useAnimationAPIProvider();
   const { portfolio } = usePortfolioProvider();
   const { isAnimationSlideUpRunning } = useAnimationSlideUpProvider();
@@ -42,7 +42,7 @@ const Navbar = () => {
     if (isAnimationSlideUpRunning || portfolio === item) {
       return;
     }
-    setisAnimationSlideUpRunning(true);
+    setIsAnimationSlideUpRunning(true);
     setPortfolio(item);
     setAnimationType("slideUp");
   }

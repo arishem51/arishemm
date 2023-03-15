@@ -42,7 +42,7 @@ export function usePortfolioAnimation({
     useAnimationDataProvider();
   const { portfolio } = usePortfolioProvider();
   const { contentRef } = useAnimationRefProvider();
-  const { setisAnimationSlideUpRunning } = useAnimationAPIProvider();
+  const { setIsAnimationSlideUpRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -176,7 +176,7 @@ export function usePortfolioAnimation({
         animationControls.start("scaleDown", transition).then(async () => {
           await timeOut(TIME);
           animationControls.set("initial");
-          setisAnimationSlideUpRunning(false);
+          setIsAnimationSlideUpRunning(false);
         });
       }
     }
@@ -186,7 +186,7 @@ export function usePortfolioAnimation({
     name,
     portfolio,
     previousPortfolio,
-    setisAnimationSlideUpRunning,
+    setIsAnimationSlideUpRunning,
   ]);
 
   return {
