@@ -37,14 +37,12 @@ function App() {
 
   return (
     <>
-      <Onboard onOnboardUnmount={handleAnimation} />
-      <motion.div animate={controls} initial="initial" variants={variants}>
-        <Wrapper ref={viewRef}>
-          <Portfolio />
-          <Heading>Arishemm</Heading>
-          <Navbar />
-        </Wrapper>
-      </motion.div>
+      {/* <Onboard onOnboardUnmount={handleAnimation} /> */}
+      <Wrapper ref={viewRef}>
+        <Portfolio />
+        <Heading>Arishemm</Heading>
+        <Navbar />
+      </Wrapper>
     </>
   );
 }
