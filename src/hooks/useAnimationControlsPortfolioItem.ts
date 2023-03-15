@@ -37,8 +37,7 @@ export function useAnimationControlsPortfolioItem({
   top,
   name,
 }: Props) {
-  const { reverseViewX, reverseViewY, animationType } =
-    useAnimationDataProvider();
+  const { motionX, motionY, animationType } = useAnimationDataProvider();
   const { portfolio } = usePortfolioProvider();
   const { setIsAnimationSlideUpRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
@@ -79,12 +78,12 @@ export function useAnimationControlsPortfolioItem({
       },
 
       slideUp: {
-        top: reverseViewY,
+        top: motionY.get(),
       },
 
       setBeforeSlideUp: {
-        top: reverseViewY + window.innerHeight,
-        left: reverseViewX,
+        top: motionY.get() + window.innerHeight,
+        left: motionX.get(),
         zIndex: 4,
 
         width: window.innerWidth,
@@ -101,18 +100,7 @@ export function useAnimationControlsPortfolioItem({
         scale: 0.85,
       },
     };
-  }, [
-    height,
-    left,
-    name,
-    portfolio,
-    reverseViewX,
-    reverseViewY,
-    top,
-    translate.x,
-    translate.y,
-    width,
-  ]);
+  }, [height, left, motionX, motionY, name, portfolio, top, translate, width]);
 
   useEffect(() => {
     // Expand goes here

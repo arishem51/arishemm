@@ -10,8 +10,6 @@ type AnimationDataContextProps = {
   viewY: MotionValue<number>;
   motionX: MotionValue<number>;
   motionY: MotionValue<number>;
-  reverseViewX: number;
-  reverseViewY: number;
   animationType: AnimationType;
 };
 
@@ -98,8 +96,6 @@ export default function AnimationProvider({ children }: Props) {
     viewX,
     viewY,
     contentRef,
-    reverseViewX,
-    reverseViewY,
     removeViewMoveEvent,
     addViewMoveEvent,
     motionX,
@@ -121,21 +117,11 @@ export default function AnimationProvider({ children }: Props) {
     return {
       viewX,
       viewY,
-      reverseViewX,
-      reverseViewY,
       animationType,
       motionX,
       motionY,
     };
-  }, [
-    animationType,
-    motionX,
-    motionY,
-    reverseViewX,
-    reverseViewY,
-    viewX,
-    viewY,
-  ]);
+  }, [animationType, motionX, motionY, viewX, viewY]);
 
   const animationAPIValue = useMemo<AnimationAPIContextProps>(() => {
     return {
