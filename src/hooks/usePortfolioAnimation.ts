@@ -4,7 +4,7 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import React from "react";
+import React, { RefObject } from "react";
 import { timeOut } from "../helpers";
 import {
   useAnimationAPIProvider,
@@ -25,6 +25,7 @@ type Props = {
   left: string;
   top: string;
   name: PortfolioType;
+  ref: RefObject<HTMLElement>;
 };
 
 export function usePortfolioAnimation({
@@ -33,6 +34,7 @@ export function usePortfolioAnimation({
   left,
   top,
   name,
+  ref,
 }: Props) {
   const { reverseViewX, reverseViewY, animationType } =
     useAnimationDataProvider();
