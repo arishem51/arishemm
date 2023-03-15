@@ -1,5 +1,5 @@
 import { Coordinates, PortfolioType } from "../types";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   useAnimationDataProvider,
   useAnimationRefProvider,
@@ -23,7 +23,6 @@ export const useCalculatePortfolioItemTranslate = ({
   top,
 }: Props) => {
   const [offset, setOffset] = useState<Coordinates>(InitialCoordinates);
-  const [translate, setTranslate] = useState<Coordinates>(InitialCoordinates);
   const { portfolio } = usePortfolioProvider();
   const { motionX, motionY } = useAnimationDataProvider();
   const { contentRef } = useAnimationRefProvider();
@@ -36,15 +35,11 @@ export const useCalculatePortfolioItemTranslate = ({
         y: motionY.get() * -1,
       });
     } else {
-      setOffset({
-        x: 0,
-        y: 0,
-      });
+      setOffset(InitialCoordinates);
     }
   }, [portfolio, motionX, motionY, name]);
 
-  useEffect(() => {
-    // Calculate the translationX/Y of portfolioItem
+  const translate = useMemo<Coordinates>(() => {
     if (portfolio === name && (offset.x > 0 || offset.y > 0)) {
       const x =
         (+left.slice(0, -1) * (contentRef?.current?.clientWidth || 0)) / 100 -
@@ -52,9 +47,18 @@ export const useCalculatePortfolioItemTranslate = ({
       const y =
         (+top.slice(0, -1) * (contentRef?.current?.clientHeight || 0)) / 100 -
         offset.y;
-      setTranslate({ x, y });
+      {
+        return {
+          x,
+          y,
+        };
+      }
     }
-  }, [contentRef, left, name, offset, portfolio, top]);
+    return {
+      x: 0,
+      y: 0,
+    };
+  }, [contentRef, left, name, offset.x, offset.y, portfolio, top]);
 
   return { translate };
 };
