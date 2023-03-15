@@ -13,7 +13,7 @@ import {
   usePortfolioProvider,
   usePreviousPortfolioProvider,
 } from "../Provider/AnimationProvider";
-import { PortfolioType } from "../types";
+import { Coordinates, PortfolioType } from "../types";
 
 const TIME = 750; // Miliseconds
 
@@ -30,6 +30,11 @@ type Props = {
   name: PortfolioType;
 };
 
+const InitialCoordinates: Coordinates = {
+  x: 0,
+  y: 0,
+};
+
 export function usePortfolioAnimation({
   width,
   height,
@@ -44,8 +49,8 @@ export function usePortfolioAnimation({
   const { setIsAnimationSlideUpRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const [offset, setOffset] = useState<Coordinates>(InitialCoordinates);
+  const [translate, setTranslate] = useState<Coordinates>(InitialCoordinates);
 
   useEffect(() => {
     if (portfolio === name) {
