@@ -4,16 +4,16 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { timeOut } from "../helpers";
 import {
   useAnimationAPIProvider,
   useAnimationDataProvider,
-  useAnimationRefProvider,
   usePortfolioProvider,
   usePreviousPortfolioProvider,
 } from "../Provider/AnimationProvider";
-import { Coordinates, PortfolioType } from "../types";
+import { PortfolioType } from "../types";
+import { usePortfolioItemTranslate } from "./usePortfolioItemTranslate";
 
 const TIME = 750; // Miliseconds
 
@@ -30,11 +30,6 @@ type Props = {
   name: PortfolioType;
 };
 
-const InitialCoordinates: Coordinates = {
-  x: 0,
-  y: 0,
-};
-
 export function usePortfolioAnimation({
   width,
   height,
@@ -42,43 +37,14 @@ export function usePortfolioAnimation({
   top,
   name,
 }: Props) {
-  const { reverseViewX, reverseViewY, animationType, motionX, motionY } =
+  const { reverseViewX, reverseViewY, animationType } =
     useAnimationDataProvider();
   const { portfolio } = usePortfolioProvider();
-  const { contentRef } = useAnimationRefProvider();
   const { setIsAnimationSlideUpRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
-  const [offset, setOffset] = useState<Coordinates>(InitialCoordinates);
-  const [translate, setTranslate] = useState<Coordinates>(InitialCoordinates);
 
-  useEffect(() => {
-    // Sync motionX/Y instead of SpringX/Y
-    if (portfolio === name) {
-      setOffset({
-        x: motionX.get() * -1,
-        y: motionY.get() * -1,
-      });
-    } else {
-      setOffset({
-        x: 0,
-        y: 0,
-      });
-    }
-  }, [name, portfolio, motionX, motionY]);
-
-  useEffect(() => {
-    // Calculate the translationX/Y of portfolioItem
-    if (portfolio === name && (offset.x > 0 || offset.y > 0)) {
-      const x =
-        (+left.slice(0, -1) * (contentRef?.current?.clientWidth || 0)) / 100 -
-        offset.x;
-      const y =
-        (+top.slice(0, -1) * (contentRef?.current?.clientHeight || 0)) / 100 -
-        offset.y;
-      setTranslate({ x, y });
-    }
-  }, [contentRef, left, name, offset, portfolio, top]);
+  const { translate } = usePortfolioItemTranslate({ name, left, top });
 
   const variants: Variants = React.useMemo(() => {
     return {
@@ -162,7 +128,6 @@ export function usePortfolioAnimation({
     name,
     portfolio,
     previousPortfolio,
-    // Must include translate state to update translate item
     translate,
   ]);
 
