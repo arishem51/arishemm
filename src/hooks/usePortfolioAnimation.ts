@@ -4,19 +4,20 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import React, { RefObject } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import { timeOut } from "../helpers";
 import {
   useAnimationAPIProvider,
   useAnimationDataProvider,
+  useAnimationRefProvider,
   usePortfolioProvider,
   usePreviousPortfolioProvider,
 } from "../Provider/AnimationProvider";
 import { PortfolioType } from "../types";
 
 const transition: Transition = {
-  ease: cubicBezier(0.3, 0.7, 0.3, 0.8),
-  duration: 0.4,
+  ease: cubicBezier(0.5, 0, 0.4, 1),
+  duration: 0.8,
 };
 
 type Props = {
@@ -36,12 +37,41 @@ export function usePortfolioAnimation({
   name,
   ref,
 }: Props) {
-  const { reverseViewX, reverseViewY, animationType } =
+  const { reverseViewX, reverseViewY, animationType, motionX, motionY } =
     useAnimationDataProvider();
   const { portfolio } = usePortfolioProvider();
+  const { viewRef, contentRef } = useAnimationRefProvider();
   const { setisAnimationSlideUpRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (portfolio === name) {
+      setOffset({
+        x: motionX.get() * -1,
+        y: motionY.get() * -1,
+      });
+    } else {
+      setOffset({
+        x: 0,
+        y: 0,
+      });
+    }
+  }, [name, portfolio, motionX, motionY]);
+
+  useEffect(() => {
+    if (portfolio === name && (offset.x > 0 || offset.y > 0)) {
+      const x =
+        (+left.slice(0, -1) * (contentRef?.current?.clientWidth || 0)) / 100 -
+        offset.x;
+      const y =
+        (+top.slice(0, -1) * (contentRef?.current?.clientHeight || 0)) / 100 -
+        offset.y;
+      setTranslate({ x, y });
+    }
+  }, [contentRef, left, name, offset, portfolio, top]);
 
   const variants: Variants = React.useMemo(() => {
     return {
@@ -49,6 +79,9 @@ export function usePortfolioAnimation({
         top,
         left,
         zIndex: 1,
+
+        x: 0,
+        y: 0,
 
         width,
         height,
@@ -97,30 +130,59 @@ export function usePortfolioAnimation({
     };
   }, [height, left, reverseViewX, reverseViewY, top, width]);
 
-  React.useEffect(() => {
+  // React.useEffect(() => {
+  //   if (animationType === "expand") {
+  //     if (portfolio === name) {
+  //       animationControls.start("expand", transition);
+  //     } else if (previousPortfolio === name) {
+  //       animationControls.start("initial", transition);
+  //     }
+  //   } else if (animationType === "slideUp") {
+  //     if (portfolio === name && portfolio !== previousPortfolio) {
+  //       animationControls.set("setBeforeSlideUp");
+  //       animationControls.start("slideUp", {
+  //         delay: 0.4,
+  //         ...transition,
+  //       });
+  //     } else if (
+  //       previousPortfolio === name &&
+  //       portfolio !== previousPortfolio
+  //     ) {
+  //       animationControls.set("setBeforeScaleDown");
+  //       animationControls.start("scaleDown", transition).then(async () => {
+  //         await timeOut(500);
+  //         animationControls.set("initial");
+  //         setisAnimationSlideUpRunning(false);
+  //       });
+  //     }
+  //   }
+  // }, [
+  //   animationControls,
+  //   animationType,
+  //   name,
+  //   portfolio,
+  //   previousPortfolio,
+  //   setisAnimationSlideUpRunning,
+  // ]);
+
+  useEffect(() => {
     if (animationType === "expand") {
       if (portfolio === name) {
-        animationControls.start("expand", transition);
+        animationControls.start(
+          {
+            x: portfolio === name ? -translate.x : 0,
+            y: portfolio === name ? -translate.y : 0,
+            zIndex: 3,
+
+            width: window.innerWidth,
+            height: window.innerHeight,
+
+            background: "rgb(242,240,233)",
+          },
+          transition
+        );
       } else if (previousPortfolio === name) {
         animationControls.start("initial", transition);
-      }
-    } else if (animationType === "slideUp") {
-      if (portfolio === name && portfolio !== previousPortfolio) {
-        animationControls.set("setBeforeSlideUp");
-        animationControls.start("slideUp", {
-          delay: 0.4,
-          ...transition,
-        });
-      } else if (
-        previousPortfolio === name &&
-        portfolio !== previousPortfolio
-      ) {
-        animationControls.set("setBeforeScaleDown");
-        animationControls.start("scaleDown", transition).then(async () => {
-          await timeOut(500);
-          animationControls.set("initial");
-          setisAnimationSlideUpRunning(false);
-        });
       }
     }
   }, [
@@ -129,7 +191,8 @@ export function usePortfolioAnimation({
     name,
     portfolio,
     previousPortfolio,
-    setisAnimationSlideUpRunning,
+    translate.x,
+    translate.y,
   ]);
 
   return {
