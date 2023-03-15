@@ -115,6 +115,7 @@ export function useAnimationControlsPortfolioItem({
   ]);
 
   useEffect(() => {
+    // Expand goes here
     if (animationType === "expand") {
       if (portfolio === name) {
         animationControls.start("expand", transition);
@@ -132,6 +133,7 @@ export function useAnimationControlsPortfolioItem({
   ]);
 
   useEffect(() => {
+    // Slide Up goes here
     if (animationType === "slideUp") {
       if (portfolio === name && portfolio !== previousPortfolio) {
         animationControls.set("setBeforeSlideUp");
