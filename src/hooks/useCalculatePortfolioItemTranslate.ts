@@ -17,7 +17,11 @@ type Props = {
   top: string;
 };
 
-export const usePortfolioItemTranslate = ({ name, left, top }: Props) => {
+export const useCalculatePortfolioItemTranslate = ({
+  name,
+  left,
+  top,
+}: Props) => {
   const [offset, setOffset] = useState<Coordinates>(InitialCoordinates);
   const [translate, setTranslate] = useState<Coordinates>(InitialCoordinates);
   const { portfolio } = usePortfolioProvider();

@@ -13,7 +13,7 @@ import {
   usePreviousPortfolioProvider,
 } from "../Provider/AnimationProvider";
 import { PortfolioType } from "../types";
-import { usePortfolioItemTranslate } from "./usePortfolioItemTranslate";
+import { useCalculatePortfolioItemTranslate } from "./useCalculatePortfolioItemTranslate";
 
 const TIME = 750; // Miliseconds
 
@@ -44,7 +44,7 @@ export function usePortfolioAnimation({
   const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
 
-  const { translate } = usePortfolioItemTranslate({ name, left, top });
+  const { translate } = useCalculatePortfolioItemTranslate({ name, left, top });
 
   const variants: Variants = React.useMemo(() => {
     return {
