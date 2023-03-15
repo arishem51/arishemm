@@ -76,7 +76,7 @@ const expandedVariants: Variants = {
   exit: {
     scale: 0.99,
     transition: {
-      delay: 0.6,
+      delay: 1.6,
     },
   },
 };
