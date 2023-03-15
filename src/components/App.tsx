@@ -32,13 +32,14 @@ function App() {
   const { viewRef } = useAnimationRefProvider();
 
   const handleAnimation = useCallback(() => {
+    console.log("?");
     controls.start("visible");
   }, [controls]);
 
   return (
     <>
       <Onboard onOnboardUnmount={handleAnimation} />
-      <motion.div variants={variants}>
+      <motion.div variants={variants} initial="initial" animate={controls}>
         <Wrapper ref={viewRef}>
           <Portfolio />
           <Heading>Arishemm</Heading>
