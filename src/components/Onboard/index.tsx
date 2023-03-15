@@ -1,16 +1,8 @@
-import {
-  AnimatePresence,
-  motion,
-  Transition,
-  useAnimationControls,
-  Variants,
-} from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion, Transition, useAnimationControls } from "framer-motion";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { createAnimationDefination } from "../../helpers";
 import Stack from "../Stack";
-
-const Container = styled(motion.div)``;
 
 const Wrapper = styled(Stack)`
   position: absolute;
@@ -34,31 +26,20 @@ const TextInline = styled(motion.span)`
   font-size: inherit;
 `;
 
-type Props = {
-  onOnboardUnmount: () => void;
-};
-
 const TIME = 600; // Miliseconds
 const HELLO = "Hello I'm Arishemm";
 const initial = { translateY: "100%" };
-
-const containerVariants: Variants = {
-  initial: {
-    opacity: 1,
-  },
-  exit: {
-    opacity: 0,
-  },
-};
 
 const transition: Transition = {
   ease: "easeInOut",
   duration: TIME / 1000, // Seconds,
 };
 
-const Onboard = ({ onOnboardUnmount }: Props) => {
-  const [isPresent, setIsPresent] = useState(true);
-  const isFirstRender = useRef(true);
+type Props = {
+  onAnimatedEnd: () => void;
+};
+
+const Onboard = ({ onAnimatedEnd }: Props) => {
   const controls = useAnimationControls();
 
   useEffect(() => {
@@ -70,42 +51,27 @@ const Onboard = ({ onOnboardUnmount }: Props) => {
       await controls.start((i) =>
         createAnimationDefination(i, "-100%", transition)
       );
-      setIsPresent(false);
-      isFirstRender.current = false;
-      setTimeout(() => {
-        onOnboardUnmount();
-      }, TIME);
+      onAnimatedEnd();
     }
-  }, [controls, onOnboardUnmount, setIsPresent]);
+  }, [onAnimatedEnd, controls]);
 
   return (
-    <AnimatePresence>
-      {isPresent && isFirstRender.current && (
-        <Container
-          exit="exit"
-          initial="initial"
-          variants={containerVariants}
-          transition={transition}
-        >
-          <Wrapper justifyContent="center" alignItems="center">
-            <TextWrapper>
-              <Heading>
-                {HELLO.split("").map((item, index) => (
-                  <TextInline
-                    initial={initial}
-                    animate={controls}
-                    custom={index}
-                    key={item + index}
-                  >
-                    {item === " " ? <span>&nbsp;</span> : item}
-                  </TextInline>
-                ))}{" "}
-              </Heading>
-            </TextWrapper>
-          </Wrapper>
-        </Container>
-      )}
-    </AnimatePresence>
+    <Wrapper justifyContent="center" alignItems="center">
+      <TextWrapper>
+        <Heading>
+          {HELLO.split("").map((item, index) => (
+            <TextInline
+              initial={initial}
+              animate={controls}
+              custom={index}
+              key={item + index}
+            >
+              {item === " " ? <span>&nbsp;</span> : item}
+            </TextInline>
+          ))}{" "}
+        </Heading>
+      </TextWrapper>
+    </Wrapper>
   );
 };
 

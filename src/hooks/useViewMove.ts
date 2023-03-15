@@ -13,29 +13,32 @@ const config: SpringOptions = { damping: 30, stiffness: 100 };
 
 type Dimensions = { width: number; height: number };
 
-let reverseViewX = 0;
-let reverseViewY = 0;
-
 const state: Dimensions = {
   width: 0,
   height: 0,
 };
 
-export function useViewMove() {
+type Props = {
+  shouldRenderOnboard: boolean;
+};
+
+export function useViewMove({ shouldRenderOnboard }: Props) {
   const [view, setView] = React.useState<Dimensions>(state);
   const [content, setContent] = React.useState<Dimensions>(state);
 
   React.useEffect(() => {
-    setView({
-      width: viewRef.current?.offsetWidth || 0,
-      height: viewRef.current?.offsetHeight || 0,
-    });
+    if (!shouldRenderOnboard) {
+      setView({
+        width: viewRef.current?.offsetWidth || 0,
+        height: viewRef.current?.offsetHeight || 0,
+      });
 
-    setContent({
-      width: contentRef.current?.offsetWidth || 0,
-      height: contentRef.current?.offsetHeight || 0,
-    });
-  }, []);
+      setContent({
+        width: contentRef.current?.offsetWidth || 0,
+        height: contentRef.current?.offsetHeight || 0,
+      });
+    }
+  }, [shouldRenderOnboard]);
 
   const viewRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -74,27 +77,19 @@ export function useViewMove() {
     [content.height, content.width, motionX, motionY, view.height, view.width]
   );
 
-  const removeViewMoveEvent = useCallback(
-    () =>
-      viewRef.current?.removeEventListener("mousemove", handleMouseMoveOnView),
-    [handleMouseMoveOnView]
-  );
+  const removeViewMoveEvent = useCallback(() => {
+    viewRef.current?.removeEventListener("mousemove", handleMouseMoveOnView);
+  }, [handleMouseMoveOnView]);
 
-  const addViewMoveEvent = useCallback(
-    () => viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView),
-    [handleMouseMoveOnView]
-  );
-
-  reverseViewX = motionX.get() * OPPOSITE;
-  reverseViewY = motionY.get() * OPPOSITE;
+  const addViewMoveEvent = useCallback(() => {
+    viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView);
+  }, [handleMouseMoveOnView]);
 
   return {
     viewRef,
     contentRef,
     viewX: springX,
     viewY: springY,
-    reverseViewX,
-    reverseViewY,
     removeViewMoveEvent,
     addViewMoveEvent,
     motionX,

@@ -12,7 +12,10 @@ function Work() {
       left="68%"
       top="18%"
       backgroundComponent={
-        <Lottie src="https://assets2.lottiefiles.com/packages/lf20_eeuhulsy.json" />
+        <Lottie
+          defaultFrame={100}
+          src="https://assets6.lottiefiles.com/packages/lf20_w98qte06.json"
+        />
       }
       expandedComponent={<ExpandedProject />}
     />
