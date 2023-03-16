@@ -10,6 +10,7 @@ import {
   useAnimationAPIProvider,
   useAnimationDataProvider,
   useAnimationRefProvider,
+  usePortfolioProvider,
 } from "../../Provider/AnimationProvider";
 
 const ViewContent = styled(motion.div)`
@@ -44,6 +45,7 @@ const Portfolio = () => {
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
   const { contentRef } = useAnimationRefProvider();
   const { viewX, viewY } = useAnimationDataProvider();
+  const { portfolio } = usePortfolioProvider();
 
   const styles = {
     x: viewX,
@@ -56,6 +58,9 @@ const Portfolio = () => {
         <motion.div
           layout
           onClick={() => {
+            if (portfolio === item) {
+              return;
+            }
             setAnimationType("expand");
             setPortfolio(item);
           }}
