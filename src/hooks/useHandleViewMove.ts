@@ -24,7 +24,7 @@ type Props = {
   portfolio: PortfolioType | undefined;
 };
 
-export function useViewMove({ shouldRenderOnboard, portfolio }: Props) {
+export function useHandleViewMove({ shouldRenderOnboard, portfolio }: Props) {
   const [view, setView] = React.useState<Dimensions>(state);
   const [content, setContent] = React.useState<Dimensions>(state);
 

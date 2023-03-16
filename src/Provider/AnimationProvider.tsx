@@ -2,7 +2,7 @@ import { MotionValue } from "framer-motion";
 import { useContext, useMemo, useState } from "react";
 import { createContext } from "react";
 import { usePrevious } from "../hooks/usePrevious";
-import { useViewMove } from "../hooks/useViewMove";
+import { useHandleViewMove } from "../hooks/useHandleViewMove";
 import { AnimationType, PortfolioType, ScrollType, SetState } from "../types";
 
 type AnimationDataContextProps = {
@@ -110,10 +110,11 @@ export default function AnimationProvider({ children }: Props) {
     useState(false);
   const [scrollState, setScrollState] = useState<ScrollType>("initial");
 
-  const { viewRef, viewX, viewY, contentRef, motionX, motionY } = useViewMove({
-    shouldRenderOnboard,
-    portfolio,
-  });
+  const { viewRef, viewX, viewY, contentRef, motionX, motionY } =
+    useHandleViewMove({
+      shouldRenderOnboard,
+      portfolio,
+    });
 
   const animationDataValue = useMemo<AnimationDataContextProps>(() => {
     return {
