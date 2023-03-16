@@ -56,8 +56,8 @@ const Portfolio = () => {
         <motion.div
           layout
           onClick={() => {
-            setPortfolio(item);
             setAnimationType("expand");
+            setPortfolio(item);
           }}
           key={item}
         >
