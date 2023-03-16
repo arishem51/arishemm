@@ -4,8 +4,9 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useRef } from "react";
+import { PortfolioType } from "../types";
 
 const OPPOSITE = -1;
 
@@ -20,9 +21,10 @@ const state: Dimensions = {
 
 type Props = {
   shouldRenderOnboard: boolean;
+  portfolio: PortfolioType | undefined;
 };
 
-export function useViewMove({ shouldRenderOnboard }: Props) {
+export function useHandleViewMove({ shouldRenderOnboard, portfolio }: Props) {
   const [view, setView] = React.useState<Dimensions>(state);
   const [content, setContent] = React.useState<Dimensions>(state);
 
@@ -85,13 +87,28 @@ export function useViewMove({ shouldRenderOnboard }: Props) {
     viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView);
   }, [handleMouseMoveOnView]);
 
+  useEffect(() => {
+    if (portfolio) {
+      removeViewMoveEvent();
+      return;
+    }
+    addViewMoveEvent();
+    return () => {
+      removeViewMoveEvent();
+    };
+  }, [addViewMoveEvent, portfolio, removeViewMoveEvent, viewRef]);
+
+  useEffect(() => {
+    if (!shouldRenderOnboard) {
+      addViewMoveEvent();
+    }
+  }, [addViewMoveEvent, shouldRenderOnboard]);
+
   return {
     viewRef,
     contentRef,
     viewX: springX,
     viewY: springY,
-    removeViewMoveEvent,
-    addViewMoveEvent,
     motionX,
     motionY,
   };

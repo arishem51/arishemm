@@ -9,6 +9,7 @@ import { timeOut } from "../helpers";
 import {
   useAnimationAPIProvider,
   useAnimationDataProvider,
+  useAnimationTypeProvider,
   usePortfolioProvider,
   usePreviousPortfolioProvider,
 } from "../Provider/AnimationProvider";
@@ -37,7 +38,8 @@ export function useAnimationControlsPortfolioItem({
   top,
   name,
 }: Props) {
-  const { motionX, motionY, animationType } = useAnimationDataProvider();
+  const { motionX, motionY } = useAnimationDataProvider();
+  const { animationType } = useAnimationTypeProvider();
   const { portfolio } = usePortfolioProvider();
   const { setIsAnimationSlideUpRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();

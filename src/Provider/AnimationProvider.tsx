@@ -1,8 +1,8 @@
 import { MotionValue } from "framer-motion";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { createContext } from "react";
 import { usePrevious } from "../hooks/usePrevious";
-import { useViewMove } from "../hooks/useViewMove";
+import { useHandleViewMove } from "../hooks/useHandleViewMove";
 import { AnimationType, PortfolioType, ScrollType, SetState } from "../types";
 
 type AnimationDataContextProps = {
@@ -10,7 +10,6 @@ type AnimationDataContextProps = {
   viewY: MotionValue<number>;
   motionX: MotionValue<number>;
   motionY: MotionValue<number>;
-  animationType: AnimationType;
 };
 
 type AnimationAPIContextProps = {
@@ -46,6 +45,10 @@ type OnboardContextProps = {
   shouldRenderOnboard: boolean;
 };
 
+type AnimationTypeContextProps = {
+  animationType: AnimationType;
+};
+
 const AnimationDataContext = createContext<AnimationDataContextProps>(
   {} as AnimationDataContextProps
 );
@@ -78,6 +81,10 @@ const OnboardContext = createContext<OnboardContextProps>(
   {} as OnboardContextProps
 );
 
+const AnimationTypeContext = createContext<AnimationTypeContextProps>(
+  {} as AnimationTypeContextProps
+);
+
 type Props = {
   children: React.ReactNode;
 };
@@ -91,7 +98,8 @@ export const useScrollProvider = () => useContext(ScrollContext);
 export const useAnimationRefProvider = () => useContext(AnimationRefContext);
 export const useAnimationSlideUpProvider = () =>
   useContext(AnimationSlideUpContext);
-export const useOnboardContextProvider = () => useContext(OnboardContext);
+export const useOnboardProvider = () => useContext(OnboardContext);
+export const useAnimationTypeProvider = () => useContext(AnimationTypeContext);
 
 export default function AnimationProvider({ children }: Props) {
   const [shouldRenderOnboard, setShouldRenderOnboard] = useState(true);
@@ -102,43 +110,20 @@ export default function AnimationProvider({ children }: Props) {
     useState(false);
   const [scrollState, setScrollState] = useState<ScrollType>("initial");
 
-  const {
-    viewRef,
-    viewX,
-    viewY,
-    contentRef,
-    removeViewMoveEvent,
-    addViewMoveEvent,
-    motionX,
-    motionY,
-  } = useViewMove({ shouldRenderOnboard });
-
-  useEffect(() => {
-    if (portfolio) {
-      removeViewMoveEvent();
-      return;
-    }
-    addViewMoveEvent();
-    return () => {
-      removeViewMoveEvent();
-    };
-  }, [addViewMoveEvent, portfolio, removeViewMoveEvent, viewRef]);
-
-  useEffect(() => {
-    if (!shouldRenderOnboard) {
-      addViewMoveEvent();
-    }
-  }, [addViewMoveEvent, shouldRenderOnboard]);
+  const { viewRef, viewX, viewY, contentRef, motionX, motionY } =
+    useHandleViewMove({
+      shouldRenderOnboard,
+      portfolio,
+    });
 
   const animationDataValue = useMemo<AnimationDataContextProps>(() => {
     return {
       viewX,
       viewY,
-      animationType,
       motionX,
       motionY,
     };
-  }, [animationType, motionX, motionY, viewX, viewY]);
+  }, [motionX, motionY, viewX, viewY]);
 
   const animationAPIValue = useMemo<AnimationAPIContextProps>(() => {
     return {
@@ -187,6 +172,12 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, [shouldRenderOnboard]);
 
+  const animationTypeValue = useMemo(() => {
+    return {
+      animationType,
+    };
+  }, [animationType]);
+
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
       <PortfolioContext.Provider value={portfolioValue}>
@@ -195,9 +186,11 @@ export default function AnimationProvider({ children }: Props) {
             <AnimationRefContext.Provider value={refValue}>
               <AnimationSlideUpContext.Provider value={animationSlideUpValue}>
                 <OnboardContext.Provider value={onboardValue}>
-                  <AnimationAPIContext.Provider value={animationAPIValue}>
-                    {children}
-                  </AnimationAPIContext.Provider>
+                  <AnimationTypeContext.Provider value={animationTypeValue}>
+                    <AnimationAPIContext.Provider value={animationAPIValue}>
+                      {children}
+                    </AnimationAPIContext.Provider>
+                  </AnimationTypeContext.Provider>
                 </OnboardContext.Provider>
               </AnimationSlideUpContext.Provider>
             </AnimationRefContext.Provider>
