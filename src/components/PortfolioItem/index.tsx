@@ -160,7 +160,7 @@ function PortfolioItem({
           </motion.div>
         )}
       </AnimatePresence>
-      {portfolio !== name && <Title isParentHover={isHover}>{name}</Title>}
+      <Title isParentHover={isHover}>{name}</Title>
     </Wrapper>
   );
 }

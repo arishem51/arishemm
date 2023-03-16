@@ -1,6 +1,7 @@
 import { motion, useAnimationControls, Variants } from "framer-motion";
-import React from "react";
+import { useEffect, ReactNode } from "react";
 import styled from "styled-components";
+import { usePortfolioProvider } from "../../Provider/AnimationProvider";
 import Stack from "../Stack";
 
 const Text = styled(motion.h1)`
@@ -28,7 +29,7 @@ const Side = styled.div`
 
 type Props = {
   isParentHover: boolean;
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 const variantsLeftText: Variants = {
@@ -37,6 +38,12 @@ const variantsLeftText: Variants = {
   },
   animate: {
     transform: "translate(0%,0%)",
+  },
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
   },
 };
 
@@ -47,13 +54,23 @@ const variantsRightText: Variants = {
   animate: {
     transform: "translate(-100%, 0%)",
   },
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+  },
 };
 
 const Title = ({ isParentHover, children }: Props) => {
   const controlsLeftText = useAnimationControls();
   const controlsRightText = useAnimationControls();
+  const { portfolio } = usePortfolioProvider();
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (portfolio) {
+      return;
+    }
     if (isParentHover) {
       controlsLeftText.start("animate");
       controlsRightText.start("animate");
@@ -61,7 +78,19 @@ const Title = ({ isParentHover, children }: Props) => {
       controlsLeftText.start("initial");
       controlsRightText.start("initial");
     }
-  }, [controlsLeftText, controlsRightText, isParentHover]);
+  }, [controlsLeftText, controlsRightText, isParentHover, portfolio]);
+
+  useEffect(() => {
+    if (portfolio) {
+      controlsLeftText.start("hidden");
+      controlsRightText.start("hidden");
+    } else {
+      setTimeout(() => {
+        controlsLeftText.start("visible");
+        controlsRightText.start("visible");
+      }, 750);
+    }
+  }, [controlsLeftText, controlsRightText, portfolio]);
 
   return (
     <WrapperText justifyContent="center">
