@@ -60,7 +60,7 @@ export function useAnimationControlsPortfolioItem({
         padding: ".7em",
 
         background: "rgba(255,255,255,0)",
-        overflow: "hidden scroll",
+        overflow: "hidden",
 
         transition,
         scale: 1,
@@ -99,6 +99,9 @@ export function useAnimationControlsPortfolioItem({
         zIndex: 2,
         scale: 0.85,
       },
+      enableScroll: {
+        overflow: "hidden scroll",
+      },
     };
   }, [height, left, motionX, motionY, name, portfolio, top, translate, width]);
 
@@ -106,7 +109,9 @@ export function useAnimationControlsPortfolioItem({
     // Expand goes here
     if (animationType === "expand") {
       if (portfolio === name) {
-        animationControls.start("expand", transition);
+        animationControls.start("expand", transition).then(() => {
+          animationControls.set("enableScroll");
+        });
       } else if (previousPortfolio === name) {
         animationControls.start("initial", transition);
       }
