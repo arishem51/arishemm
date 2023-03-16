@@ -1,12 +1,8 @@
 import { Player, IPlayerProps } from "@lottiefiles/react-lottie-player";
 import { CSSProperties } from "styled-components";
-import { useLottie } from "../../hooks/useLottie";
-import { PortfolioType } from "../../types";
+import { useLottie, useLottieProps } from "../../hooks/useLottie";
 
-type Props = IPlayerProps & {
-  defaultFrame: number;
-  portfolioItemName: PortfolioType;
-};
+type Props = IPlayerProps & useLottieProps;
 
 const styles: CSSProperties = {
   position: "relative",

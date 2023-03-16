@@ -3,12 +3,15 @@ import { useCallback, useEffect, useState } from "react";
 import { usePortfolioProvider } from "../Provider/AnimationProvider";
 import { PortfolioType } from "../types";
 
-type Props = {
+export type useLottieProps = {
   defaultFrame: number;
   portfolioItemName: PortfolioType;
 };
 
-export const useLottie = ({ defaultFrame, portfolioItemName }: Props) => {
+export const useLottie = ({
+  defaultFrame,
+  portfolioItemName,
+}: useLottieProps) => {
   const [lottie, setLottile] = useState<LottieInstance | undefined>(undefined);
 
   const { portfolio } = usePortfolioProvider();
