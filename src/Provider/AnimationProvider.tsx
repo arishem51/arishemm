@@ -1,5 +1,5 @@
 import { MotionValue } from "framer-motion";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { createContext } from "react";
 import { usePrevious } from "../hooks/usePrevious";
 import { useViewMove } from "../hooks/useViewMove";
@@ -110,33 +110,10 @@ export default function AnimationProvider({ children }: Props) {
     useState(false);
   const [scrollState, setScrollState] = useState<ScrollType>("initial");
 
-  const {
-    viewRef,
-    viewX,
-    viewY,
-    contentRef,
-    removeViewMoveEvent,
-    addViewMoveEvent,
-    motionX,
-    motionY,
-  } = useViewMove({ shouldRenderOnboard });
-
-  useEffect(() => {
-    if (portfolio) {
-      removeViewMoveEvent();
-      return;
-    }
-    addViewMoveEvent();
-    return () => {
-      removeViewMoveEvent();
-    };
-  }, [addViewMoveEvent, portfolio, removeViewMoveEvent, viewRef]);
-
-  useEffect(() => {
-    if (!shouldRenderOnboard) {
-      addViewMoveEvent();
-    }
-  }, [addViewMoveEvent, shouldRenderOnboard]);
+  const { viewRef, viewX, viewY, contentRef, motionX, motionY } = useViewMove({
+    shouldRenderOnboard,
+    portfolio,
+  });
 
   const animationDataValue = useMemo<AnimationDataContextProps>(() => {
     return {
