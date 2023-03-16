@@ -114,7 +114,7 @@ export function useAnimationControlsPortfolioItem({
 
       setBeforeScaleDown: {
         overflow: "hidden",
-        transformOrigin: "50% 100%",
+        transformOrigin: "center bottom",
       },
 
       scaleDown: {
