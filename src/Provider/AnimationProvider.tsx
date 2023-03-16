@@ -98,7 +98,7 @@ export const useScrollProvider = () => useContext(ScrollContext);
 export const useAnimationRefProvider = () => useContext(AnimationRefContext);
 export const useAnimationSlideUpProvider = () =>
   useContext(AnimationSlideUpContext);
-export const useOnboardContextProvider = () => useContext(OnboardContext);
+export const useOnboardProvider = () => useContext(OnboardContext);
 export const useAnimationTypeProvider = () => useContext(AnimationTypeContext);
 
 export default function AnimationProvider({ children }: Props) {

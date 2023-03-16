@@ -4,7 +4,7 @@ import Portfolio from "./Portfolio";
 import {
   useAnimationAPIProvider,
   useAnimationRefProvider,
-  useOnboardContextProvider,
+  useOnboardProvider,
 } from "../Provider/AnimationProvider";
 import Heading from "./Heading";
 import Navbar from "./Navbar";
@@ -35,7 +35,7 @@ function App() {
   const controls = useAnimationControls();
   const { viewRef } = useAnimationRefProvider();
   const { setShouldRenderOnboard } = useAnimationAPIProvider();
-  const { shouldRenderOnboard } = useOnboardContextProvider();
+  const { shouldRenderOnboard } = useOnboardProvider();
 
   useEffect(() => {
     if (!shouldRenderOnboard) {
