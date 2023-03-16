@@ -106,10 +106,14 @@ export function useAnimationControlsPortfolioItem({
 
         width: window.innerWidth,
         height: window.innerHeight,
+
         background: "rgb(242,240,233)",
+
+        overflow: "hidden",
       },
 
       setBeforeScaleDown: {
+        overflow: "hidden",
         transformOrigin: "50% 100%",
       },
 
@@ -153,10 +157,14 @@ export function useAnimationControlsPortfolioItem({
     if (animationType === "slideUp") {
       if (portfolio === name && portfolio !== previousPortfolio) {
         animationControls.set("setBeforeSlideUp");
-        animationControls.start("slideUp", {
-          delay: TIME / 1000, // seconds,
-          ...transition,
-        });
+        animationControls
+          .start("slideUp", {
+            delay: TIME / 1000, // seconds,
+            ...transition,
+          })
+          .then(() => {
+            animationControls.set("enableScroll");
+          });
       } else if (
         previousPortfolio === name &&
         portfolio !== previousPortfolio
