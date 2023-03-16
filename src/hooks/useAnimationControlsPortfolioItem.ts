@@ -66,6 +66,24 @@ export function useAnimationControlsPortfolioItem({
         scale: 1,
         transformOrigin: "center center",
       },
+      initialWithOutZIndex: {
+        top,
+        left,
+
+        x: 0,
+        y: 0,
+
+        width,
+        height,
+        padding: ".7em",
+
+        background: "rgba(255,255,255,0)",
+        overflow: "hidden",
+
+        transition,
+        scale: 1,
+        transformOrigin: "center center",
+      },
       expand: {
         x: portfolio === name ? -translate.x : 0,
         y: portfolio === name ? -translate.y : 0,
@@ -102,6 +120,9 @@ export function useAnimationControlsPortfolioItem({
       enableScroll: {
         overflow: "hidden scroll",
       },
+      lowZIndex: {
+        zIndex: 1,
+      },
     };
   }, [height, left, motionX, motionY, name, portfolio, top, translate, width]);
 
@@ -113,7 +134,9 @@ export function useAnimationControlsPortfolioItem({
           animationControls.set("enableScroll");
         });
       } else if (previousPortfolio === name) {
-        animationControls.start("initial", transition);
+        animationControls.start("initialWithOutZIndex", transition).then(() => {
+          animationControls.set("lowZIndex");
+        });
       }
     }
   }, [
