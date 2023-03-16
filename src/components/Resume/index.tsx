@@ -14,6 +14,7 @@ function Resume() {
       expandedComponent={<ExpandedResume />}
       backgroundComponent={
         <Lottie
+          portfolioItemName="resume"
           defaultFrame={120}
           src="https://assets3.lottiefiles.com/packages/lf20_4DLPlW.json"
         />

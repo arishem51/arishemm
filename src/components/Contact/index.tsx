@@ -13,6 +13,7 @@ function Contact() {
       top="62%"
       backgroundComponent={
         <Lottie
+          portfolioItemName="contact"
           defaultFrame={61}
           src="https://assets8.lottiefiles.com/packages/lf20_u25cckyh.json"
         />

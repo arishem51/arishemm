@@ -1,18 +1,21 @@
 import { AnimationItem as LottieInstance } from "lottie-web";
 import { useCallback, useEffect, useState } from "react";
 import { usePortfolioProvider } from "../Provider/AnimationProvider";
+import { PortfolioType } from "../types";
 
 type Props = {
   defaultFrame: number;
+  portfolioItemName: PortfolioType;
 };
 
-export const useLottie = ({ defaultFrame }: Props) => {
+export const useLottie = ({ defaultFrame, portfolioItemName }: Props) => {
   const [lottie, setLottile] = useState<LottieInstance | undefined>(undefined);
 
   const { portfolio } = usePortfolioProvider();
 
   useEffect(() => {
     if (lottie && !portfolio) {
+      console.log("first render");
       const frame =
         lottie.currentFrame !== 0 ? lottie.currentFrame : defaultFrame;
       lottie.goToAndStop(frame, true, lottie.name);
@@ -20,7 +23,7 @@ export const useLottie = ({ defaultFrame }: Props) => {
   }, [defaultFrame, lottie, portfolio]);
 
   useEffect(() => {
-    if (!portfolio || !lottie) {
+    if (portfolio !== portfolioItemName || !lottie) {
       return;
     }
     let removeListerner: () => void;
@@ -35,7 +38,7 @@ export const useLottie = ({ defaultFrame }: Props) => {
       removeListerner();
       clearTimeout(timeoutId);
     };
-  }, [lottie, portfolio]);
+  }, [lottie, portfolio, portfolioItemName]);
 
   const setLottileInstance = useCallback((lottie: LottieInstance) => {
     setLottile(lottie);

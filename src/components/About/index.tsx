@@ -13,6 +13,7 @@ function About() {
       bgColor="rgba(221,229,216,1)"
       backgroundComponent={
         <Lottie
+          portfolioItemName="about"
           defaultFrame={105}
           src="https://assets7.lottiefiles.com/packages/lf20_puciaact.json"
         />
