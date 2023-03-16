@@ -68,6 +68,7 @@ const Title = ({ isParentHover, children }: Props) => {
   const { portfolio } = usePortfolioProvider();
 
   useEffect(() => {
+    // This effect will handle hover animation, if have portfolio will not run this effect/animation
     if (portfolio) {
       return;
     }
@@ -81,6 +82,7 @@ const Title = ({ isParentHover, children }: Props) => {
   }, [controlsLeftText, controlsRightText, isParentHover, portfolio]);
 
   useEffect(() => {
+    // This effect will handle animation when have portfolio or not
     if (portfolio) {
       controlsLeftText.start("hidden");
       controlsRightText.start("hidden");
