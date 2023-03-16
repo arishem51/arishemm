@@ -10,7 +10,6 @@ type AnimationDataContextProps = {
   viewY: MotionValue<number>;
   motionX: MotionValue<number>;
   motionY: MotionValue<number>;
-  animationType: AnimationType;
 };
 
 type AnimationAPIContextProps = {
@@ -46,6 +45,10 @@ type OnboardContextProps = {
   shouldRenderOnboard: boolean;
 };
 
+type AnimationTypeContextProps = {
+  animationType: AnimationType;
+};
+
 const AnimationDataContext = createContext<AnimationDataContextProps>(
   {} as AnimationDataContextProps
 );
@@ -78,6 +81,10 @@ const OnboardContext = createContext<OnboardContextProps>(
   {} as OnboardContextProps
 );
 
+const AnimationTypeContext = createContext<AnimationTypeContextProps>(
+  {} as AnimationTypeContextProps
+);
+
 type Props = {
   children: React.ReactNode;
 };
@@ -92,6 +99,7 @@ export const useAnimationRefProvider = () => useContext(AnimationRefContext);
 export const useAnimationSlideUpProvider = () =>
   useContext(AnimationSlideUpContext);
 export const useOnboardContextProvider = () => useContext(OnboardContext);
+export const useAnimationTypeProvider = () => useContext(AnimationTypeContext);
 
 export default function AnimationProvider({ children }: Props) {
   const [shouldRenderOnboard, setShouldRenderOnboard] = useState(true);
@@ -134,11 +142,10 @@ export default function AnimationProvider({ children }: Props) {
     return {
       viewX,
       viewY,
-      animationType,
       motionX,
       motionY,
     };
-  }, [animationType, motionX, motionY, viewX, viewY]);
+  }, [motionX, motionY, viewX, viewY]);
 
   const animationAPIValue = useMemo<AnimationAPIContextProps>(() => {
     return {
@@ -187,6 +194,12 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, [shouldRenderOnboard]);
 
+  const animationTypeValue = useMemo(() => {
+    return {
+      animationType,
+    };
+  }, [animationType]);
+
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
       <PortfolioContext.Provider value={portfolioValue}>
@@ -195,9 +208,11 @@ export default function AnimationProvider({ children }: Props) {
             <AnimationRefContext.Provider value={refValue}>
               <AnimationSlideUpContext.Provider value={animationSlideUpValue}>
                 <OnboardContext.Provider value={onboardValue}>
-                  <AnimationAPIContext.Provider value={animationAPIValue}>
-                    {children}
-                  </AnimationAPIContext.Provider>
+                  <AnimationTypeContext.Provider value={animationTypeValue}>
+                    <AnimationAPIContext.Provider value={animationAPIValue}>
+                      {children}
+                    </AnimationAPIContext.Provider>
+                  </AnimationTypeContext.Provider>
                 </OnboardContext.Provider>
               </AnimationSlideUpContext.Provider>
             </AnimationRefContext.Provider>
