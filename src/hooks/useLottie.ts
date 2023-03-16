@@ -15,7 +15,6 @@ export const useLottie = ({ defaultFrame, portfolioItemName }: Props) => {
 
   useEffect(() => {
     if (lottie && !portfolio) {
-      console.log("first render");
       const frame =
         lottie.currentFrame !== 0 ? lottie.currentFrame : defaultFrame;
       lottie.goToAndStop(frame, true, lottie.name);
