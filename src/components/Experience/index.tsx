@@ -13,6 +13,7 @@ function Experience() {
       top="40%"
       backgroundComponent={
         <Lottie
+          portfolioItemName="experience"
           defaultFrame={55}
           src="https://assets1.lottiefiles.com/packages/lf20_POwu1GiXc2.json
           "
