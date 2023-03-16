@@ -23,13 +23,17 @@ export const useLottie = ({ defaultFrame }: Props) => {
     if (!portfolio || !lottie) {
       return;
     }
-    lottie.play();
-    const removeListerner = lottie?.addEventListener("complete", () => {
-      lottie?.goToAndPlay(0, true);
-    });
+    let removeListerner: () => void;
+    const timeoutId = setTimeout(() => {
+      lottie.play();
+      removeListerner = lottie?.addEventListener("complete", () => {
+        lottie?.goToAndPlay(0, true);
+      });
+    }, 750);
     return () => {
       lottie?.goToAndStop(lottie.currentFrame, true);
       removeListerner();
+      clearTimeout(timeoutId);
     };
   }, [lottie, portfolio]);
 
