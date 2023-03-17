@@ -26,6 +26,7 @@ type Props = {
 export function useHandleViewMove({ portfolio }: Props) {
   const [view, setView] = React.useState<Dimensions>(state);
   const [content, setContent] = React.useState<Dimensions>(state);
+  const firstRender = useRef(true);
 
   const viewRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -79,19 +80,18 @@ export function useHandleViewMove({ portfolio }: Props) {
     };
 
     const element = viewRef?.current;
-    element?.addEventListener("mousemove", handleMouseMoveOnView);
-    return () =>
+    const timeoutdId = setTimeout(
+      () => {
+        element?.addEventListener("mousemove", handleMouseMoveOnView);
+        firstRender.current = false;
+      },
+      firstRender.current ? 2000 : 750
+    );
+    return () => {
       element?.removeEventListener("mousemove", handleMouseMoveOnView);
-  }, [
-    content.height,
-    content.width,
-    motionX,
-    motionY,
-    portfolio,
-    view.height,
-    view.width,
-    viewRef,
-  ]);
+      window.clearTimeout(timeoutdId);
+    };
+  }, [content, motionX, motionY, portfolio, view]);
 
   return {
     viewRef,
