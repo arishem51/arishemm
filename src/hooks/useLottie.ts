@@ -37,7 +37,7 @@ export const useLottie = ({
     }, 750);
     return () => {
       lottie?.goToAndStop(lottie.currentFrame, true);
-      removeListerner();
+      removeListerner && removeListerner();
       clearTimeout(timeoutId);
     };
   }, [lottie, portfolio, portfolioItemName]);
