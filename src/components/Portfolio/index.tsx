@@ -10,6 +10,7 @@ import {
   useAnimationAPIProvider,
   useAnimationDataProvider,
   useAnimationRefProvider,
+  useAnimationSlideUpProvider,
   usePortfolioProvider,
 } from "../../Provider/AnimationProvider";
 
@@ -45,6 +46,7 @@ const Portfolio = () => {
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
   const { contentRef } = useAnimationRefProvider();
   const { viewX, viewY } = useAnimationDataProvider();
+  const { isAnimationSlideUpRunning } = useAnimationSlideUpProvider();
   const { portfolio } = usePortfolioProvider();
 
   const styles = {
@@ -58,7 +60,7 @@ const Portfolio = () => {
         <motion.div
           layout
           onClick={() => {
-            if (portfolio === item) {
+            if (portfolio === item || isAnimationSlideUpRunning) {
               return;
             }
             setAnimationType("expand");
