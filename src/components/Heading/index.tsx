@@ -4,7 +4,7 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
@@ -64,13 +64,13 @@ const Heading = ({ children, ...props }: Props) => {
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
   const { scrollState } = useScrollProvider();
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (scrollState !== "initial") {
       return;
     }
     setPortfolio(undefined);
     setAnimationType("expand");
-  };
+  }, [scrollState, setAnimationType, setPortfolio]);
 
   React.useEffect(() => {
     if (portfolio) {
