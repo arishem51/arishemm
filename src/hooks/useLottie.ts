@@ -22,6 +22,7 @@ export const useLottie = ({
   const { animationType } = useAnimationTypeProvider();
 
   useEffect(() => {
+    // Set default frame to Lottie
     if (lottie && !portfolio && firstRender.current) {
       const frame =
         lottie.currentFrame !== 0 ? lottie.currentFrame : defaultFrame;
@@ -31,6 +32,7 @@ export const useLottie = ({
   }, [defaultFrame, lottie, portfolio]);
 
   useEffect(() => {
+    // If portfolio was select so enable Lottile animation --> Different animation time will have diffenrent time out animation
     if (portfolio !== portfolioItemName || !lottie) {
       return;
     }
