@@ -52,6 +52,16 @@ export function useHandleViewMove({ portfolio }: Props) {
   const springY: MotionValue<number> = useSpring(motionY, config);
 
   useEffect(() => {
+    if (
+      view.height === 0 ||
+      view.width === 0 ||
+      content.width === 0 ||
+      content.height === 0 ||
+      portfolio
+    ) {
+      return;
+    }
+
     const handleMouseMoveOnView = (e: MouseEvent) => {
       const { clientX, clientY } = e;
 
@@ -67,16 +77,6 @@ export function useHandleViewMove({ portfolio }: Props) {
       motionX.set(distanceX);
       motionY.set(distanceY);
     };
-
-    if (
-      view.height === 0 ||
-      view.width === 0 ||
-      content.width === 0 ||
-      content.height === 0 ||
-      portfolio
-    ) {
-      return;
-    }
 
     const element = viewRef?.current;
     element?.addEventListener("mousemove", handleMouseMoveOnView);
