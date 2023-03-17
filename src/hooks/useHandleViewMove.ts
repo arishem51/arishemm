@@ -4,7 +4,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRef } from "react";
 import { PortfolioType } from "../types";
 
@@ -51,18 +51,9 @@ export function useHandleViewMove({ portfolio }: Props) {
   const springX: MotionValue<number> = useSpring(motionX, config);
   const springY: MotionValue<number> = useSpring(motionY, config);
 
-  const handleMouseMoveOnView = useCallback(
-    (e: MouseEvent) => {
+  useEffect(() => {
+    const handleMouseMoveOnView = (e: MouseEvent) => {
       const { clientX, clientY } = e;
-
-      if (
-        view.height === 0 ||
-        view.width === 0 ||
-        content.width === 0 ||
-        content.height === 0
-      ) {
-        return;
-      }
 
       const percentageX = clientX / view.width;
       const percentageY = clientY / view.height;
@@ -75,32 +66,32 @@ export function useHandleViewMove({ portfolio }: Props) {
 
       motionX.set(distanceX);
       motionY.set(distanceY);
-    },
-    [content.height, content.width, motionX, motionY, view.height, view.width]
-  );
+    };
 
-  const removeViewMoveEvent = useCallback(() => {
-    viewRef.current?.removeEventListener("mousemove", handleMouseMoveOnView);
-  }, [handleMouseMoveOnView]);
-
-  const addViewMoveEvent = useCallback(() => {
-    setTimeout(
-      () =>
-        viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView),
-      1000
-    );
-  }, [handleMouseMoveOnView]);
-
-  useEffect(() => {
-    if (portfolio) {
-      removeViewMoveEvent();
+    if (
+      view.height === 0 ||
+      view.width === 0 ||
+      content.width === 0 ||
+      content.height === 0 ||
+      portfolio
+    ) {
       return;
     }
-    addViewMoveEvent();
-    return () => {
-      removeViewMoveEvent();
-    };
-  }, [addViewMoveEvent, portfolio, removeViewMoveEvent, viewRef]);
+
+    const element = viewRef?.current;
+    element?.addEventListener("mousemove", handleMouseMoveOnView);
+    return () =>
+      element?.removeEventListener("mousemove", handleMouseMoveOnView);
+  }, [
+    content.height,
+    content.width,
+    motionX,
+    motionY,
+    portfolio,
+    view.height,
+    view.width,
+    viewRef,
+  ]);
 
   return {
     viewRef,
