@@ -4,6 +4,7 @@ import { useAnimationRefProvider } from "../../Provider/AnimationProvider";
 import Heading from "../Heading";
 import Navbar from "../Navbar";
 import Portfolio from "../Portfolio";
+import ScrollBar from "../ScrollBar";
 
 const Wrapper = styled(motion.main)`
   position: relative;
@@ -38,6 +39,7 @@ const MainContent = () => {
       <Portfolio />
       <Heading>Arishemm</Heading>
       <Navbar />
+      <ScrollBar />
     </Wrapper>
   );
 };
