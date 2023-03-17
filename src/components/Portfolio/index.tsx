@@ -61,8 +61,7 @@ const Portfolio = () => {
   const renderItem = () => {
     return PortfolioItems.map((item) => {
       return (
-        <motion.div
-          layout
+        <div
           onClick={() => {
             if (portfolio === item || isAnimationSlideUpRunning) {
               return;
@@ -77,7 +76,7 @@ const Portfolio = () => {
           {item === "experience" && <Experience />}
           {item === "contact" && <Contact />}
           {item === "resume" && <Resume />}
-        </motion.div>
+        </div>
       );
     });
   };
