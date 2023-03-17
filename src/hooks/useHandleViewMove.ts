@@ -84,7 +84,11 @@ export function useHandleViewMove({ portfolio }: Props) {
   }, [handleMouseMoveOnView]);
 
   const addViewMoveEvent = useCallback(() => {
-    viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView);
+    setTimeout(
+      () =>
+        viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView),
+      1000
+    );
   }, [handleMouseMoveOnView]);
 
   useEffect(() => {
