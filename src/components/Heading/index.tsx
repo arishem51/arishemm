@@ -44,10 +44,9 @@ const variants: Variants = {
     color: "var(--color-black)",
   },
   animateWhenHavePortfolio: {
-    top: "1rem",
     zIndex: 3,
     opacity: 1,
-    transform: "translate(-50%, 0)",
+    transform: "translate(-50%, calc(-50% - 40vh))",
     fontSize: "3.2em",
     color: "var(--color-white)",
   },
