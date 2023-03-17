@@ -20,30 +20,30 @@ const state: Dimensions = {
 };
 
 type Props = {
-  shouldRenderOnboard: boolean;
   portfolio: PortfolioType | undefined;
 };
 
-export function useHandleViewMove({ shouldRenderOnboard, portfolio }: Props) {
+export function useHandleViewMove({ portfolio }: Props) {
   const [view, setView] = React.useState<Dimensions>(state);
   const [content, setContent] = React.useState<Dimensions>(state);
 
-  React.useEffect(() => {
-    if (!shouldRenderOnboard) {
-      setView({
-        width: viewRef.current?.offsetWidth || 0,
-        height: viewRef.current?.offsetHeight || 0,
-      });
-
-      setContent({
-        width: contentRef.current?.offsetWidth || 0,
-        height: contentRef.current?.offsetHeight || 0,
-      });
-    }
-  }, [shouldRenderOnboard]);
-
   const viewRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!viewRef?.current || !contentRef.current) {
+      return;
+    }
+    setView({
+      width: viewRef.current?.offsetWidth || 0,
+      height: viewRef.current?.offsetHeight || 0,
+    });
+
+    setContent({
+      width: contentRef.current?.offsetWidth || 0,
+      height: contentRef.current?.offsetHeight || 0,
+    });
+  }, []);
 
   const motionX = useMotionValue<number>(0);
   const motionY = useMotionValue<number>(-400);
@@ -97,12 +97,6 @@ export function useHandleViewMove({ shouldRenderOnboard, portfolio }: Props) {
       removeViewMoveEvent();
     };
   }, [addViewMoveEvent, portfolio, removeViewMoveEvent, viewRef]);
-
-  useEffect(() => {
-    if (!shouldRenderOnboard) {
-      addViewMoveEvent();
-    }
-  }, [addViewMoveEvent, shouldRenderOnboard]);
 
   return {
     viewRef,

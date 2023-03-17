@@ -17,7 +17,6 @@ type AnimationAPIContextProps = {
   setAnimationType: SetState<AnimationType>;
   setScrollState: SetState<ScrollType>;
   setIsAnimationSlideUpRunning: SetState<boolean>;
-  setShouldRenderOnboard: SetState<boolean>;
 };
 
 type PortfolioContextProps = {
@@ -39,10 +38,6 @@ type AnimationRefContextProps = {
 
 type AnimationSlideUpContext = {
   isAnimationSlideUpRunning: boolean;
-};
-
-type OnboardContextProps = {
-  shouldRenderOnboard: boolean;
 };
 
 type AnimationTypeContextProps = {
@@ -77,10 +72,6 @@ const AnimationSlideUpContext = createContext<AnimationSlideUpContext>(
   {} as AnimationSlideUpContext
 );
 
-const OnboardContext = createContext<OnboardContextProps>(
-  {} as OnboardContextProps
-);
-
 const AnimationTypeContext = createContext<AnimationTypeContextProps>(
   {} as AnimationTypeContextProps
 );
@@ -98,11 +89,9 @@ export const useScrollProvider = () => useContext(ScrollContext);
 export const useAnimationRefProvider = () => useContext(AnimationRefContext);
 export const useAnimationSlideUpProvider = () =>
   useContext(AnimationSlideUpContext);
-export const useOnboardProvider = () => useContext(OnboardContext);
 export const useAnimationTypeProvider = () => useContext(AnimationTypeContext);
 
 export default function AnimationProvider({ children }: Props) {
-  const [shouldRenderOnboard, setShouldRenderOnboard] = useState(true);
   const [portfolio, setPortfolio] = useState<PortfolioType>();
   const previousPortfolio = usePrevious<PortfolioType | undefined>(portfolio);
   const [animationType, setAnimationType] = useState<AnimationType>("expand");
@@ -112,7 +101,6 @@ export default function AnimationProvider({ children }: Props) {
 
   const { viewRef, viewX, viewY, contentRef, motionX, motionY } =
     useHandleViewMove({
-      shouldRenderOnboard,
       portfolio,
     });
 
@@ -131,7 +119,6 @@ export default function AnimationProvider({ children }: Props) {
       setScrollState,
       setPortfolio,
       setIsAnimationSlideUpRunning,
-      setShouldRenderOnboard,
     };
   }, []);
 
@@ -166,12 +153,6 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, [isAnimationSlideUpRunning]);
 
-  const onboardValue = useMemo(() => {
-    return {
-      shouldRenderOnboard,
-    };
-  }, [shouldRenderOnboard]);
-
   const animationTypeValue = useMemo(() => {
     return {
       animationType,
@@ -185,13 +166,11 @@ export default function AnimationProvider({ children }: Props) {
           <ScrollContext.Provider value={scrollValue}>
             <AnimationRefContext.Provider value={refValue}>
               <AnimationSlideUpContext.Provider value={animationSlideUpValue}>
-                <OnboardContext.Provider value={onboardValue}>
-                  <AnimationTypeContext.Provider value={animationTypeValue}>
-                    <AnimationAPIContext.Provider value={animationAPIValue}>
-                      {children}
-                    </AnimationAPIContext.Provider>
-                  </AnimationTypeContext.Provider>
-                </OnboardContext.Provider>
+                <AnimationTypeContext.Provider value={animationTypeValue}>
+                  <AnimationAPIContext.Provider value={animationAPIValue}>
+                    {children}
+                  </AnimationAPIContext.Provider>
+                </AnimationTypeContext.Provider>
               </AnimationSlideUpContext.Provider>
             </AnimationRefContext.Provider>
           </ScrollContext.Provider>

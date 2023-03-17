@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createGlobalStyle } from "styled-components";
 import App from "./components/App";
-import AnimationProvider from "./Provider/AnimationProvider";
 
 const GlobalStyles = createGlobalStyle`
   /*
@@ -101,8 +100,6 @@ p, h1, h2, h3, h4, h5, h6 {
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <GlobalStyles />
-    <AnimationProvider>
-      <App />
-    </AnimationProvider>
+    <App />
   </React.StrictMode>
 );
