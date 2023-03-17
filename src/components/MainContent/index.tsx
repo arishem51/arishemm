@@ -1,0 +1,45 @@
+import { motion, Variants } from "framer-motion";
+import styled from "styled-components";
+import { useAnimationRefProvider } from "../../Provider/AnimationProvider";
+import Heading from "../Heading";
+import Navbar from "../Navbar";
+import Portfolio from "../Portfolio";
+
+const Wrapper = styled(motion.main)`
+  position: relative;
+
+  width: 100vw;
+  height: 100vh;
+
+  z-index: 1;
+
+  overflow: hidden;
+`;
+
+const variants: Variants = {
+  initial: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+  },
+};
+
+const MainContent = () => {
+  const { viewRef } = useAnimationRefProvider();
+
+  return (
+    <Wrapper
+      ref={viewRef}
+      variants={variants}
+      initial="initial"
+      animate="visible"
+    >
+      <Portfolio />
+      <Heading>Arishemm</Heading>
+      <Navbar />
+    </Wrapper>
+  );
+};
+
+export default MainContent;

@@ -4,7 +4,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRef } from "react";
 import { PortfolioType } from "../types";
 
@@ -20,30 +20,31 @@ const state: Dimensions = {
 };
 
 type Props = {
-  shouldRenderOnboard: boolean;
   portfolio: PortfolioType | undefined;
 };
 
-export function useHandleViewMove({ shouldRenderOnboard, portfolio }: Props) {
+export function useHandleViewMove({ portfolio }: Props) {
   const [view, setView] = React.useState<Dimensions>(state);
   const [content, setContent] = React.useState<Dimensions>(state);
-
-  React.useEffect(() => {
-    if (!shouldRenderOnboard) {
-      setView({
-        width: viewRef.current?.offsetWidth || 0,
-        height: viewRef.current?.offsetHeight || 0,
-      });
-
-      setContent({
-        width: contentRef.current?.offsetWidth || 0,
-        height: contentRef.current?.offsetHeight || 0,
-      });
-    }
-  }, [shouldRenderOnboard]);
+  const firstRender = useRef(true);
 
   const viewRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!viewRef?.current || !contentRef.current) {
+      return;
+    }
+    setView({
+      width: viewRef.current?.offsetWidth || 0,
+      height: viewRef.current?.offsetHeight || 0,
+    });
+
+    setContent({
+      width: contentRef.current?.offsetWidth || 0,
+      height: contentRef.current?.offsetHeight || 0,
+    });
+  }, []);
 
   const motionX = useMotionValue<number>(0);
   const motionY = useMotionValue<number>(-400);
@@ -51,18 +52,19 @@ export function useHandleViewMove({ shouldRenderOnboard, portfolio }: Props) {
   const springX: MotionValue<number> = useSpring(motionX, config);
   const springY: MotionValue<number> = useSpring(motionY, config);
 
-  const handleMouseMoveOnView = useCallback(
-    (e: MouseEvent) => {
-      const { clientX, clientY } = e;
+  useEffect(() => {
+    if (
+      view.height === 0 ||
+      view.width === 0 ||
+      content.width === 0 ||
+      content.height === 0 ||
+      portfolio
+    ) {
+      return;
+    }
 
-      if (
-        view.height === 0 ||
-        view.width === 0 ||
-        content.width === 0 ||
-        content.height === 0
-      ) {
-        return;
-      }
+    const handleMouseMoveOnView = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
 
       const percentageX = clientX / view.width;
       const percentageY = clientY / view.height;
@@ -75,34 +77,21 @@ export function useHandleViewMove({ shouldRenderOnboard, portfolio }: Props) {
 
       motionX.set(distanceX);
       motionY.set(distanceY);
-    },
-    [content.height, content.width, motionX, motionY, view.height, view.width]
-  );
-
-  const removeViewMoveEvent = useCallback(() => {
-    viewRef.current?.removeEventListener("mousemove", handleMouseMoveOnView);
-  }, [handleMouseMoveOnView]);
-
-  const addViewMoveEvent = useCallback(() => {
-    viewRef.current?.addEventListener("mousemove", handleMouseMoveOnView);
-  }, [handleMouseMoveOnView]);
-
-  useEffect(() => {
-    if (portfolio) {
-      removeViewMoveEvent();
-      return;
-    }
-    addViewMoveEvent();
-    return () => {
-      removeViewMoveEvent();
     };
-  }, [addViewMoveEvent, portfolio, removeViewMoveEvent, viewRef]);
 
-  useEffect(() => {
-    if (!shouldRenderOnboard) {
-      addViewMoveEvent();
-    }
-  }, [addViewMoveEvent, shouldRenderOnboard]);
+    const element = viewRef?.current;
+    const timeoutdId = setTimeout(
+      () => {
+        element?.addEventListener("mousemove", handleMouseMoveOnView);
+        firstRender.current = false;
+      },
+      firstRender.current ? 2000 : 750
+    );
+    return () => {
+      element?.removeEventListener("mousemove", handleMouseMoveOnView);
+      window.clearTimeout(timeoutdId);
+    };
+  }, [content, motionX, motionY, portfolio, view]);
 
   return {
     viewRef,

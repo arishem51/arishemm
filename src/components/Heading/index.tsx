@@ -4,10 +4,11 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
+  useAnimationRunningProvider,
   usePortfolioProvider,
   useScrollProvider,
 } from "../../Provider/AnimationProvider";
@@ -31,8 +32,8 @@ type Props = {
 };
 
 const transition: Transition = {
-  duration: 0.4,
-  ease: [0.2, 0, 1, 0.8],
+  duration: 0.6,
+  ease: "linear",
 };
 
 const variants: Variants = {
@@ -63,14 +64,15 @@ const Heading = ({ children, ...props }: Props) => {
   const { portfolio } = usePortfolioProvider();
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
   const { scrollState } = useScrollProvider();
+  const { isAnimationRunning } = useAnimationRunningProvider();
 
-  const handleClick = () => {
-    if (scrollState !== "initial") {
+  const handleClick = useCallback(() => {
+    if (scrollState !== "initial" || isAnimationRunning) {
       return;
     }
     setPortfolio(undefined);
     setAnimationType("expand");
-  };
+  }, [isAnimationRunning, scrollState, setAnimationType, setPortfolio]);
 
   React.useEffect(() => {
     if (portfolio) {
