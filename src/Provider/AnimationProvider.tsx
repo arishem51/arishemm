@@ -16,7 +16,7 @@ type AnimationAPIContextProps = {
   setPortfolio: SetState<PortfolioType | undefined>;
   setAnimationType: SetState<AnimationType>;
   setScrollState: SetState<ScrollType>;
-  setIsAnimationSlideUpRunning: SetState<boolean>;
+  setIsAnimationRunning: SetState<boolean>;
 };
 
 type PortfolioContextProps = {
@@ -36,8 +36,8 @@ type AnimationRefContextProps = {
   viewRef: React.RefObject<HTMLDivElement>;
 };
 
-type AnimationSlideUpContext = {
-  isAnimationSlideUpRunning: boolean;
+type AnimationRunningContext = {
+  isAnimationRunning: boolean;
 };
 
 type AnimationTypeContextProps = {
@@ -68,8 +68,8 @@ const AnimationRefContext = createContext<AnimationRefContextProps>(
   {} as AnimationRefContextProps
 );
 
-const AnimationSlideUpContext = createContext<AnimationSlideUpContext>(
-  {} as AnimationSlideUpContext
+const AnimationRunningContext = createContext<AnimationRunningContext>(
+  {} as AnimationRunningContext
 );
 
 const AnimationTypeContext = createContext<AnimationTypeContextProps>(
@@ -87,16 +87,15 @@ export const usePreviousPortfolioProvider = () =>
   useContext(PreviousPortfolioContext);
 export const useScrollProvider = () => useContext(ScrollContext);
 export const useAnimationRefProvider = () => useContext(AnimationRefContext);
-export const useAnimationSlideUpProvider = () =>
-  useContext(AnimationSlideUpContext);
+export const useAnimationRunningProvider = () =>
+  useContext(AnimationRunningContext);
 export const useAnimationTypeProvider = () => useContext(AnimationTypeContext);
 
 export default function AnimationProvider({ children }: Props) {
   const [portfolio, setPortfolio] = useState<PortfolioType>();
   const previousPortfolio = usePrevious<PortfolioType | undefined>(portfolio);
   const [animationType, setAnimationType] = useState<AnimationType>("expand");
-  const [isAnimationSlideUpRunning, setIsAnimationSlideUpRunning] =
-    useState(false);
+  const [isAnimationRunning, setIsAnimationRunning] = useState(false);
   const [scrollState, setScrollState] = useState<ScrollType>("initial");
 
   const handleViewMoveMemo = useMemo(() => ({ portfolio }), [portfolio]);
@@ -118,7 +117,7 @@ export default function AnimationProvider({ children }: Props) {
       setAnimationType,
       setScrollState,
       setPortfolio,
-      setIsAnimationSlideUpRunning,
+      setIsAnimationRunning,
     };
   }, []);
 
@@ -147,11 +146,11 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, [contentRef, viewRef]);
 
-  const animationSlideUpValue = useMemo(() => {
+  const animationRunningValue = useMemo(() => {
     return {
-      isAnimationSlideUpRunning,
+      isAnimationRunning,
     };
-  }, [isAnimationSlideUpRunning]);
+  }, [isAnimationRunning]);
 
   const animationTypeValue = useMemo(() => {
     return {
@@ -165,13 +164,13 @@ export default function AnimationProvider({ children }: Props) {
         <PreviousPortfolioContext.Provider value={previousPortfolioValue}>
           <ScrollContext.Provider value={scrollValue}>
             <AnimationRefContext.Provider value={refValue}>
-              <AnimationSlideUpContext.Provider value={animationSlideUpValue}>
+              <AnimationRunningContext.Provider value={animationRunningValue}>
                 <AnimationTypeContext.Provider value={animationTypeValue}>
                   <AnimationAPIContext.Provider value={animationAPIValue}>
                     {children}
                   </AnimationAPIContext.Provider>
                 </AnimationTypeContext.Provider>
-              </AnimationSlideUpContext.Provider>
+              </AnimationRunningContext.Provider>
             </AnimationRefContext.Provider>
           </ScrollContext.Provider>
         </PreviousPortfolioContext.Provider>

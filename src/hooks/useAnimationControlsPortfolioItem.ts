@@ -41,7 +41,7 @@ export function useAnimationControlsPortfolioItem({
   const { motionX, motionY } = useAnimationDataProvider();
   const { animationType } = useAnimationTypeProvider();
   const { portfolio } = usePortfolioProvider();
-  const { setIsAnimationSlideUpRunning } = useAnimationAPIProvider();
+  const { setIsAnimationRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
 
@@ -136,12 +136,16 @@ export function useAnimationControlsPortfolioItem({
     // Expand goes here
     if (animationType === "expand") {
       if (portfolio === name) {
+        setIsAnimationRunning(true);
         animationControls.start("expand", transition).then(() => {
           animationControls.set("enableScroll");
+          setIsAnimationRunning(false);
         });
       } else if (previousPortfolio === name) {
+        setIsAnimationRunning(true);
         animationControls.start("initialWithOutZIndex", transition).then(() => {
           animationControls.set("lowZIndex");
+          setIsAnimationRunning(false);
         });
       }
     }
@@ -151,6 +155,7 @@ export function useAnimationControlsPortfolioItem({
     name,
     portfolio,
     previousPortfolio,
+    setIsAnimationRunning,
     translate,
   ]);
 
@@ -165,6 +170,7 @@ export function useAnimationControlsPortfolioItem({
             ...transition,
           })
           .then(() => {
+            setIsAnimationRunning(false);
             animationControls.set("enableScroll");
           });
       } else if (
@@ -172,10 +178,10 @@ export function useAnimationControlsPortfolioItem({
         portfolio !== previousPortfolio
       ) {
         animationControls.set("setBeforeScaleDown");
+        setIsAnimationRunning(true);
         animationControls.start("scaleDown", transition).then(async () => {
           await timeOut(TIME);
           animationControls.set("initial");
-          setIsAnimationSlideUpRunning(false);
         });
       }
     }
@@ -185,7 +191,7 @@ export function useAnimationControlsPortfolioItem({
     name,
     portfolio,
     previousPortfolio,
-    setIsAnimationSlideUpRunning,
+    setIsAnimationRunning,
   ]);
 
   return {

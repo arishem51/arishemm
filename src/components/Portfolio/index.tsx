@@ -10,7 +10,7 @@ import {
   useAnimationAPIProvider,
   useAnimationDataProvider,
   useAnimationRefProvider,
-  useAnimationSlideUpProvider,
+  useAnimationRunningProvider,
   usePortfolioProvider,
 } from "../../Provider/AnimationProvider";
 import { useMemo } from "react";
@@ -47,7 +47,7 @@ const Portfolio = () => {
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
   const { contentRef } = useAnimationRefProvider();
   const { viewX, viewY } = useAnimationDataProvider();
-  const { isAnimationSlideUpRunning } = useAnimationSlideUpProvider();
+  const { isAnimationRunning } = useAnimationRunningProvider();
   const { portfolio } = usePortfolioProvider();
 
   const styles = useMemo(
@@ -63,7 +63,7 @@ const Portfolio = () => {
       return (
         <div
           onClick={() => {
-            if (portfolio === item || isAnimationSlideUpRunning) {
+            if (portfolio === item || isAnimationRunning) {
               return;
             }
             setAnimationType("expand");

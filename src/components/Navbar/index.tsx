@@ -7,7 +7,7 @@ import {
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
-  useAnimationSlideUpProvider,
+  useAnimationRunningProvider,
   usePortfolioProvider,
 } from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
@@ -50,10 +50,9 @@ const variants: Variants = {
 };
 
 const Navbar = () => {
-  const { setPortfolio, setAnimationType, setIsAnimationSlideUpRunning } =
-    useAnimationAPIProvider();
+  const { setPortfolio, setAnimationType } = useAnimationAPIProvider();
   const { portfolio } = usePortfolioProvider();
-  const { isAnimationSlideUpRunning } = useAnimationSlideUpProvider();
+  const { isAnimationRunning } = useAnimationRunningProvider();
   const controls = useAnimationControls();
 
   useEffect(() => {
@@ -67,10 +66,9 @@ const Navbar = () => {
   }, [controls, portfolio]);
 
   function handleItemClick(item: PortfolioType) {
-    if (isAnimationSlideUpRunning || portfolio === item) {
+    if (isAnimationRunning || portfolio === item) {
       return;
     }
-    setIsAnimationSlideUpRunning(true);
     setPortfolio(item);
     setAnimationType("slideUp");
   }

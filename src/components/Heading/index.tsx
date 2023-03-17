@@ -8,6 +8,7 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
+  useAnimationRunningProvider,
   usePortfolioProvider,
   useScrollProvider,
 } from "../../Provider/AnimationProvider";
@@ -63,14 +64,15 @@ const Heading = ({ children, ...props }: Props) => {
   const { portfolio } = usePortfolioProvider();
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
   const { scrollState } = useScrollProvider();
+  const { isAnimationRunning } = useAnimationRunningProvider();
 
   const handleClick = useCallback(() => {
-    if (scrollState !== "initial") {
+    if (scrollState !== "initial" || isAnimationRunning) {
       return;
     }
     setPortfolio(undefined);
     setAnimationType("expand");
-  }, [scrollState, setAnimationType, setPortfolio]);
+  }, [isAnimationRunning, scrollState, setAnimationType, setPortfolio]);
 
   React.useEffect(() => {
     if (portfolio) {
