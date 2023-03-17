@@ -28,16 +28,14 @@ export const useLottie = ({
     if (portfolio !== portfolioItemName || !lottie) {
       return;
     }
-    let removeListerner: () => void;
     const timeoutId = setTimeout(() => {
       lottie.play();
-      removeListerner = lottie?.addEventListener("complete", () => {
+      lottie?.addEventListener("complete", () => {
         lottie?.goToAndPlay(0, true);
       });
     }, 750);
     return () => {
       lottie?.goToAndStop(lottie.currentFrame, true);
-      removeListerner && removeListerner();
       clearTimeout(timeoutId);
     };
   }, [lottie, portfolio, portfolioItemName]);
