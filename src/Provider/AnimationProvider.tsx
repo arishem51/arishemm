@@ -99,10 +99,10 @@ export default function AnimationProvider({ children }: Props) {
     useState(false);
   const [scrollState, setScrollState] = useState<ScrollType>("initial");
 
+  const handleViewMoveMemo = useMemo(() => ({ portfolio }), [portfolio]);
+
   const { viewRef, viewX, viewY, contentRef, motionX, motionY } =
-    useHandleViewMove({
-      portfolio,
-    });
+    useHandleViewMove(handleViewMoveMemo);
 
   const animationDataValue = useMemo<AnimationDataContextProps>(() => {
     return {
