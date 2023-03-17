@@ -13,6 +13,7 @@ import {
   useAnimationSlideUpProvider,
   usePortfolioProvider,
 } from "../../Provider/AnimationProvider";
+import { useMemo } from "react";
 
 const ViewContent = styled(motion.div)`
   width: 140vmax;
@@ -49,12 +50,15 @@ const Portfolio = () => {
   const { isAnimationSlideUpRunning } = useAnimationSlideUpProvider();
   const { portfolio } = usePortfolioProvider();
 
-  const styles = {
-    x: viewX,
-    y: viewY,
-  };
+  const styles = useMemo(
+    () => ({
+      x: viewX,
+      y: viewY,
+    }),
+    [viewX, viewY]
+  );
 
-  function renderItem() {
+  const renderItem = () => {
     return PortfolioItems.map((item) => {
       return (
         <motion.div
@@ -76,7 +80,7 @@ const Portfolio = () => {
         </motion.div>
       );
     });
-  }
+  };
 
   return (
     <ViewContent
