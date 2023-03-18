@@ -4,7 +4,7 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { timeOut } from "../helpers";
 import {
   useAnimationAPIProvider,
@@ -14,7 +14,7 @@ import {
   usePreviousPortfolioProvider,
 } from "../Provider/AnimationProvider";
 import { PortfolioType } from "../types";
-import { useCalculatePortfolioItemTranslate } from "./useCalculatePortfolioItemTranslate";
+import { useCalculatePortfolioItem } from "./useCalculatePortfolioItem";
 
 const TIME = 750; // Miliseconds
 
@@ -45,7 +45,12 @@ export function useAnimationControlsPortfolioItem({
   const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
 
-  const { translate } = useCalculatePortfolioItemTranslate({ name, left, top });
+  const calculateValue = useMemo(
+    () => ({ name, left, top, width, height }),
+    [height, left, name, top, width]
+  );
+  const { translate, percentageHeight, percentageWidth } =
+    useCalculatePortfolioItem(calculateValue);
 
   const variants: Variants = React.useMemo(() => {
     return {
@@ -91,8 +96,8 @@ export function useAnimationControlsPortfolioItem({
         y: portfolio === name ? -translate.y : 0,
         zIndex: 3,
 
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: percentageWidth,
+        height: percentageHeight,
 
         background: "rgb(242,240,233)",
       },
@@ -130,7 +135,19 @@ export function useAnimationControlsPortfolioItem({
         zIndex: 1,
       },
     };
-  }, [height, left, motionX, motionY, name, portfolio, top, translate, width]);
+  }, [
+    height,
+    left,
+    motionX,
+    motionY,
+    name,
+    percentageHeight,
+    percentageWidth,
+    portfolio,
+    top,
+    translate,
+    width,
+  ]);
 
   useEffect(() => {
     // Expand goes here

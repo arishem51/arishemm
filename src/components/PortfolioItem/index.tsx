@@ -116,12 +116,6 @@ function PortfolioItem({
   );
   usePortfolioScroll(portfolioScrollValue);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (portfolio === name) {
-      e.stopPropagation();
-    }
-  };
-
   function handleHoverStart() {
     if (portfolio) {
       return;
@@ -144,7 +138,6 @@ function PortfolioItem({
   return (
     <Wrapper
       variants={variants}
-      onMouseMove={handleMouseMove}
       layout
       initial="initial"
       animate={animationControls}
