@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import styled from "styled-components";
+import { usePorfolioScrollDataProvider } from "../../Provider/PortfolioScrollProvider";
 
 const Wrapper = styled(motion.div)`
   position: fixed;
@@ -23,16 +24,41 @@ const Wrapper = styled(motion.div)`
 `;
 
 const ScrollProgress = styled(motion.div)`
+  position: relative;
+
   height: 90%;
   width: 5%;
 
   background: white;
+
+  transform-origin: top;
+`;
+
+const ScrollPlaceholder = styled.div`
+  position: absolute;
+
+  height: 90%;
+  width: 5%;
+
+  background: white;
+
+  opacity: 0.5;
 `;
 
 const ScrollBar = () => {
+  const { scrollMotion } = usePorfolioScrollDataProvider();
+  const motion = useMotionValue(0);
+
+  const scale = useTransform(
+    scrollMotion ? scrollMotion : motion,
+    [0, 1],
+    [0, 1]
+  );
+
   return (
     <Wrapper>
-      <ScrollProgress />
+      <ScrollPlaceholder />
+      <ScrollProgress style={{ scaleY: scale }} />
     </Wrapper>
   );
 };
