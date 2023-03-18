@@ -15,12 +15,16 @@ type Props = {
   name: PortfolioType;
   left: string;
   top: string;
+  width: string;
+  height: string;
 };
 
-export const useCalculatePortfolioItemTranslate = ({
+export const useCalculatePortfolioItem = ({
   name,
   left,
   top,
+  width,
+  height,
 }: Props) => {
   const [offset, setOffset] = useState<Coordinates>(InitialCoordinates);
   const { portfolio } = usePortfolioProvider();
@@ -60,5 +64,24 @@ export const useCalculatePortfolioItemTranslate = ({
     };
   }, [contentRef, left, name, offset.x, offset.y, portfolio, top]);
 
-  return { translate };
+  const { percentageWidth, percentageHeight } = useMemo(() => {
+    if (portfolio === name) {
+      const percentageWidth =
+        (window.innerWidth / (contentRef?.current?.clientWidth || 0)) * 100 +
+        "%";
+      const percentageHeight =
+        (window.innerHeight / (contentRef?.current?.clientHeight || 0)) * 100 +
+        "%";
+      return {
+        percentageWidth,
+        percentageHeight,
+      };
+    }
+    return {
+      percentageWidth: width,
+      percentageHeight: height,
+    };
+  }, [contentRef, height, name, portfolio, width]);
+
+  return { translate, percentageHeight, percentageWidth };
 };
