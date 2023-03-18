@@ -48,7 +48,7 @@ export const useLottie = ({
     });
     return () => {
       lottie?.goToAndStop(lottie.currentFrame, true);
-      lottie.removeEventListener("complete", removeListener);
+      lottie?.removeEventListener("complete", removeListener);
       window.clearTimeout(timeoutId);
     };
   }, [animationType, lottie, portfolio, portfolioItemName]);

@@ -4,14 +4,14 @@ import {
   useAnimationControls,
   Variants,
 } from "framer-motion";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
   useAnimationRunningProvider,
   usePortfolioProvider,
-  useScrollProvider,
 } from "../../Provider/AnimationProvider";
+import { usePorfolioScrollDataProvider } from "../../Provider/PortfolioScrollProvider";
 
 const Wrapper = styled(motion.h1)`
   position: relative;
@@ -63,22 +63,41 @@ const Heading = ({ children, ...props }: Props) => {
   const controls = useAnimationControls();
   const { portfolio } = usePortfolioProvider();
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
-  const { scrollState } = useScrollProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
+  const { scrollMotion } = usePorfolioScrollDataProvider();
+  const [shouldVisible, setShouldVisible] = useState(true);
+
+  useEffect(() => {
+    // FIXME: Change portfolio will  cause this effect run 2 times need an solution
+    if (scrollMotion && portfolio) {
+      const unscribe = scrollMotion.on("change", (current) => {
+        const previous = scrollMotion.getPrevious();
+        if (current >= previous) {
+          setShouldVisible(false);
+        } else if (current === 0) {
+          setShouldVisible(true);
+        }
+      });
+
+      return () => {
+        unscribe();
+      };
+    }
+  }, [portfolio, scrollMotion]);
 
   const handleClick = useCallback(() => {
-    if (scrollState !== "initial" || isAnimationRunning) {
+    if (!shouldVisible || isAnimationRunning) {
       return;
     }
     setPortfolio(undefined);
     setAnimationType("expand");
-  }, [isAnimationRunning, scrollState, setAnimationType, setPortfolio]);
+  }, [isAnimationRunning, setAnimationType, setPortfolio, shouldVisible]);
 
   React.useEffect(() => {
     if (portfolio) {
-      if (scrollState === "initial") {
+      if (shouldVisible) {
         controls.start("animateWhenHavePortfolio");
-      } else if (scrollState === "down") {
+      } else {
         controls.start("scrollDown").then(() => {
           controls.set("setAfterScrollDown");
         });
@@ -86,7 +105,7 @@ const Heading = ({ children, ...props }: Props) => {
     } else {
       controls.start("initial");
     }
-  }, [controls, portfolio, scrollState]);
+  }, [controls, portfolio, shouldVisible]);
 
   return (
     <Wrapper

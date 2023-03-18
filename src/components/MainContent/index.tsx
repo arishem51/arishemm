@@ -1,6 +1,7 @@
 import { motion, Variants } from "framer-motion";
 import styled from "styled-components";
 import { useAnimationRefProvider } from "../../Provider/AnimationProvider";
+import PorfolioScrollProvider from "../../Provider/PortfolioScrollProvider";
 import Heading from "../Heading";
 import Navbar from "../Navbar";
 import Portfolio from "../Portfolio";
@@ -36,10 +37,12 @@ const MainContent = () => {
       initial="initial"
       animate="visible"
     >
-      <Portfolio />
-      <Heading>Arishemm</Heading>
-      <Navbar />
-      <ScrollBar />
+      <PorfolioScrollProvider>
+        <Portfolio />
+        <Heading>Arishemm</Heading>
+        <Navbar />
+        <ScrollBar />
+      </PorfolioScrollProvider>
     </Wrapper>
   );
 };

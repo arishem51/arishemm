@@ -1,24 +1,22 @@
-import { RefObject } from "react";
-import { useMotionValueEvent, useScroll } from "framer-motion";
-import { useAnimationAPIProvider } from "../Provider/AnimationProvider";
+import { RefObject, useEffect } from "react";
+import { useScroll } from "framer-motion";
+import { usePortfolioScrollAPIProivder } from "../Provider/PortfolioScrollProvider";
+import { usePortfolioProvider } from "../Provider/AnimationProvider";
+import { PortfolioType } from "../types";
 
 type Props = {
   scrollRef: RefObject<HTMLElement>;
+  name: PortfolioType;
 };
 
-export const usePortfolioScroll = ({ scrollRef }: Props) => {
-  const { setScrollState } = useAnimationAPIProvider();
-  const { scrollY } = useScroll({ container: scrollRef });
-  useMotionValueEvent(scrollY, "change", (current) => {
-    if (scrollRef.current) {
-      const previous = scrollY.getPrevious();
-      if (current < 100) {
-        setScrollState("initial");
-      } else if (current - previous < 0) {
-        setScrollState("up");
-      } else if (current - previous > 0) {
-        setScrollState("down");
-      }
+export const usePortfolioScroll = ({ scrollRef, name }: Props) => {
+  const { scrollYProgress } = useScroll({ container: scrollRef });
+  const { setScrollMotion } = usePortfolioScrollAPIProivder();
+  const { portfolio } = usePortfolioProvider();
+
+  useEffect(() => {
+    if (scrollYProgress && portfolio === name) {
+      setScrollMotion(scrollYProgress);
     }
-  });
+  }, [name, portfolio, scrollYProgress, setScrollMotion]);
 };
