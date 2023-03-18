@@ -1,5 +1,13 @@
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import {
+  motion,
+  useAnimationControls,
+  useMotionValue,
+  useTransform,
+  Variants,
+} from "framer-motion";
+import { useEffect, useMemo } from "react";
 import styled from "styled-components";
+import { usePortfolioProvider } from "../../Provider/AnimationProvider";
 import { usePorfolioScrollDataProvider } from "../../Provider/PortfolioScrollProvider";
 
 const Wrapper = styled(motion.div)`
@@ -14,8 +22,6 @@ const Wrapper = styled(motion.div)`
 
   width: 2.5%;
   height: 35%;
-
-  transform: translate(0%, -50%);
 
   background: var(--color-black-60);
   border-radius: 3rem;
@@ -45,9 +51,19 @@ const ScrollPlaceholder = styled.div`
   opacity: 0.5;
 `;
 
+const variants: Variants = {
+  initial: {
+    transform: "translate(250%,-50%)",
+  },
+  translate: {
+    transform: "translate(0%,-50%)",
+  },
+};
+
 const ScrollBar = () => {
   const { scrollMotion } = usePorfolioScrollDataProvider();
   const motion = useMotionValue(0);
+  const { portfolio } = usePortfolioProvider();
 
   const scale = useTransform(
     scrollMotion ? scrollMotion : motion,
@@ -55,10 +71,27 @@ const ScrollBar = () => {
     [0, 1]
   );
 
+  const controls = useAnimationControls();
+
+  useEffect(() => {
+    if (portfolio) {
+      controls.start("translate", { delay: 0.75 });
+    } else {
+      controls.start("initial");
+    }
+  }, [controls, portfolio]);
+
+  const style = useMemo(
+    () => ({
+      scaleY: scale,
+    }),
+    [scale]
+  );
+
   return (
-    <Wrapper>
+    <Wrapper variants={variants} initial="initial" animate={controls}>
       <ScrollPlaceholder />
-      <ScrollProgress style={{ scaleY: scale }} />
+      <ScrollProgress style={style} />
     </Wrapper>
   );
 };
