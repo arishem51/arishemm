@@ -3,7 +3,7 @@ import { useContext, useMemo, useState } from "react";
 import { createContext } from "react";
 import { usePrevious } from "../hooks/usePrevious";
 import { useHandleViewMove } from "../hooks/useHandleViewMove";
-import { AnimationType, PortfolioType, ScrollType, SetState } from "../types";
+import { AnimationType, PortfolioType, SetState } from "../types";
 
 type AnimationDataContextProps = {
   viewX: MotionValue<number>;
@@ -15,7 +15,6 @@ type AnimationDataContextProps = {
 type AnimationAPIContextProps = {
   setPortfolio: SetState<PortfolioType | undefined>;
   setAnimationType: SetState<AnimationType>;
-  setScrollState: SetState<ScrollType>;
   setIsAnimationRunning: SetState<boolean>;
 };
 
@@ -25,10 +24,6 @@ type PortfolioContextProps = {
 
 type PreviousPortfolioContextProps = {
   previousPortfolio: PortfolioType | undefined;
-};
-
-type ScrollContextProps = {
-  scrollState: ScrollType;
 };
 
 type AnimationRefContextProps = {
@@ -60,10 +55,6 @@ const PreviousPortfolioContext = createContext<PreviousPortfolioContextProps>(
   {} as PreviousPortfolioContextProps
 );
 
-const ScrollContext = createContext<ScrollContextProps>(
-  {} as ScrollContextProps
-);
-
 const AnimationRefContext = createContext<AnimationRefContextProps>(
   {} as AnimationRefContextProps
 );
@@ -85,7 +76,6 @@ export const useAnimationAPIProvider = () => useContext(AnimationAPIContext);
 export const usePortfolioProvider = () => useContext(PortfolioContext);
 export const usePreviousPortfolioProvider = () =>
   useContext(PreviousPortfolioContext);
-export const useScrollProvider = () => useContext(ScrollContext);
 export const useAnimationRefProvider = () => useContext(AnimationRefContext);
 export const useAnimationRunningProvider = () =>
   useContext(AnimationRunningContext);
@@ -96,7 +86,6 @@ export default function AnimationProvider({ children }: Props) {
   const previousPortfolio = usePrevious<PortfolioType | undefined>(portfolio);
   const [animationType, setAnimationType] = useState<AnimationType>("expand");
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
-  const [scrollState, setScrollState] = useState<ScrollType>("initial");
 
   const handleViewMoveMemo = useMemo(() => ({ portfolio }), [portfolio]);
 
@@ -115,7 +104,6 @@ export default function AnimationProvider({ children }: Props) {
   const animationAPIValue = useMemo<AnimationAPIContextProps>(() => {
     return {
       setAnimationType,
-      setScrollState,
       setPortfolio,
       setIsAnimationRunning,
     };
@@ -132,12 +120,6 @@ export default function AnimationProvider({ children }: Props) {
       previousPortfolio,
     };
   }, [previousPortfolio]);
-
-  const scrollValue = useMemo<ScrollContextProps>(() => {
-    return {
-      scrollState,
-    };
-  }, [scrollState]);
 
   const refValue = useMemo<AnimationRefContextProps>(() => {
     return {
@@ -162,17 +144,15 @@ export default function AnimationProvider({ children }: Props) {
     <AnimationDataContext.Provider value={animationDataValue}>
       <PortfolioContext.Provider value={portfolioValue}>
         <PreviousPortfolioContext.Provider value={previousPortfolioValue}>
-          <ScrollContext.Provider value={scrollValue}>
-            <AnimationRefContext.Provider value={refValue}>
-              <AnimationRunningContext.Provider value={animationRunningValue}>
-                <AnimationTypeContext.Provider value={animationTypeValue}>
-                  <AnimationAPIContext.Provider value={animationAPIValue}>
-                    {children}
-                  </AnimationAPIContext.Provider>
-                </AnimationTypeContext.Provider>
-              </AnimationRunningContext.Provider>
-            </AnimationRefContext.Provider>
-          </ScrollContext.Provider>
+          <AnimationRefContext.Provider value={refValue}>
+            <AnimationRunningContext.Provider value={animationRunningValue}>
+              <AnimationTypeContext.Provider value={animationTypeValue}>
+                <AnimationAPIContext.Provider value={animationAPIValue}>
+                  {children}
+                </AnimationAPIContext.Provider>
+              </AnimationTypeContext.Provider>
+            </AnimationRunningContext.Provider>
+          </AnimationRefContext.Provider>
         </PreviousPortfolioContext.Provider>
       </PortfolioContext.Provider>
     </AnimationDataContext.Provider>

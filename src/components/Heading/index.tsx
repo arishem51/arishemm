@@ -1,17 +1,20 @@
 import {
+  cubicBezier,
   motion,
   Transition,
   useAnimationControls,
+  useMotionValue,
+  useTransform,
   Variants,
 } from "framer-motion";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
   useAnimationRunningProvider,
   usePortfolioProvider,
-  useScrollProvider,
 } from "../../Provider/AnimationProvider";
+import { usePorfolioScrollDataProvider } from "../../Provider/PortfolioScrollProvider";
 
 const Wrapper = styled(motion.h1)`
   position: relative;
@@ -39,23 +42,16 @@ const transition: Transition = {
 const variants: Variants = {
   initial: {
     top: "50%",
-    zIndex: 1,
+    zIndex: 3,
     transform: "translate(-50%, -50%)",
     fontSize: "7em",
     color: "var(--color-black)",
   },
   animateWhenHavePortfolio: {
-    zIndex: 3,
     opacity: 1,
     transform: "translate(-50%, calc(-50% - 40vh))",
     fontSize: "3.2em",
     color: "var(--color-white)",
-  },
-  scrollDown: {
-    opacity: 0,
-  },
-  setAfterScrollDown: {
-    zIndex: 1,
   },
 };
 
@@ -63,30 +59,41 @@ const Heading = ({ children, ...props }: Props) => {
   const controls = useAnimationControls();
   const { portfolio } = usePortfolioProvider();
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
-  const { scrollState } = useScrollProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
+  const { scrollMotion } = usePorfolioScrollDataProvider();
+  const motion = useMotionValue(0);
+
+  const opacity = useTransform(
+    scrollMotion ? scrollMotion : motion,
+    [0, 0.1],
+    [1, 0],
+    { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
+  );
+
+  const zIndex = useTransform(
+    scrollMotion ? scrollMotion : motion,
+    [0, 0.1],
+    [3, 1],
+    { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
+  );
 
   const handleClick = useCallback(() => {
-    if (scrollState !== "initial" || isAnimationRunning) {
+    if (scrollMotion?.get() || 0 > 0 || isAnimationRunning) {
       return;
     }
     setPortfolio(undefined);
     setAnimationType("expand");
-  }, [isAnimationRunning, scrollState, setAnimationType, setPortfolio]);
+  }, [isAnimationRunning, scrollMotion, setAnimationType, setPortfolio]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (portfolio) {
-      if (scrollState === "initial") {
-        controls.start("animateWhenHavePortfolio");
-      } else if (scrollState === "down") {
-        controls.start("scrollDown").then(() => {
-          controls.set("setAfterScrollDown");
-        });
-      }
+      controls.start("animateWhenHavePortfolio");
     } else {
       controls.start("initial");
     }
-  }, [controls, portfolio, scrollState]);
+  }, [controls, portfolio]);
+
+  const style = useMemo(() => ({ opacity, zIndex }), [opacity, zIndex]);
 
   return (
     <Wrapper
@@ -96,6 +103,7 @@ const Heading = ({ children, ...props }: Props) => {
       transition={transition}
       animate={controls}
       onClick={handleClick}
+      style={style}
     >
       {children}
     </Wrapper>

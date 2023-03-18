@@ -6,8 +6,8 @@ import {
 } from "framer-motion";
 import React, { CSSProperties, useMemo, useRef } from "react";
 import styled from "styled-components";
-import { usePortfolioScroll } from "../../hooks/usePortfolioScroll";
 import { useAnimationControlsPortfolioItem } from "../../hooks/useAnimationControlsPortfolioItem";
+import { usePortfolioScroll } from "../../hooks/usePortfolioScroll";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
 import { PortfolioType } from "../../types";
 import Title from "./Title";
@@ -110,7 +110,11 @@ function PortfolioItem({
 
   const [isHover, setIsHover] = React.useState(false);
 
-  usePortfolioScroll({ scrollRef: ref });
+  const portfolioScrollValue = useMemo(
+    () => ({ scrollRef: ref, name }),
+    [name, ref]
+  );
+  usePortfolioScroll(portfolioScrollValue);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (portfolio === name) {
