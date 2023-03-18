@@ -1,4 +1,9 @@
-import { motion, useAnimationControls, Variants } from "framer-motion";
+import {
+  motion,
+  Transition,
+  useAnimationControls,
+  Variants,
+} from "framer-motion";
 import { useEffect, ReactNode } from "react";
 import styled from "styled-components";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
@@ -36,7 +41,7 @@ const variantsLeftText: Variants = {
   initial: {
     transform: "translate(105%,0%)",
   },
-  animate: {
+  hover: {
     transform: "translate(0%,0%)",
   },
   hidden: {
@@ -51,7 +56,7 @@ const variantsRightText: Variants = {
   initial: {
     transform: "translate(-200%,0%)",
   },
-  animate: {
+  hover: {
     transform: "translate(-100%, 0%)",
   },
   hidden: {
@@ -62,9 +67,13 @@ const variantsRightText: Variants = {
   },
 };
 
+const transition: Transition = {
+  duration: 0.5,
+  ease: "easeOut",
+};
+
 const Title = ({ isParentHover, children }: Props) => {
-  const controlsLeftText = useAnimationControls();
-  const controlsRightText = useAnimationControls();
+  const controls = useAnimationControls();
   const { portfolio } = usePortfolioProvider();
 
   useEffect(() => {
@@ -73,26 +82,20 @@ const Title = ({ isParentHover, children }: Props) => {
       return;
     }
     if (isParentHover) {
-      controlsLeftText.start("animate");
-      controlsRightText.start("animate");
+      controls.start("hover", { delay: 0.1 });
     } else {
-      controlsLeftText.start("initial");
-      controlsRightText.start("initial");
+      controls.start("initial");
     }
-  }, [controlsLeftText, controlsRightText, isParentHover, portfolio]);
+  }, [controls, isParentHover, portfolio]);
 
   useEffect(() => {
-    // This effect will handle animation when have portfolio or not
+    // This effect will handle animation when have portfolio or not (Expand animation)
     if (portfolio) {
-      controlsLeftText.start("hidden");
-      controlsRightText.start("hidden");
+      controls.start("hidden");
     } else {
-      setTimeout(() => {
-        controlsLeftText.start("visible");
-        controlsRightText.start("visible");
-      }, 750);
+      controls.start("visible", { delay: 1 });
     }
-  }, [controlsLeftText, controlsRightText, portfolio]);
+  }, [controls, portfolio]);
 
   return (
     <WrapperText justifyContent="center">
@@ -100,7 +103,8 @@ const Title = ({ isParentHover, children }: Props) => {
         <Text
           variants={variantsLeftText}
           initial="initial"
-          animate={controlsLeftText}
+          animate={controls}
+          transition={transition}
         >
           {children}
         </Text>
@@ -109,7 +113,8 @@ const Title = ({ isParentHover, children }: Props) => {
         <Text
           variants={variantsRightText}
           initial="initial"
-          animate={controlsRightText}
+          animate={controls}
+          transition={transition}
         >
           {children}
         </Text>
