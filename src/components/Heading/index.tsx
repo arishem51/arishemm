@@ -1,10 +1,13 @@
 import {
+  cubicBezier,
   motion,
   Transition,
   useAnimationControls,
+  useMotionValue,
+  useTransform,
   Variants,
 } from "framer-motion";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
@@ -39,23 +42,16 @@ const transition: Transition = {
 const variants: Variants = {
   initial: {
     top: "50%",
-    zIndex: 1,
+    zIndex: 3,
     transform: "translate(-50%, -50%)",
     fontSize: "7em",
     color: "var(--color-black)",
   },
   animateWhenHavePortfolio: {
-    zIndex: 3,
     opacity: 1,
     transform: "translate(-50%, calc(-50% - 40vh))",
     fontSize: "3.2em",
     color: "var(--color-white)",
-  },
-  scrollDown: {
-    opacity: 0,
-  },
-  setAfterScrollDown: {
-    zIndex: 1,
   },
 };
 
@@ -65,47 +61,39 @@ const Heading = ({ children, ...props }: Props) => {
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
   const { scrollMotion } = usePorfolioScrollDataProvider();
-  const [shouldVisible, setShouldVisible] = useState(true);
+  const motion = useMotionValue(0);
 
-  useEffect(() => {
-    // FIXME: Change portfolio will  cause this effect run 2 times need an solution
-    if (scrollMotion && portfolio) {
-      const unscribe = scrollMotion.on("change", (current) => {
-        const previous = scrollMotion.getPrevious();
-        if (current >= previous) {
-          setShouldVisible(false);
-        } else if (current === 0) {
-          setShouldVisible(true);
-        }
-      });
+  const opacity = useTransform(
+    scrollMotion ? scrollMotion : motion,
+    [0, 0.1],
+    [1, 0],
+    { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
+  );
 
-      return () => {
-        unscribe();
-      };
-    }
-  }, [portfolio, scrollMotion]);
+  const zIndex = useTransform(
+    scrollMotion ? scrollMotion : motion,
+    [0, 0.1],
+    [3, 1],
+    { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
+  );
 
   const handleClick = useCallback(() => {
-    if (!shouldVisible || isAnimationRunning) {
+    if (scrollMotion?.get() || 0 > 0 || isAnimationRunning) {
       return;
     }
     setPortfolio(undefined);
     setAnimationType("expand");
-  }, [isAnimationRunning, setAnimationType, setPortfolio, shouldVisible]);
+  }, [isAnimationRunning, scrollMotion, setAnimationType, setPortfolio]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (portfolio) {
-      if (shouldVisible) {
-        controls.start("animateWhenHavePortfolio");
-      } else {
-        controls.start("scrollDown").then(() => {
-          controls.set("setAfterScrollDown");
-        });
-      }
+      controls.start("animateWhenHavePortfolio");
     } else {
       controls.start("initial");
     }
-  }, [controls, portfolio, shouldVisible]);
+  }, [controls, portfolio]);
+
+  const style = useMemo(() => ({ opacity, zIndex }), [opacity, zIndex]);
 
   return (
     <Wrapper
@@ -115,6 +103,7 @@ const Heading = ({ children, ...props }: Props) => {
       transition={transition}
       animate={controls}
       onClick={handleClick}
+      style={style}
     >
       {children}
     </Wrapper>
