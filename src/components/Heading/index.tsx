@@ -46,12 +46,14 @@ const variants: Variants = {
     transform: "translate(-50%, -50%)",
     fontSize: "7em",
     color: "var(--color-black)",
+    cursor: "default",
   },
   animateWhenHavePortfolio: {
     opacity: 1,
     transform: "translate(-50%, calc(-50% - 40vh))",
     fontSize: "3.2em",
     color: "var(--color-white)",
+    cursor: "pointer",
   },
 };
 
