@@ -79,9 +79,10 @@ const MissingCorner = () => {
         </Heading>
         <Time>Oct 2021 - Aug 2022</Time>
         <Paragraph style={{ fontSize: "1.2em" }}>
-          The journey started here, where I learned a lot. I have been mentored
-          and worked with the senior, using technologies like styled-component,
-          typescript, react and react native to develop and maintain projects.
+          During my time at Missing Corner, I gained valuable experience working
+          alongside senior developers. I was responsible for developing and
+          maintaining projects using technologies such as React, TypeScript,
+          styled-components, and React Native.
         </Paragraph>
       </Flex>
       <ImgContainer gap="2em">
