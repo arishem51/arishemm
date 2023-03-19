@@ -1,4 +1,3 @@
-import React from "react";
 import FramerMotion from "../../assets/framer-motion.svg";
 import Javascript from "../../assets/javascript.svg";
 import ReactLogo from "../../assets/react.svg";
@@ -9,6 +8,7 @@ import TailwindCSS from "../../assets/tailwind-css.svg";
 import HTML from "../../assets/html-5.svg";
 import CSS from "../../assets/css-3.svg";
 import Redux from "../../assets/redux.svg";
+import Github from "../../assets/github.svg";
 
 const Logo = {
   Typescript,
@@ -21,6 +21,7 @@ const Logo = {
   HTML,
   CSS,
   Redux,
+  Github,
 };
 
 export default Logo;
