@@ -15,13 +15,13 @@ const Flex = styled(Stack)`
 type Props = {
   children: ReactNode;
   title: string;
-  reverseContent?: boolean;
+  childrenStyle?: Omit<StackProps, "children">;
 } & StackProps;
 
 const ShowcaseSection = ({
   children,
   title,
-  reverseContent = false,
+  childrenStyle,
   ...props
 }: Props) => {
   return (
@@ -32,11 +32,7 @@ const ShowcaseSection = ({
       {...props}
     >
       <Title>{title}</Title>
-      <Flex
-        alignItems="center"
-        gap="3em"
-        direction={reverseContent ? "row-reverse" : "row"}
-      >
+      <Flex alignItems="center" gap="3em" {...childrenStyle}>
         {children}
       </Flex>
     </Wrapper>
