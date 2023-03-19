@@ -1,7 +1,7 @@
 import { motion, Transition, useAnimationControls } from "framer-motion";
 import { useEffect } from "react";
 import styled from "styled-components";
-import { createAnimationDefination } from "../../helpers";
+import { createAnimationDefination, timeOut } from "../../helpers";
 import Stack from "../Stack";
 
 const Wrapper = styled(Stack)`
@@ -48,6 +48,7 @@ const Onboard = ({ onAnimatedEnd }: Props) => {
       await controls.start((i) =>
         createAnimationDefination(i, "0%", transition)
       );
+      await timeOut(500);
       await controls.start((i) =>
         createAnimationDefination(i, "-100%", transition)
       );
