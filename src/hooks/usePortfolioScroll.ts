@@ -1,4 +1,4 @@
-import { RefObject, useEffect } from "react";
+import { RefObject } from "react";
 import { useScroll } from "framer-motion";
 import { usePortfolioScrollAPIProivder } from "../Provider/PortfolioScrollProvider";
 import { usePortfolioProvider } from "../Provider/AnimationProvider";
@@ -14,9 +14,7 @@ export const usePortfolioScroll = ({ scrollRef, name }: Props) => {
   const { setScrollMotion } = usePortfolioScrollAPIProivder();
   const { portfolio } = usePortfolioProvider();
 
-  useEffect(() => {
-    if (scrollYProgress && portfolio === name) {
-      setScrollMotion(scrollYProgress);
-    }
-  }, [name, portfolio, scrollYProgress, setScrollMotion]);
+  if (scrollYProgress && portfolio === name) {
+    setScrollMotion(scrollYProgress);
+  }
 };
