@@ -10,39 +10,44 @@ const Heading = styled.h1`
   color: var(--color-black-60);
 `;
 
-const Slash = styled.span`
-  font-size: inherit;
-  font-family: "Rampart One", cursive;
+const TextContent = styled(Paragraph)`
+  margin: 0.8em 0;
 `;
-
-const style = { margin: ".8em 0" };
 
 const ExpandedContact = () => {
   return (
     <ExpandedWrapper>
       <ShowcaseSection title="Get in touch">
         <Stack direction="column" gap=".8em">
-          <Paragraph style={style}>
-            Currently I&apos;m looking for new opportunities. Contact me if you
-            need help 😸😸
-          </Paragraph>
+          <TextContent>
+            If you have any inquiries, job opportunities or just want to say
+            hello, feel free to contact me using the information below:
+          </TextContent>
           <Heading>
             Email:{" "}
             <Link href="mailto:hungphung2002@gmail.com">
               hungphung2002@gmail.com
             </Link>
           </Heading>
-
           <Heading>
-            Social Media:{" "}
-            <Link href="https://www.linkedin.com/in/arishemm/">LinkedIn</Link>
-            <Slash>&nbsp;/&nbsp;</Slash>
-            <Link href="https://www.facebook.com/arishem51/">Facebook</Link>
-            <Slash>&nbsp;/&nbsp;</Slash>
-            <Link href="https://twitter.com/HungPhung51">Twitter</Link>
-            <Slash>&nbsp;/&nbsp;</Slash>
-            <Link href="https://github.com/arishem51">Github</Link>
+            Github:{" "}
+            <Link href="https://github.com/arishem51">
+              https://github.com/arishem51
+            </Link>
           </Heading>
+          <Heading>
+            LinkedIn:{" "}
+            <Link href="https://www.linkedin.com/in/arishemm">
+              https://www.linkedin.com/in/arishemm
+            </Link>
+          </Heading>
+          <Heading>
+            Twitter:{" "}
+            <Link href="https://twitter.com/HungPhung51">
+              https://twitter.com/HungPhung51
+            </Link>
+          </Heading>
+          <TextContent>I look forward to hearing from you soon!</TextContent>
         </Stack>
       </ShowcaseSection>
     </ExpandedWrapper>
