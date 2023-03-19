@@ -49,6 +49,7 @@ const Portfolio = () => {
   const { viewX, viewY } = useAnimationDataProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
   const { portfolio } = usePortfolioProvider();
+  const { setIsAnimationRunning } = useAnimationAPIProvider();
 
   const styles = useMemo(
     () => ({
@@ -68,6 +69,7 @@ const Portfolio = () => {
             }
             setAnimationType("expand");
             setPortfolio(item);
+            setIsAnimationRunning(true);
           }}
           key={item}
         >

@@ -153,13 +153,11 @@ export function useAnimationControlsPortfolioItem({
     // Expand goes here
     if (animationType === "expand") {
       if (portfolio === name) {
-        setIsAnimationRunning(true);
         animationControls.start("expand", transition).then(() => {
           animationControls.set("enableScroll");
           setIsAnimationRunning(false);
         });
       } else if (previousPortfolio === name) {
-        setIsAnimationRunning(true);
         animationControls.start("initialWithOutZIndex", transition).then(() => {
           animationControls.set("lowZIndex");
           setIsAnimationRunning(false);
@@ -187,15 +185,14 @@ export function useAnimationControlsPortfolioItem({
             ...transition,
           })
           .then(() => {
-            setIsAnimationRunning(false);
             animationControls.set("enableScroll");
+            setIsAnimationRunning(false);
           });
       } else if (
         previousPortfolio === name &&
         portfolio !== previousPortfolio
       ) {
         animationControls.set("setBeforeScaleDown");
-        setIsAnimationRunning(true);
         animationControls.start("scaleDown", transition).then(async () => {
           await timeOut(TIME);
           animationControls.set("initial");

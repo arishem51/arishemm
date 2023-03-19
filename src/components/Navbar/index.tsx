@@ -55,7 +55,8 @@ const transition: Transition = {
 };
 
 const Navbar = () => {
-  const { setPortfolio, setAnimationType } = useAnimationAPIProvider();
+  const { setPortfolio, setAnimationType, setIsAnimationRunning } =
+    useAnimationAPIProvider();
   const { portfolio } = usePortfolioProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
   const controls = useAnimationControls();
@@ -74,6 +75,7 @@ const Navbar = () => {
     }
     setPortfolio(item);
     setAnimationType("slideUp");
+    setIsAnimationRunning(true);
   }
 
   const renderItem = () => {
