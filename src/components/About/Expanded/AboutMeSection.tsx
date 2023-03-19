@@ -45,20 +45,36 @@ const variants: Variants = {
   },
 };
 
+const TextContent = styled(Paragraph)<{ shouldSpace?: boolean }>`
+  font-size: 1.3rem;
+  margin: ${(props) => (props.shouldSpace ? ".5em 0" : "0")};
+`;
+
 const AboutMeSection = () => {
   return (
     <ShowcaseSection title="About Me">
       <div>
-        <Paragraph>
-          Hello! I&apos;m Arishemm. I love building something creative that
-          people can interact with.
-        </Paragraph>
-        <Paragraph style={{ marginTop: ".5em" }}>
-          I&apos;m a student at{" "}
+        <TextContent>
+          Hello! My name is Arishemm and I&apos;m passionate about building
+          creative and interactive experiences for people to enjoy. As a
+          software engineering student at{" "}
           <Link href="https://hanoi.fpt.edu.vn/">FPT University</Link> in Hanoi,
-          majoring in software engineering, focusing on things that are creative
-          and performant to provide a good user experience.
-        </Paragraph>
+          I&apos;m focused on developing performant solutions that provide
+          exceptional user experiences.
+        </TextContent>
+        <TextContent shouldSpace>
+          In my free time, I love working on various projects that challenge me
+          to improve my skills. This includes building UIs inspired by{" "}
+          <Link href="https://codepen.io/">Codepen</Link>,{" "}
+          <Link href="https://uiverse.io/">UiVerse</Link>,{" "}
+          <Link href="https://css-tricks.com/">Css-Tricks</Link>, and{" "}
+          <Link href="https://www.framer.com/motion/">Framer Motion</Link>
+        </TextContent>
+        <TextContent shouldSpace>
+          I&apos;m constantly learning and growing in the field of front-end
+          development and I&apos;m excited to see where my skills will take me
+          next.
+        </TextContent>
       </div>
       <ImageWrapper>
         <Img src={AboutMe} />
