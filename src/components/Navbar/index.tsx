@@ -1,6 +1,7 @@
 import {
   LayoutGroup,
   motion,
+  Transition,
   useAnimationControls,
   Variants,
 } from "framer-motion";
@@ -49,6 +50,10 @@ const variants: Variants = {
   },
 };
 
+const transition: Transition = {
+  delay: 0.75,
+};
+
 const Navbar = () => {
   const { setPortfolio, setAnimationType } = useAnimationAPIProvider();
   const { portfolio } = usePortfolioProvider();
@@ -57,9 +62,7 @@ const Navbar = () => {
 
   useEffect(() => {
     if (portfolio) {
-      controls.start("visible", {
-        delay: 0.75,
-      });
+      controls.start("visible", transition);
     } else {
       controls.start("initial");
     }

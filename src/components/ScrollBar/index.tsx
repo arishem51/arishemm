@@ -1,5 +1,6 @@
 import {
   motion,
+  Transition,
   useAnimationControls,
   useMotionValue,
   useTransform,
@@ -60,6 +61,10 @@ const variants: Variants = {
   },
 };
 
+const transition: Transition = {
+  delay: 0.75,
+};
+
 const ScrollBar = () => {
   const { scrollMotion } = usePorfolioScrollDataProvider();
   const motion = useMotionValue(0);
@@ -75,7 +80,7 @@ const ScrollBar = () => {
 
   useEffect(() => {
     if (portfolio) {
-      controls.start("translate", { delay: 0.75 });
+      controls.start("translate", transition);
     } else {
       controls.start("initial");
     }
