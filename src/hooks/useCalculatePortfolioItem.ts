@@ -1,15 +1,10 @@
 import { Coordinates, PortfolioType } from "../types";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   useAnimationDataProvider,
   useAnimationRefProvider,
   usePortfolioProvider,
 } from "../Provider/AnimationProvider";
-
-const InitialCoordinates: Coordinates = {
-  x: 0,
-  y: 0,
-};
 
 type Props = {
   name: PortfolioType;
@@ -26,43 +21,33 @@ export const useCalculatePortfolioItem = ({
   width,
   height,
 }: Props) => {
-  const [offset, setOffset] = useState<Coordinates>(InitialCoordinates);
   const { portfolio } = usePortfolioProvider();
   const { motionX, motionY } = useAnimationDataProvider();
   const { contentRef } = useAnimationRefProvider();
 
-  useEffect(() => {
-    // Sync motionX/Y instead of SpringX/Y
-    if (portfolio === name) {
-      setOffset({
-        x: motionX.get() * -1,
-        y: motionY.get() * -1,
-      });
-    } else {
-      setOffset(InitialCoordinates);
-    }
-  }, [portfolio, motionX, motionY, name]);
-
   const translate = useMemo<Coordinates>(() => {
-    if (portfolio === name && (offset.x > 0 || offset.y > 0)) {
+    const offsetX = motionX.get() * -1;
+    const offsetY = motionY.get() * -1;
+    if (portfolio === name && (offsetX > 0 || offsetY > 0)) {
+      // Get the offset  of the item related to the contentRef
+
       const x =
         (+left.slice(0, -1) * (contentRef?.current?.clientWidth || 0)) / 100 -
-        offset.x;
+        offsetX;
       const y =
         (+top.slice(0, -1) * (contentRef?.current?.clientHeight || 0)) / 100 -
-        offset.y;
-      {
-        return {
-          x,
-          y,
-        };
-      }
+        offsetY;
+
+      return {
+        x,
+        y,
+      };
     }
     return {
       x: 0,
       y: 0,
     };
-  }, [contentRef, left, name, offset.x, offset.y, portfolio, top]);
+  }, [contentRef, left, motionX, motionY, name, portfolio, top]);
 
   const { percentageWidth, percentageHeight } = useMemo(() => {
     if (portfolio === name) {
