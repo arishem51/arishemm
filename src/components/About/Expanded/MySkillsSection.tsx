@@ -62,6 +62,10 @@ const SKILLS: { name: string; logo: string }[] = [
     name: "Framer Motion",
     logo: Logo.FramerMotion,
   },
+  {
+    name: "Github",
+    logo: Logo.Github,
+  },
 ];
 
 const MySkills = () => {
