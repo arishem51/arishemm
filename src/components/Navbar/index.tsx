@@ -55,7 +55,6 @@ const Navbar = () => {
     useAnimationAPIProvider();
   const { portfolio } = usePortfolioProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
-  // const controls = useAnimationControls();
   const [scope, animate] = useAnimate();
 
   useEffect(() => {
