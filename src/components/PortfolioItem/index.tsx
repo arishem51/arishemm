@@ -1,14 +1,15 @@
 import {
   AnimatePresence,
   motion,
+  useScroll,
   useWillChange,
   Variants,
 } from "framer-motion";
 import React, { CSSProperties, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { useAnimationControlsPortfolioItem } from "../../hooks/useAnimationControlsPortfolioItem";
-import { usePortfolioScroll } from "../../hooks/usePortfolioScroll";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
+import { usePortfolioScrollAPIProivder } from "../../Provider/PortfolioScrollProvider";
 import { PortfolioType } from "../../types";
 import Title from "./Title";
 
@@ -93,6 +94,13 @@ function PortfolioItem({
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const { portfolio } = usePortfolioProvider();
+  const [isHover, setIsHover] = React.useState(false);
+  const { scrollYProgress } = useScroll({ container: ref });
+  const { setScrollMotion } = usePortfolioScrollAPIProivder();
+
+  if (scrollYProgress && portfolio === name) {
+    setScrollMotion(scrollYProgress);
+  }
 
   const { animationControls, variants } = useAnimationControlsPortfolioItem({
     width,
@@ -107,14 +115,6 @@ function PortfolioItem({
   const styles = useMemo(() => {
     return { willChange };
   }, [willChange]);
-
-  const [isHover, setIsHover] = React.useState(false);
-
-  const portfolioScrollValue = useMemo(
-    () => ({ scrollRef: ref, name }),
-    [name, ref]
-  );
-  usePortfolioScroll(portfolioScrollValue);
 
   function handleHoverStart() {
     if (portfolio) {
