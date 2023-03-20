@@ -87,6 +87,7 @@ export function useHandleViewMove({ portfolio }: Props) {
       },
       firstRender.current ? 2000 : 750
     );
+
     return () => {
       element?.removeEventListener("mousemove", handleMouseMoveOnView);
       window.clearTimeout(timeoutdId);
