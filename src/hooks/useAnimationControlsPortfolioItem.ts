@@ -9,12 +9,12 @@ import { timeOut } from "../helpers";
 import {
   useAnimationAPIProvider,
   useAnimationDataProvider,
+  useAnimationRefProvider,
   useAnimationTypeProvider,
   usePortfolioProvider,
   usePreviousPortfolioProvider,
 } from "../Provider/AnimationProvider";
 import { PortfolioType } from "../types";
-import { useCalculatePortfolioItem } from "./useCalculatePortfolioItem";
 
 const TIME = 750; // Miliseconds
 
@@ -44,13 +44,47 @@ export function useAnimationControlsPortfolioItem({
   const { setIsAnimationRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
   const animationControls = useAnimationControls();
+  const { contentRef } = useAnimationRefProvider();
 
-  const calculateValue = useMemo(
-    () => ({ name, left, top, width, height }),
-    [height, left, name, top, width]
-  );
-  const { translate, percentageHeight, percentageWidth } =
-    useCalculatePortfolioItem(calculateValue);
+  const {
+    x: translateX,
+    y: translateY,
+    percentageHeight,
+    percentageWidth,
+  } = useMemo(() => {
+    const offsetX = motionX.get() * -1;
+    const offsetY = motionY.get() * -1;
+    if (portfolio === name && (offsetX > 0 || offsetY > 0)) {
+      // Get the offset  of the item related to the contentRef
+
+      const x =
+        (+left.slice(0, -1) * (contentRef?.current?.clientWidth || 0)) / 100 -
+        offsetX;
+      const y =
+        (+top.slice(0, -1) * (contentRef?.current?.clientHeight || 0)) / 100 -
+        offsetY;
+
+      const percentageWidth =
+        (window.innerWidth / (contentRef?.current?.clientWidth || 0)) * 100 +
+        "%";
+      const percentageHeight =
+        (window.innerHeight / (contentRef?.current?.clientHeight || 0)) * 100 +
+        "%";
+
+      return {
+        x,
+        y,
+        percentageWidth,
+        percentageHeight,
+      };
+    }
+    return {
+      x: 0,
+      y: 0,
+      percentageWidth: width,
+      percentageHeight: height,
+    };
+  }, [contentRef, height, left, motionX, motionY, name, portfolio, top, width]);
 
   const variants: Variants = React.useMemo(() => {
     return {
@@ -92,8 +126,8 @@ export function useAnimationControlsPortfolioItem({
         transformOrigin: "center center",
       },
       expand: {
-        x: portfolio === name ? -translate.x : 0,
-        y: portfolio === name ? -translate.y : 0,
+        x: portfolio === name ? -translateX : 0,
+        y: portfolio === name ? -translateY : 0,
         zIndex: 3,
 
         width: percentageWidth,
@@ -145,7 +179,8 @@ export function useAnimationControlsPortfolioItem({
     percentageWidth,
     portfolio,
     top,
-    translate,
+    translateX,
+    translateY,
     width,
   ]);
 
@@ -171,7 +206,6 @@ export function useAnimationControlsPortfolioItem({
     portfolio,
     previousPortfolio,
     setIsAnimationRunning,
-    translate,
   ]);
 
   useEffect(() => {
