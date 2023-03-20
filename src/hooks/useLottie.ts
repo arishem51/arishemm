@@ -24,10 +24,8 @@ export const useLottie = ({
   useEffect(() => {
     // Set default frame to Lottie
     if (lottie && !portfolio && firstRender.current) {
-      const frame =
-        lottie.currentFrame !== 0 ? lottie.currentFrame : defaultFrame;
-      lottie.goToAndStop(frame, true, lottie.name);
-      firstRender.current = true;
+      lottie.goToAndStop(defaultFrame, true, lottie.name);
+      firstRender.current = false;
     }
   }, [defaultFrame, lottie, portfolio]);
 
