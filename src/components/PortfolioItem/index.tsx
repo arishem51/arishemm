@@ -5,7 +5,7 @@ import {
   useWillChange,
   Variants,
 } from "framer-motion";
-import React, { CSSProperties, useMemo, useRef } from "react";
+import React, { CSSProperties, useEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { useAnimationControlsPortfolioItem } from "../../hooks/useAnimationControlsPortfolioItem";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
@@ -98,9 +98,11 @@ function PortfolioItem({
   const { scrollYProgress } = useScroll({ container: ref });
   const { setScrollMotion } = usePortfolioScrollAPIProivder();
 
-  if (scrollYProgress && portfolio === name) {
-    setScrollMotion(scrollYProgress);
-  }
+  useEffect(() => {
+    if (scrollYProgress && portfolio === name) {
+      setScrollMotion(scrollYProgress);
+    }
+  }, [name, portfolio, scrollYProgress, setScrollMotion]);
 
   const { animationControls, variants } = useAnimationControlsPortfolioItem({
     width,
