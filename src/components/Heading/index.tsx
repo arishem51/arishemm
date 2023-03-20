@@ -2,10 +2,9 @@ import {
   cubicBezier,
   motion,
   Transition,
-  useAnimationControls,
   useMotionValue,
   useTransform,
-  Variants,
+  useAnimate,
 } from "framer-motion";
 import React, { useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
@@ -39,7 +38,7 @@ const transition: Transition = {
   ease: "linear",
 };
 
-const variants: Variants = {
+const animation = {
   initial: {
     top: "50%",
     zIndex: 3,
@@ -58,8 +57,8 @@ const variants: Variants = {
 };
 
 const Heading = ({ children, ...props }: Props) => {
-  const controls = useAnimationControls();
   const { portfolio } = usePortfolioProvider();
+  const [scope, animate] = useAnimate();
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
   const { scrollMotion } = usePorfolioScrollDataProvider();
@@ -89,23 +88,21 @@ const Heading = ({ children, ...props }: Props) => {
 
   useEffect(() => {
     if (portfolio) {
-      controls.start("animateWhenHavePortfolio");
+      animate(scope.current, animation.animateWhenHavePortfolio, transition);
     } else {
-      controls.start("initial");
+      animate(scope.current, animation.initial, transition);
     }
-  }, [controls, portfolio]);
+  }, [animate, portfolio, scope]);
 
   const style = useMemo(() => ({ opacity, zIndex }), [opacity, zIndex]);
 
   return (
     <Wrapper
       {...props}
-      variants={variants}
-      initial="initial"
-      transition={transition}
-      animate={controls}
+      initial={animation.initial}
       onClick={handleClick}
       style={style}
+      ref={scope}
     >
       {children}
     </Wrapper>
