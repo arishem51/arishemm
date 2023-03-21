@@ -126,6 +126,7 @@ export function useAnimatePortfolioItem({
         y: portfolio === name ? -translateY : 0,
         zIndex: 3,
 
+        // FIXME: still have flash width/height
         width: percentageWidth,
         height: percentageHeight,
 
@@ -138,6 +139,7 @@ export function useAnimatePortfolioItem({
       },
 
       setBeforeSlideUp: {
+        // FIXME: use translate instead of top left
         top: motionY.get() * -1 + window.innerHeight,
         left: motionX.get() * -1,
 
@@ -268,9 +270,11 @@ export function useAnimatePortfolioItem({
       element
     ) {
       const endAnimationSlideUp = async () => {
-        await animate(element, animation.setBeforeScaleDown, {
-          duration: 0,
-        });
+        await animate(
+          element,
+          animation.setBeforeScaleDown,
+          animation.fastDuration
+        );
         await animate(element, animation.scaleDown, transition);
         await timeOut(TIME);
         animate(element, animation.initial, animation.fastDuration);
