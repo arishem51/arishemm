@@ -28,7 +28,7 @@ const TextInline = styled(motion.span)`
 
 const TIME = 600; // Miliseconds
 const HELLO = "Hello I'm Arishemm";
-const initial = { translateY: "100%" };
+const initial = { y: "100%" };
 
 const transition: Transition = {
   ease: "easeInOut",
@@ -52,7 +52,7 @@ const Onboard = ({ onAnimatedEnd }: Props) => {
       await controls.start((i) =>
         createAnimationDefination(i, "-100%", transition)
       );
-      onAnimatedEnd();
+      // onAnimatedEnd();
     }
   }, [onAnimatedEnd, controls]);
 
