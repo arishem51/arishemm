@@ -1,10 +1,8 @@
 import {
   motion,
-  Transition,
-  useAnimationControls,
+  useAnimate,
   useMotionValue,
   useTransform,
-  Variants,
 } from "framer-motion";
 import { useEffect, useMemo } from "react";
 import styled from "styled-components";
@@ -14,7 +12,7 @@ import { usePorfolioScrollDataProvider } from "../../Provider/PortfolioScrollPro
 const Wrapper = styled(motion.div)`
   position: fixed;
   top: 50%;
-  right: 2.5%;
+  right: 0;
   z-index: 2;
 
   display: flex;
@@ -28,6 +26,8 @@ const Wrapper = styled(motion.div)`
   border-radius: 3rem;
 
   overflow: hidden;
+
+  transform: translateY(-50%);
 `;
 
 const ScrollProgress = styled(motion.div)`
@@ -52,17 +52,13 @@ const ScrollPlaceholder = styled.div`
   opacity: 0.5;
 `;
 
-const variants: Variants = {
-  initial: {
-    transform: "translate(250%,-50%)",
+const animation = {
+  initial: { y: "-50%", x: "100%" },
+  animate: { y: "-50%", x: "-50%" },
+  transition: {
+    duration: 0.2,
+    delay: 0.75,
   },
-  translate: {
-    transform: "translate(0%,-50%)",
-  },
-};
-
-const transition: Transition = {
-  delay: 0.75,
 };
 
 const ScrollBar = () => {
@@ -70,21 +66,27 @@ const ScrollBar = () => {
   const motion = useMotionValue(0);
   const { portfolio } = usePortfolioProvider();
 
+  const [scope, animate] = useAnimate();
+
   const scale = useTransform(
     scrollMotion ? scrollMotion : motion,
     [0, 1],
     [0, 1]
   );
 
-  const controls = useAnimationControls();
-
   useEffect(() => {
     if (portfolio) {
-      controls.start("translate", transition);
-    } else {
-      controls.start("initial");
+      const element = scope.current;
+      animate(element, animation.animate, {
+        delay: animation.transition.delay,
+      });
+      return () => {
+        animate(element, animation.initial, {
+          duration: animation.transition.duration,
+        });
+      };
     }
-  }, [controls, portfolio]);
+  }, [animate, portfolio, scope]);
 
   const style = useMemo(
     () => ({
@@ -94,7 +96,7 @@ const ScrollBar = () => {
   );
 
   return (
-    <Wrapper variants={variants} initial="initial" animate={controls}>
+    <Wrapper initial={animation.initial} ref={scope}>
       <ScrollPlaceholder />
       <ScrollProgress style={style} />
     </Wrapper>
