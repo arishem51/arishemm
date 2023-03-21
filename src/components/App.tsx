@@ -2,6 +2,7 @@ import { useState } from "react";
 import Onboard from "./Onboard";
 import MainContent from "./MainContent";
 import AnimationProvider from "../Provider/AnimationProvider";
+import { MotionConfig } from "framer-motion";
 
 function App() {
   const [shouldRenderOnboard, setShouldRenderOnboard] = useState(true);
@@ -14,7 +15,9 @@ function App() {
     <Onboard onAnimatedEnd={handleAnimationEnd} />
   ) : (
     <AnimationProvider>
-      <MainContent />
+      <MotionConfig reducedMotion="user">
+        <MainContent />
+      </MotionConfig>
     </AnimationProvider>
   );
 }
