@@ -1,10 +1,5 @@
-import {
-  cubicBezier,
-  Transition,
-  useAnimationControls,
-  Variants,
-} from "framer-motion";
-import React, { useEffect, useMemo } from "react";
+import { cubicBezier, Transition, animate } from "framer-motion";
+import React, { RefObject, useEffect, useMemo } from "react";
 import { timeOut } from "../helpers";
 import {
   useAnimationAPIProvider,
@@ -29,21 +24,22 @@ type Props = {
   left: string;
   top: string;
   name: PortfolioType;
+  ref: RefObject<HTMLDivElement>;
 };
 
-export function useAnimationControlsPortfolioItem({
+export function useAnimatePortfolioItem({
   width,
   height,
   left,
   top,
   name,
+  ref,
 }: Props) {
   const { motionX, motionY } = useAnimationDataProvider();
   const { animationType } = useAnimationTypeProvider();
   const { portfolio } = usePortfolioProvider();
   const { setIsAnimationRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
-  const animationControls = useAnimationControls();
   const { contentRef } = useAnimationRefProvider();
 
   const {
@@ -86,7 +82,7 @@ export function useAnimationControlsPortfolioItem({
     };
   }, [contentRef, height, left, motionX, motionY, name, portfolio, top, width]);
 
-  const variants: Variants = React.useMemo(() => {
+  const animation = React.useMemo(() => {
     return {
       initial: {
         top,
@@ -137,18 +133,19 @@ export function useAnimationControlsPortfolioItem({
       },
 
       slideUp: {
+        zIndex: 4,
         y: -window.innerHeight,
       },
 
       setBeforeSlideUp: {
         top: motionY.get() * -1 + window.innerHeight,
         left: motionX.get() * -1,
-        zIndex: 4,
 
         width: window.innerWidth,
         height: window.innerHeight,
 
         background: "rgb(242,240,233)",
+        y: 0,
 
         overflow: "hidden",
       },
@@ -168,6 +165,9 @@ export function useAnimationControlsPortfolioItem({
       lowZIndex: {
         zIndex: 1,
       },
+      fastDuration: {
+        duration: 0.1,
+      },
     };
   }, [
     height,
@@ -185,65 +185,108 @@ export function useAnimationControlsPortfolioItem({
   ]);
 
   useEffect(() => {
-    // Expand goes here
-    if (animationType === "expand") {
-      if (portfolio === name) {
-        animationControls.start("expand", transition).then(() => {
-          animationControls.set("enableScroll");
-          setIsAnimationRunning(false);
-        });
-      } else if (previousPortfolio === name) {
-        animationControls.start("initialWithOutZIndex", transition).then(() => {
-          animationControls.set("lowZIndex");
-          setIsAnimationRunning(false);
-        });
-      }
+    const element = ref.current;
+    if (
+      animationType === "expand" &&
+      portfolio === name &&
+      element &&
+      previousPortfolio !== portfolio
+    ) {
+      const startExpandAnimation = async () => {
+        await animate(element, animation.expand, transition);
+        await animate(element, animation.enableScroll, animation.fastDuration);
+        setIsAnimationRunning(false);
+      };
+      startExpandAnimation();
     }
   }, [
-    animationControls,
+    animation,
     animationType,
     name,
     portfolio,
     previousPortfolio,
+    ref,
     setIsAnimationRunning,
   ]);
 
   useEffect(() => {
-    // Slide Up goes here
-    if (animationType === "slideUp") {
-      if (portfolio === name && portfolio !== previousPortfolio) {
-        animationControls.set("setBeforeSlideUp");
-        animationControls
-          .start("slideUp", {
-            delay: TIME / 1000, // seconds,
-            ...transition,
-          })
-          .then(() => {
-            animationControls.set("enableScroll");
-            setIsAnimationRunning(false);
-          });
-      } else if (
-        previousPortfolio === name &&
-        portfolio !== previousPortfolio
-      ) {
-        animationControls.set("setBeforeScaleDown");
-        animationControls.start("scaleDown", transition).then(async () => {
-          await timeOut(TIME);
-          animationControls.set("initial");
-        });
-      }
+    const element = ref.current;
+    if (animationType === "expand" && !portfolio && element) {
+      const endExpandAnimation = async () => {
+        await animate(element, animation.initialWithOutZIndex, transition);
+        await animate(element, animation.lowZIndex, animation.fastDuration);
+        setIsAnimationRunning(false);
+      };
+      endExpandAnimation();
     }
   }, [
-    animationControls,
+    animation,
     animationType,
     name,
     portfolio,
     previousPortfolio,
+    ref,
     setIsAnimationRunning,
   ]);
 
+  useEffect(() => {
+    const element = ref.current;
+    if (
+      portfolio === name &&
+      animationType === "slideUp" &&
+      element &&
+      portfolio !== previousPortfolio
+    ) {
+      const startSlideUpAnimation = async () => {
+        await animate(
+          element,
+          animation.setBeforeSlideUp,
+          animation.fastDuration
+        );
+        await animate(element, animation.slideUp, {
+          delay: TIME / 1000,
+          ...transition,
+        });
+        await animate(element, animation.enableScroll, animation.fastDuration);
+        setIsAnimationRunning(false);
+        console.log("end");
+      };
+
+      startSlideUpAnimation();
+      console.log("done");
+    }
+  }, [
+    animation,
+    animationType,
+    name,
+    portfolio,
+    previousPortfolio,
+    ref,
+    setIsAnimationRunning,
+  ]);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (
+      previousPortfolio === name &&
+      portfolio !== previousPortfolio &&
+      animationType === "slideUp" &&
+      element
+    ) {
+      const endAnimationSlideUp = async () => {
+        await animate(element, animation.setBeforeScaleDown, {
+          duration: 0,
+        });
+        await animate(element, animation.scaleDown, transition);
+        await timeOut(TIME);
+        animate(element, animation.initial, { duration: 0.1 });
+      };
+
+      endAnimationSlideUp();
+    }
+  }, [animation, animationType, name, portfolio, previousPortfolio, ref]);
+
   return {
-    animationControls,
-    variants,
+    animation,
   };
 }

@@ -1,5 +1,5 @@
 import { MotionValue } from "framer-motion";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { createContext } from "react";
 import { usePrevious } from "../hooks/usePrevious";
 import { useHandleViewMove } from "../hooks/useHandleViewMove";
@@ -88,6 +88,10 @@ export default function AnimationProvider({ children }: Props) {
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
 
   const handleViewMoveMemo = useMemo(() => ({ portfolio }), [portfolio]);
+
+  useEffect(() => {
+    console.log(isAnimationRunning);
+  }, [isAnimationRunning]);
 
   const { viewRef, viewX, viewY, contentRef, motionX, motionY } =
     useHandleViewMove(handleViewMoveMemo);

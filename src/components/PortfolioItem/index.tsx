@@ -13,7 +13,7 @@ import React, {
   useState,
 } from "react";
 import styled from "styled-components";
-import { useAnimationControlsPortfolioItem } from "../../hooks/useAnimationControlsPortfolioItem";
+import { useAnimatePortfolioItem } from "../../hooks/useAnimatePortfolioItem";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
 import { usePortfolioScrollAPIProivder } from "../../Provider/PortfolioScrollProvider";
 import { PortfolioType } from "../../types";
@@ -110,12 +110,13 @@ function PortfolioItem({
     }
   }, [name, portfolio, scrollYProgress, setScrollMotion]);
 
-  const { animationControls, variants } = useAnimationControlsPortfolioItem({
+  const { animation } = useAnimatePortfolioItem({
     width,
     height,
     left,
     name,
     top,
+    ref,
   });
 
   const willChange = useWillChange();
@@ -145,13 +146,10 @@ function PortfolioItem({
 
   return (
     <Wrapper
-      variants={variants}
       layout
-      initial="initial"
-      animate={animationControls}
+      initial={animation.initial}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
-      whileHover="hover"
       ref={ref}
       style={styles}
     >
