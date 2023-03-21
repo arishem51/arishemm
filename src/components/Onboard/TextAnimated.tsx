@@ -14,11 +14,22 @@ const TextInline = styled(motion.span)`
   font-size: inherit;
 `;
 
-const TIME = 600; // Miliseconds
-
 const transition: Transition = {
   ease: "easeInOut",
-  duration: TIME / 1000, // Seconds,
+  duration: 0.6,
+};
+
+const animation = {
+  initial: {
+    y: "100%",
+  },
+  enter: {
+    y: "0%",
+  },
+  exit: {
+    y: "-100%",
+  },
+  fastDuration: 0.4,
 };
 
 const TextAnimated = ({ children, delay, onAnimatedEnd }: Props) => {
@@ -26,16 +37,20 @@ const TextAnimated = ({ children, delay, onAnimatedEnd }: Props) => {
 
   useEffect(() => {
     const startAnimation = async () => {
-      await animate(scope.current, { y: "0%" }, { ...transition, delay });
-      await timeOut(2000);
-      await animate(scope.current, { y: "-100%" }, { ...transition, delay });
+      await animate(scope.current, animation.enter, { ...transition, delay });
+      await timeOut(1600);
+      await animate(scope.current, animation.exit, {
+        ...transition,
+        duration: animation.fastDuration,
+        delay: delay / 3,
+      });
       onAnimatedEnd && onAnimatedEnd();
     };
     startAnimation();
   }, [animate, delay, onAnimatedEnd, scope]);
 
   return (
-    <TextInline ref={scope} initial={{ y: "100%" }}>
+    <TextInline ref={scope} initial={animation.initial}>
       {children}
     </TextInline>
   );
