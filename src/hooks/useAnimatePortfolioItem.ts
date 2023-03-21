@@ -233,6 +233,7 @@ export function useAnimatePortfolioItem({
       portfolio !== previousPortfolio
     ) {
       const startSlideUpAnimation = async () => {
+        // FIXME: infinite loop in onUpdate of setBeforeSlipdeUp animate
         await animate(
           element,
           animation.setBeforeSlideUp,
@@ -272,7 +273,7 @@ export function useAnimatePortfolioItem({
         });
         await animate(element, animation.scaleDown, transition);
         await timeOut(TIME);
-        animate(element, animation.initial, { duration: 0.1 });
+        animate(element, animation.initial, animation.fastDuration);
       };
 
       endAnimationSlideUp();
