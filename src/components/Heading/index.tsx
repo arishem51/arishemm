@@ -59,7 +59,8 @@ const animation = {
 const Heading = ({ children, ...props }: Props) => {
   const { portfolio } = usePortfolioProvider();
   const [scope, animate] = useAnimate();
-  const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
+  const { setAnimationType, setPortfolio, setIsAnimationRunning } =
+    useAnimationAPIProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
   const { scrollMotion } = usePorfolioScrollDataProvider();
   const motion = useMotionValue(0);
@@ -84,7 +85,14 @@ const Heading = ({ children, ...props }: Props) => {
     }
     setPortfolio(undefined);
     setAnimationType("expand");
-  }, [isAnimationRunning, scrollMotion, setAnimationType, setPortfolio]);
+    setIsAnimationRunning(true);
+  }, [
+    isAnimationRunning,
+    scrollMotion,
+    setAnimationType,
+    setIsAnimationRunning,
+    setPortfolio,
+  ]);
 
   useEffect(() => {
     if (portfolio) {
