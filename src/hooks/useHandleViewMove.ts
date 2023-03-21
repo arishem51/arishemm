@@ -50,13 +50,7 @@ export function useHandleViewMove({ portfolio }: Props) {
   const springY: MotionValue<number> = useSpring(motionY, config);
 
   useEffect(() => {
-    if (
-      view.height === 0 ||
-      view.width === 0 ||
-      content.width === 0 ||
-      content.height === 0 ||
-      portfolio
-    ) {
+    if (portfolio) {
       return;
     }
 
