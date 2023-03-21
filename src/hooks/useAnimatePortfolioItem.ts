@@ -186,12 +186,7 @@ export function useAnimatePortfolioItem({
 
   useEffect(() => {
     const element = ref.current;
-    if (
-      animationType === "expand" &&
-      portfolio === name &&
-      element &&
-      previousPortfolio !== portfolio
-    ) {
+    if (animationType === "expand" && portfolio === name && element) {
       const startExpandAnimation = async () => {
         await animate(element, animation.expand, transition);
         await animate(element, animation.enableScroll, animation.fastDuration);
@@ -249,11 +244,9 @@ export function useAnimatePortfolioItem({
         });
         await animate(element, animation.enableScroll, animation.fastDuration);
         setIsAnimationRunning(false);
-        console.log("end");
       };
 
       startSlideUpAnimation();
-      console.log("done");
     }
   }, [
     animation,
