@@ -95,11 +95,13 @@ const Heading = ({ children, ...props }: Props) => {
   ]);
 
   useEffect(() => {
+    const element = scope.current;
     if (portfolio) {
-      animate(scope.current, animation.animateWhenHavePortfolio, transition);
-    } else {
-      animate(scope.current, animation.initial, transition);
+      animate(element, animation.animateWhenHavePortfolio, transition);
     }
+    return () => {
+      animate(element, animation.initial, transition);
+    };
   }, [animate, portfolio, scope]);
 
   const style = useMemo(() => ({ opacity, zIndex }), [opacity, zIndex]);
