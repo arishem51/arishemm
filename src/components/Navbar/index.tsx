@@ -1,10 +1,4 @@
-import {
-  LayoutGroup,
-  motion,
-  Transition,
-  useAnimationControls,
-  Variants,
-} from "framer-motion";
+import { LayoutGroup, Transition, useAnimate } from "framer-motion";
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
@@ -16,12 +10,14 @@ import ListItem from "./ListItem";
 import Stack from "../Stack";
 import { useEffect } from "react";
 
-const Wrapper = styled(motion.nav)`
+const Wrapper = styled.nav`
   position: fixed;
   bottom: 1em;
   left: 50%;
   transform: translate(-50%, 0);
   z-index: 2;
+  opacity: 0;
+  z-index: -1;
 `;
 
 const List = styled(Stack)`
@@ -39,14 +35,14 @@ const Menu: PortfolioType[] = [
   "resume",
 ];
 
-const variants: Variants = {
-  initial: {
-    opacity: 0,
-    zIndex: -1,
-  },
+const animation = {
   visible: {
     opacity: 1,
     zIndex: 2,
+  },
+  hidden: {
+    opacity: 0,
+    zIndex: -1,
   },
 };
 
@@ -59,15 +55,15 @@ const Navbar = () => {
     useAnimationAPIProvider();
   const { portfolio } = usePortfolioProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
-  const controls = useAnimationControls();
+  const [scope, animate] = useAnimate();
 
   useEffect(() => {
     if (portfolio) {
-      controls.start("visible", transition);
+      animate(scope.current, animation.visible, transition);
     } else {
-      controls.start("initial");
+      animate(scope.current, animation.hidden);
     }
-  }, [controls, portfolio]);
+  }, [animate, portfolio, scope]);
 
   function handleItemClick(item: PortfolioType) {
     if (isAnimationRunning || portfolio === item) {
@@ -95,7 +91,7 @@ const Navbar = () => {
   };
 
   return (
-    <Wrapper animate={controls} variants={variants} initial="initial">
+    <Wrapper ref={scope}>
       <LayoutGroup>
         <List htmlElement="ul">{renderItem()}</List>
       </LayoutGroup>

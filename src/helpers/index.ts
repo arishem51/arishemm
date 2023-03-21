@@ -10,7 +10,7 @@ export const createAnimationDefination = (
   transition: Transition
 ): TargetAndTransition => {
   return {
-    translateY: translateY,
+    y: translateY,
     transition: { ...transition, delay: custom * 0.1 },
   };
 };

@@ -2,10 +2,9 @@ import {
   cubicBezier,
   motion,
   Transition,
-  useAnimationControls,
   useMotionValue,
   useTransform,
-  Variants,
+  useAnimate,
 } from "framer-motion";
 import React, { useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
@@ -39,7 +38,7 @@ const transition: Transition = {
   ease: "linear",
 };
 
-const variants: Variants = {
+const animation = {
   initial: {
     top: "50%",
     zIndex: 3,
@@ -58,9 +57,10 @@ const variants: Variants = {
 };
 
 const Heading = ({ children, ...props }: Props) => {
-  const controls = useAnimationControls();
   const { portfolio } = usePortfolioProvider();
-  const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
+  const [scope, animate] = useAnimate();
+  const { setAnimationType, setPortfolio, setIsAnimationRunning } =
+    useAnimationAPIProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
   const { scrollMotion } = usePorfolioScrollDataProvider();
   const motion = useMotionValue(0);
@@ -85,27 +85,34 @@ const Heading = ({ children, ...props }: Props) => {
     }
     setPortfolio(undefined);
     setAnimationType("expand");
-  }, [isAnimationRunning, scrollMotion, setAnimationType, setPortfolio]);
+    setIsAnimationRunning(true);
+  }, [
+    isAnimationRunning,
+    scrollMotion,
+    setAnimationType,
+    setIsAnimationRunning,
+    setPortfolio,
+  ]);
 
   useEffect(() => {
+    const element = scope.current;
     if (portfolio) {
-      controls.start("animateWhenHavePortfolio");
-    } else {
-      controls.start("initial");
+      animate(element, animation.animateWhenHavePortfolio, transition);
     }
-  }, [controls, portfolio]);
+    return () => {
+      animate(element, animation.initial, transition);
+    };
+  }, [animate, portfolio, scope]);
 
   const style = useMemo(() => ({ opacity, zIndex }), [opacity, zIndex]);
 
   return (
     <Wrapper
       {...props}
-      variants={variants}
-      initial="initial"
-      transition={transition}
-      animate={controls}
+      initial={animation.initial}
       onClick={handleClick}
       style={style}
+      ref={scope}
     >
       {children}
     </Wrapper>

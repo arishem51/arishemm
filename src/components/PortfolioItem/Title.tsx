@@ -1,10 +1,5 @@
-import {
-  motion,
-  Transition,
-  useAnimationControls,
-  Variants,
-} from "framer-motion";
-import { useEffect, ReactNode } from "react";
+import { motion, MotionConfig, Transition } from "framer-motion";
+import { ReactNode } from "react";
 import styled from "styled-components";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
 import Stack from "../Stack";
@@ -37,88 +32,45 @@ type Props = {
   children?: ReactNode;
 };
 
-const variantsLeftText: Variants = {
-  initial: {
-    transform: "translate(105%,0%)",
-  },
-  hover: {
-    transform: "translate(0%,0%)",
-  },
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-  },
-};
-
-const variantsRightText: Variants = {
-  initial: {
-    transform: "translate(-200%,0%)",
-  },
-  hover: {
-    transform: "translate(-100%, 0%)",
-  },
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-  },
-};
-
 const transition: Transition = {
-  duration: 0.5,
+  duration: 0.4,
   ease: "easeOut",
 };
 
-const Title = ({ isParentHover, children }: Props) => {
-  const controls = useAnimationControls();
+const animation = {
+  leftInitial: { x: "105%", y: "0%" },
+  leftAnimation: { x: "0%", y: "0%" },
+  rightInitial: { x: "-200%", y: "0%" },
+  rightAnimation: { x: "-100%", y: "0%" },
+};
+
+const Title = ({ isParentHover: isHover, children }: Props) => {
   const { portfolio } = usePortfolioProvider();
-
-  useEffect(() => {
-    // This effect will handle hover animation, if have portfolio will not run this effect/animation
-    if (portfolio) {
-      return;
-    }
-    if (isParentHover) {
-      controls.start("hover", { delay: 0.1 });
-    } else {
-      controls.start("initial");
-    }
-  }, [controls, isParentHover, portfolio]);
-
-  useEffect(() => {
-    // This effect will handle animation when have portfolio or not (Expand animation)
-    if (portfolio) {
-      controls.start("hidden");
-    } else {
-      controls.start("visible", { delay: 1 });
-    }
-  }, [controls, portfolio]);
 
   return (
     <WrapperText justifyContent="center">
-      <Side>
-        <Text
-          variants={variantsLeftText}
-          initial="initial"
-          animate={controls}
-          transition={transition}
-        >
-          {children}
-        </Text>
-      </Side>
-      <Side>
-        <Text
-          variants={variantsRightText}
-          initial="initial"
-          animate={controls}
-          transition={transition}
-        >
-          {children}
-        </Text>
-      </Side>
+      <MotionConfig transition={transition}>
+        <Side>
+          <Text
+            initial={animation.leftInitial}
+            animate={
+              isHover && !portfolio ? animation.leftAnimation : undefined
+            }
+          >
+            {children}
+          </Text>
+        </Side>
+        <Side>
+          <Text
+            initial={animation.rightInitial}
+            animate={
+              isHover && !portfolio ? animation.rightAnimation : undefined
+            }
+          >
+            {children}
+          </Text>
+        </Side>
+      </MotionConfig>
     </WrapperText>
   );
 };
