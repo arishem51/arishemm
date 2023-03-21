@@ -83,6 +83,9 @@ export function useAnimatePortfolioItem({
   }, [contentRef, height, left, motionX, motionY, name, portfolio, top, width]);
 
   const animation = React.useMemo(() => {
+    const { top: slideUpTop = 0, left: slideUpLeft = 0 } =
+      ref.current?.getBoundingClientRect() || {};
+
     return {
       initial: {
         top,
@@ -100,7 +103,8 @@ export function useAnimatePortfolioItem({
         overflow: "hidden",
 
         transition,
-        scale: 1,
+        scaleX: 1,
+        scaleY: 1,
         transformOrigin: "center center",
       },
       initialWithOutZIndex: {
@@ -118,7 +122,8 @@ export function useAnimatePortfolioItem({
         overflow: "hidden",
 
         transition,
-        scale: 1,
+        scaleX: 1,
+        scaleY: 1,
         transformOrigin: "center center",
       },
       expand: {
@@ -135,19 +140,20 @@ export function useAnimatePortfolioItem({
 
       slideUp: {
         zIndex: 4,
-        y: -window.innerHeight,
+        y: -slideUpTop,
       },
 
       setBeforeSlideUp: {
-        // FIXME: use translate instead of top left
-        top: motionY.get() * -1 + window.innerHeight,
-        left: motionX.get() * -1,
+        y: -slideUpTop + window.innerHeight,
+        x: -slideUpLeft,
 
         width: window.innerWidth,
         height: window.innerHeight,
 
         background: "rgb(242,240,233)",
-        y: 0,
+
+        scaleX: 1,
+        scaleY: 1,
 
         overflow: "hidden",
       },
@@ -159,14 +165,18 @@ export function useAnimatePortfolioItem({
 
       scaleDown: {
         zIndex: 2,
-        scale: 0.85,
+        scaleY: 0.9,
+        scaleX: 0.85,
       },
+
       enableScroll: {
         overflow: "hidden scroll",
       },
+
       lowZIndex: {
         zIndex: 1,
       },
+
       fastDuration: {
         duration: 0.1,
       },
@@ -174,12 +184,11 @@ export function useAnimatePortfolioItem({
   }, [
     height,
     left,
-    motionX,
-    motionY,
     name,
     percentageHeight,
     percentageWidth,
     portfolio,
+    ref,
     top,
     translateX,
     translateY,
