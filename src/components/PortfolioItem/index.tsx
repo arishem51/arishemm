@@ -5,7 +5,13 @@ import {
   useWillChange,
   Variants,
 } from "framer-motion";
-import React, { CSSProperties, useEffect, useMemo, useRef } from "react";
+import React, {
+  CSSProperties,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import styled from "styled-components";
 import { useAnimationControlsPortfolioItem } from "../../hooks/useAnimationControlsPortfolioItem";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
@@ -93,8 +99,8 @@ function PortfolioItem({
   backgroundComponent,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const [isHover, setIsHover] = useState(false);
   const { portfolio } = usePortfolioProvider();
-  const [isHover, setIsHover] = React.useState(false);
   const { scrollYProgress } = useScroll({ container: ref });
   const { setScrollMotion } = usePortfolioScrollAPIProivder();
 

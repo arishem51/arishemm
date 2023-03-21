@@ -4,7 +4,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRef } from "react";
 import { PortfolioType } from "../types";
 
@@ -24,17 +24,14 @@ type Props = {
 };
 
 export function useHandleViewMove({ portfolio }: Props) {
-  const [view, setView] = React.useState<Dimensions>(state);
-  const [content, setContent] = React.useState<Dimensions>(state);
+  const [view, setView] = useState<Dimensions>(state);
+  const [content, setContent] = useState<Dimensions>(state);
   const firstRender = useRef(true);
 
   const viewRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
-    if (!viewRef?.current || !contentRef.current) {
-      return;
-    }
+  useEffect(() => {
     setView({
       width: viewRef.current?.offsetWidth || 0,
       height: viewRef.current?.offsetHeight || 0,
@@ -53,13 +50,7 @@ export function useHandleViewMove({ portfolio }: Props) {
   const springY: MotionValue<number> = useSpring(motionY, config);
 
   useEffect(() => {
-    if (
-      view.height === 0 ||
-      view.width === 0 ||
-      content.width === 0 ||
-      content.height === 0 ||
-      portfolio
-    ) {
+    if (portfolio) {
       return;
     }
 
