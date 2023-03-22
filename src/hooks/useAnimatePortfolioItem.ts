@@ -196,6 +196,7 @@ export function useAnimatePortfolioItem({
   ]);
 
   useEffect(() => {
+    // Expand Animation goes here
     const element = ref.current;
     if (animationType === "expand" && portfolio === name && element) {
       const startExpandAnimation = async () => {
@@ -204,20 +205,7 @@ export function useAnimatePortfolioItem({
         setIsAnimationRunning(false);
       };
       startExpandAnimation();
-    }
-  }, [
-    animation,
-    animationType,
-    name,
-    portfolio,
-    previousPortfolio,
-    ref,
-    setIsAnimationRunning,
-  ]);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (animationType === "expand" && !portfolio && element) {
+    } else if (animationType === "expand" && !portfolio && element) {
       const endExpandAnimation = async () => {
         await animate(element, animation.initialWithOutZIndex, transition);
         await animate(element, animation.lowZIndex, animation.fastDuration);
@@ -257,22 +245,8 @@ export function useAnimatePortfolioItem({
         await animate(element, animation.enableScroll, animation.fastDuration);
         setIsAnimationRunning(false);
       };
-
       startSlideUpAnimation();
-    }
-  }, [
-    animation,
-    animationType,
-    name,
-    portfolio,
-    previousPortfolio,
-    ref,
-    setIsAnimationRunning,
-  ]);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (
+    } else if (
       previousPortfolio === name &&
       portfolio !== previousPortfolio &&
       animationType === "slideUp" &&
@@ -291,7 +265,15 @@ export function useAnimatePortfolioItem({
 
       endAnimationSlideUp();
     }
-  }, [animation, animationType, name, portfolio, previousPortfolio, ref]);
+  }, [
+    animation,
+    animationType,
+    name,
+    portfolio,
+    previousPortfolio,
+    ref,
+    setIsAnimationRunning,
+  ]);
 
   return {
     animation,
