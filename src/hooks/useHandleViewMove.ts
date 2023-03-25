@@ -7,11 +7,9 @@ import {
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 import { throttleMouseEvent } from "../helpers";
-import { PortfolioType } from "../types";
+import { Dimensions, PortfolioType } from "../types";
 
 const config: SpringOptions = { damping: 30, stiffness: 100 };
-
-type Dimensions = { width: number; height: number };
 
 const state: Dimensions = {
   width: 0,
@@ -95,5 +93,6 @@ export function useHandleViewMove({ portfolio }: Props) {
     viewY: springY,
     motionX,
     motionY,
+    content,
   };
 }

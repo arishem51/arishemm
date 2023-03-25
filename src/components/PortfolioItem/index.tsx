@@ -1,10 +1,4 @@
-import {
-  AnimatePresence,
-  motion,
-  useScroll,
-  useWillChange,
-  Variants,
-} from "framer-motion";
+import { motion, useScroll, useWillChange } from "framer-motion";
 import React, {
   CSSProperties,
   useEffect,
@@ -76,18 +70,6 @@ type Props = {
   expandedComponent: React.ReactNode;
 };
 
-const expandedVariants: Variants = {
-  initial: {
-    scale: 1,
-  },
-  exit: {
-    scale: 0.99,
-    transition: {
-      delay: 1.6,
-    },
-  },
-};
-
 function PortfolioItem({
   width,
   height,
@@ -110,7 +92,7 @@ function PortfolioItem({
     }
   }, [name, portfolio, scrollYProgress, setScrollMotion]);
 
-  const { animation } = useAnimatePortfolioItem({
+  useAnimatePortfolioItem({
     width,
     height,
     left,
@@ -147,22 +129,13 @@ function PortfolioItem({
   return (
     <Wrapper
       layout
-      initial={animation.initial}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
       ref={ref}
       style={styles}
     >
       <CenterFlex style={style}>{backgroundComponent}</CenterFlex>
-
-      {/*  This hack use for change portfolio item, the portofolio was change is lost children so it will not at the scroll position when exit => Animating the exit children so it can keep children for a while! */}
-      <AnimatePresence>
-        {portfolio === name && (
-          <motion.div variants={expandedVariants} initial="initial" exit="exit">
-            {expandedComponent}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {expandedComponent}
       <Title isParentHover={isHover}>{name}</Title>
     </Wrapper>
   );

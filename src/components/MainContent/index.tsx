@@ -1,6 +1,6 @@
 import { motion, Variants } from "framer-motion";
 import styled from "styled-components";
-import { useAnimationRefProvider } from "../../Provider/AnimationProvider";
+import { useAnimationDataProvider } from "../../Provider/AnimationProvider";
 import PorfolioScrollProvider from "../../Provider/PortfolioScrollProvider";
 import Heading from "../Heading";
 import Navbar from "../Navbar";
@@ -28,7 +28,7 @@ const variants: Variants = {
 };
 
 const MainContent = () => {
-  const { viewRef } = useAnimationRefProvider();
+  const { viewRef } = useAnimationDataProvider();
 
   return (
     <Wrapper

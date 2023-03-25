@@ -4,8 +4,8 @@ import { timeOut } from "../helpers";
 import {
   useAnimationAPIProvider,
   useAnimationDataProvider,
-  useAnimationRefProvider,
   useAnimationTypeProvider,
+  useContentProvider,
   usePortfolioProvider,
   usePreviousPortfolioProvider,
 } from "../Provider/AnimationProvider";
@@ -40,7 +40,7 @@ export function useAnimatePortfolioItem({
   const { portfolio } = usePortfolioProvider();
   const { setIsAnimationRunning } = useAnimationAPIProvider();
   const { previousPortfolio } = usePreviousPortfolioProvider();
-  const { contentRef } = useAnimationRefProvider();
+  const { content } = useContentProvider();
 
   const {
     x: translateX,
@@ -53,19 +53,12 @@ export function useAnimatePortfolioItem({
     if (portfolio === name && (offsetX > 0 || offsetY > 0)) {
       // Get the offset  of the item related to the contentRef
 
-      const x =
-        (+left.slice(0, -1) * (contentRef?.current?.clientWidth || 0)) / 100 -
-        offsetX;
-      const y =
-        (+top.slice(0, -1) * (contentRef?.current?.clientHeight || 0)) / 100 -
-        offsetY;
+      const x = (+left.slice(0, -1) * content.width) / 100 - offsetX;
+      const y = (+top.slice(0, -1) * content.height) / 100 - offsetY;
 
-      const percentageWidth =
-        (window.innerWidth / (contentRef?.current?.clientWidth || 0)) * 100 +
-        "%";
+      const percentageWidth = (window.innerWidth / content.width) * 100 + "%";
       const percentageHeight =
-        (window.innerHeight / (contentRef?.current?.clientHeight || 0)) * 100 +
-        "%";
+        (window.innerHeight / content.height) * 100 + "%";
 
       return {
         x,
@@ -80,7 +73,7 @@ export function useAnimatePortfolioItem({
       percentageWidth: width,
       percentageHeight: height,
     };
-  }, [contentRef, height, left, motionX, motionY, name, portfolio, top, width]);
+  }, [content, height, left, motionX, motionY, name, portfolio, top, width]);
 
   const animation = React.useMemo(() => {
     const { top: slideUpTop = 0, left: slideUpLeft = 0 } =
@@ -105,7 +98,7 @@ export function useAnimatePortfolioItem({
         transition,
         scaleX: 1,
         scaleY: 1,
-        transformOrigin: "center center",
+        transformOrigin: "50% 50%",
       },
       initialWithOutZIndex: {
         top,
@@ -124,7 +117,7 @@ export function useAnimatePortfolioItem({
         transition,
         scaleX: 1,
         scaleY: 1,
-        transformOrigin: "center center",
+        transformOrigin: "50% 50%",
       },
       expand: {
         x: portfolio === name ? -translateX : 0,
@@ -160,7 +153,7 @@ export function useAnimatePortfolioItem({
 
       setBeforeScaleDown: {
         overflow: "hidden",
-        transformOrigin: "center bottom",
+        transformOrigin: "50% 100%",
       },
 
       scaleDown: {
@@ -261,6 +254,7 @@ export function useAnimatePortfolioItem({
         await animate(element, animation.scaleDown, transition);
         await timeOut(TIME);
         animate(element, animation.initial, animation.fastDuration);
+        ref.current?.scrollTo(0, 0);
       };
 
       endAnimationSlideUp();
