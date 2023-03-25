@@ -1,4 +1,4 @@
-import { motion, useScroll, useWillChange, Variants } from "framer-motion";
+import { motion, useScroll, useWillChange } from "framer-motion";
 import React, {
   CSSProperties,
   useEffect,

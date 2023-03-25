@@ -98,7 +98,7 @@ export function useAnimatePortfolioItem({
         transition,
         scaleX: 1,
         scaleY: 1,
-        transformOrigin: "center center",
+        transformOrigin: "50% 50%",
       },
       initialWithOutZIndex: {
         top,
@@ -117,7 +117,7 @@ export function useAnimatePortfolioItem({
         transition,
         scaleX: 1,
         scaleY: 1,
-        transformOrigin: "center center",
+        transformOrigin: "50% 50%",
       },
       expand: {
         x: portfolio === name ? -translateX : 0,
@@ -153,7 +153,7 @@ export function useAnimatePortfolioItem({
 
       setBeforeScaleDown: {
         overflow: "hidden",
-        transformOrigin: "center bottom",
+        transformOrigin: "50% 100%",
       },
 
       scaleDown: {
