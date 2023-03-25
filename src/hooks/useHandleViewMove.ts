@@ -6,6 +6,7 @@ import {
 } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
+import { throttleMouseEvent } from "../helpers";
 import { PortfolioType } from "../types";
 
 const OPPOSITE = -1;
@@ -70,17 +71,19 @@ export function useHandleViewMove({ portfolio }: Props) {
       motionY.set(distanceY);
     };
 
+    const throttleEvent = throttleMouseEvent(handleMouseMoveOnView, 150);
+
     const element = viewRef?.current;
     const timeoutdId = setTimeout(
       () => {
-        element?.addEventListener("mousemove", handleMouseMoveOnView);
+        element?.addEventListener("mousemove", throttleEvent);
         firstRender.current = false;
       },
       firstRender.current ? 2000 : 750
     );
 
     return () => {
-      element?.removeEventListener("mousemove", handleMouseMoveOnView);
+      element?.removeEventListener("mousemove", throttleEvent);
       window.clearTimeout(timeoutdId);
     };
   }, [content, motionX, motionY, portfolio, view]);
