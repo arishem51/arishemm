@@ -6,9 +6,8 @@ import {
 } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
+import { throttleMouseEvent } from "../helpers";
 import { PortfolioType } from "../types";
-
-const OPPOSITE = -1;
 
 const config: SpringOptions = { damping: 30, stiffness: 100 };
 
@@ -54,34 +53,38 @@ export function useHandleViewMove({ portfolio }: Props) {
       return;
     }
 
+    const worker = new Worker(new URL("./worker.ts", import.meta.url));
+
     const handleMouseMoveOnView = (e: MouseEvent) => {
       const { clientX, clientY } = e;
-
-      const percentageX = clientX / view.width;
-      const percentageY = clientY / view.height;
-
-      const maxX = content.width - view.width;
-      const maxY = content.height - view.height;
-
-      const distanceX = percentageX * maxX * OPPOSITE;
-      const distanceY = percentageY * maxY * OPPOSITE;
-
-      motionX.set(distanceX);
-      motionY.set(distanceY);
+      worker.postMessage({ clientX, clientY, content, view });
     };
+
+    const handleMessageWorker = ({
+      data,
+    }: MessageEvent<{ distanceX: number; distanceY: number }>) => {
+      const { distanceX, distanceY } = data;
+      motionY.set(distanceY);
+      motionX.set(distanceX);
+    };
+
+    worker.addEventListener("message", handleMessageWorker);
+
+    const throttleEvent = throttleMouseEvent(handleMouseMoveOnView, 135);
 
     const element = viewRef?.current;
     const timeoutdId = setTimeout(
       () => {
-        element?.addEventListener("mousemove", handleMouseMoveOnView);
+        element?.addEventListener("mousemove", throttleEvent);
         firstRender.current = false;
       },
       firstRender.current ? 2000 : 750
     );
 
     return () => {
-      element?.removeEventListener("mousemove", handleMouseMoveOnView);
+      element?.removeEventListener("mousemove", throttleEvent);
       window.clearTimeout(timeoutdId);
+      worker.removeEventListener("message", handleMessageWorker);
     };
   }, [content, motionX, motionY, portfolio, view]);
 

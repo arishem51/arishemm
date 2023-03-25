@@ -14,3 +14,18 @@ export const createAnimationDefination = (
     transition: { ...transition, delay: custom * 0.1 },
   };
 };
+
+export const throttleMouseEvent = (
+  callback: (props: MouseEvent) => void,
+  delay: number
+): ((props: MouseEvent) => void) => {
+  let last = 0;
+  return function (...args) {
+    const now = new Date().getTime();
+    if (now - last < delay) {
+      return;
+    }
+    last = now;
+    callback(...args);
+  };
+};
