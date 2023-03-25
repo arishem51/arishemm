@@ -3,7 +3,7 @@ import { useContext, useMemo, useState } from "react";
 import { createContext } from "react";
 import { usePrevious } from "../hooks/usePrevious";
 import { useHandleViewMove } from "../hooks/useHandleViewMove";
-import { AnimationType, PortfolioType, SetState } from "../types";
+import { AnimationType, Dimensions, PortfolioType, SetState } from "../types";
 
 type AnimationDataContextProps = {
   viewX: MotionValue<number>;
@@ -39,6 +39,10 @@ type AnimationTypeContextProps = {
   animationType: AnimationType;
 };
 
+type ContentTypeContextProps = {
+  content: Dimensions;
+};
+
 const AnimationDataContext = createContext<AnimationDataContextProps>(
   {} as AnimationDataContextProps
 );
@@ -67,6 +71,10 @@ const AnimationTypeContext = createContext<AnimationTypeContextProps>(
   {} as AnimationTypeContextProps
 );
 
+const ContentContext = createContext<ContentTypeContextProps>(
+  {} as ContentTypeContextProps
+);
+
 type Props = {
   children: React.ReactNode;
 };
@@ -80,6 +88,7 @@ export const useAnimationRefProvider = () => useContext(AnimationRefContext);
 export const useAnimationRunningProvider = () =>
   useContext(AnimationRunningContext);
 export const useAnimationTypeProvider = () => useContext(AnimationTypeContext);
+export const useContentProvider = () => useContext(ContentContext);
 
 export default function AnimationProvider({ children }: Props) {
   const [portfolio, setPortfolio] = useState<PortfolioType>();
@@ -89,7 +98,7 @@ export default function AnimationProvider({ children }: Props) {
 
   const handleViewMoveMemo = useMemo(() => ({ portfolio }), [portfolio]);
 
-  const { viewRef, viewX, viewY, contentRef, motionX, motionY } =
+  const { viewRef, viewX, viewY, contentRef, motionX, motionY, content } =
     useHandleViewMove(handleViewMoveMemo);
 
   const animationDataValue = useMemo<AnimationDataContextProps>(() => {
@@ -140,6 +149,12 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, [animationType]);
 
+  const contentValue = useMemo(() => {
+    return {
+      content,
+    };
+  }, [content]);
+
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
       <PortfolioContext.Provider value={portfolioValue}>
@@ -147,9 +162,11 @@ export default function AnimationProvider({ children }: Props) {
           <AnimationRefContext.Provider value={refValue}>
             <AnimationRunningContext.Provider value={animationRunningValue}>
               <AnimationTypeContext.Provider value={animationTypeValue}>
-                <AnimationAPIContext.Provider value={animationAPIValue}>
-                  {children}
-                </AnimationAPIContext.Provider>
+                <ContentContext.Provider value={contentValue}>
+                  <AnimationAPIContext.Provider value={animationAPIValue}>
+                    {children}
+                  </AnimationAPIContext.Provider>
+                </ContentContext.Provider>
               </AnimationTypeContext.Provider>
             </AnimationRunningContext.Provider>
           </AnimationRefContext.Provider>
