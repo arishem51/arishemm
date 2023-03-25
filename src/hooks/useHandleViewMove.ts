@@ -9,8 +9,6 @@ import { useRef } from "react";
 import { throttleMouseEvent } from "../helpers";
 import { PortfolioType } from "../types";
 
-const OPPOSITE = -1;
-
 const config: SpringOptions = { damping: 30, stiffness: 100 };
 
 type Dimensions = { width: number; height: number };
@@ -55,23 +53,24 @@ export function useHandleViewMove({ portfolio }: Props) {
       return;
     }
 
+    const worker = new Worker(new URL("./worker.ts", import.meta.url));
+
     const handleMouseMoveOnView = (e: MouseEvent) => {
       const { clientX, clientY } = e;
-
-      const percentageX = clientX / view.width;
-      const percentageY = clientY / view.height;
-
-      const maxX = content.width - view.width;
-      const maxY = content.height - view.height;
-
-      const distanceX = percentageX * maxX * OPPOSITE;
-      const distanceY = percentageY * maxY * OPPOSITE;
-
-      motionX.set(distanceX);
-      motionY.set(distanceY);
+      worker.postMessage({ clientX, clientY, content, view });
     };
 
-    const throttleEvent = throttleMouseEvent(handleMouseMoveOnView, 150);
+    const handleMessageWorker = ({
+      data,
+    }: MessageEvent<{ distanceX: number; distanceY: number }>) => {
+      const { distanceX, distanceY } = data;
+      motionY.set(distanceY);
+      motionX.set(distanceX);
+    };
+
+    worker.addEventListener("message", handleMessageWorker);
+
+    const throttleEvent = throttleMouseEvent(handleMouseMoveOnView, 135);
 
     const element = viewRef?.current;
     const timeoutdId = setTimeout(
@@ -85,6 +84,7 @@ export function useHandleViewMove({ portfolio }: Props) {
     return () => {
       element?.removeEventListener("mousemove", throttleEvent);
       window.clearTimeout(timeoutdId);
+      worker.removeEventListener("message", handleMessageWorker);
     };
   }, [content, motionX, motionY, portfolio, view]);
 
