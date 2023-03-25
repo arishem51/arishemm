@@ -70,18 +70,6 @@ type Props = {
   expandedComponent: React.ReactNode;
 };
 
-const expandedVariants: Variants = {
-  initial: {
-    scale: 1,
-  },
-  exit: {
-    scale: 0.99,
-    transition: {
-      delay: 1.6,
-    },
-  },
-};
-
 function PortfolioItem({
   width,
   height,
@@ -147,9 +135,7 @@ function PortfolioItem({
       style={styles}
     >
       <CenterFlex style={style}>{backgroundComponent}</CenterFlex>
-      <motion.div variants={expandedVariants} initial="initial" exit="exit">
-        {expandedComponent}
-      </motion.div>
+      {expandedComponent}
       <Title isParentHover={isHover}>{name}</Title>
     </Wrapper>
   );
