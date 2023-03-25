@@ -9,7 +9,6 @@ import { PortfolioType } from "../../types";
 import {
   useAnimationAPIProvider,
   useAnimationDataProvider,
-  useAnimationRefProvider,
   useAnimationRunningProvider,
   usePortfolioProvider,
 } from "../../Provider/AnimationProvider";
@@ -45,8 +44,7 @@ const PortfolioItems: PortfolioType[] = [
 
 const Portfolio = () => {
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
-  const { contentRef } = useAnimationRefProvider();
-  const { viewX, viewY } = useAnimationDataProvider();
+  const { viewX, viewY, contentRef } = useAnimationDataProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
   const { portfolio } = usePortfolioProvider();
   const { setIsAnimationRunning } = useAnimationAPIProvider();
