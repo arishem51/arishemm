@@ -7,8 +7,8 @@ function Resume() {
     <PortfolioItem
       name="resume"
       bgColor="rgba(203,188,161,1)"
-      height="18%"
-      width="20%"
+      height="22%"
+      width="24%"
       left="5%"
       top="12%"
       expandedComponent={<ExpandedResume />}

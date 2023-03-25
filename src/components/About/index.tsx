@@ -7,7 +7,7 @@ function About() {
     <PortfolioItem
       name="about"
       height="20%"
-      width="14%"
+      width="16%"
       left="42%"
       top="24%"
       bgColor="rgba(221,229,216,1)"

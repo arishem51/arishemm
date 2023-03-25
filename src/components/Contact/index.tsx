@@ -7,9 +7,9 @@ function Contact() {
     <PortfolioItem
       name="contact"
       bgColor="var(--color-green-2)"
-      height="14%"
-      width="12%"
-      left="45%"
+      height="24%"
+      width="24%"
+      left="55%"
       top="62%"
       backgroundComponent={
         <Lottie

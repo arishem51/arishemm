@@ -7,10 +7,10 @@ function Experience() {
     <PortfolioItem
       name="experience"
       bgColor="rgba(90,84,168,1)"
-      height="18%"
-      width="16%"
+      height="24%"
+      width="26%"
       left="12%"
-      top="40%"
+      top="50%"
       backgroundComponent={
         <Lottie
           portfolioItemName="experience"
