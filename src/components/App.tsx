@@ -11,9 +11,7 @@ function App() {
     setShouldRenderOnboard(false);
   };
 
-  return shouldRenderOnboard ? (
-    <Onboard onAnimatedEnd={handleAnimationEnd} />
-  ) : (
+  return (
     <AnimationProvider>
       <MotionConfig reducedMotion="user">
         <MainContent />
