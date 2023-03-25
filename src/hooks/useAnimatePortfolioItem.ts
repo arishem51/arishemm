@@ -261,6 +261,7 @@ export function useAnimatePortfolioItem({
         await animate(element, animation.scaleDown, transition);
         await timeOut(TIME);
         animate(element, animation.initial, animation.fastDuration);
+        ref.current?.scrollTo(0, 0);
       };
 
       endAnimationSlideUp();
