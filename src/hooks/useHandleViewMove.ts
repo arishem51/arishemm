@@ -4,7 +4,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRef } from "react";
 import { throttleMouseEvent } from "../helpers";
 import { Dimensions, PortfolioType } from "../types";
@@ -23,12 +23,40 @@ type Props = {
 export function useHandleViewMove({ portfolio }: Props) {
   const [view, setView] = useState<Dimensions>(state);
   const [content, setContent] = useState<Dimensions>(state);
-  const firstRender = useRef(true);
 
+  const firstRender = useRef(true);
   const viewRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const workerRef = useRef<Worker>();
+
+  const element = viewRef.current;
+
+  const motionX = useMotionValue<number>(0);
+  const motionY = useMotionValue<number>(-400);
+
+  const springX: MotionValue<number> = useSpring(motionX, config);
+  const springY: MotionValue<number> = useSpring(motionY, config);
+
+  const handleMouseMoveOnView = useCallback(
+    (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      workerRef.current?.postMessage({ clientX, clientY, content, view });
+    },
+    [content, view]
+  );
+
+  const handleMessageWorker = useCallback(
+    ({ data }: MessageEvent<{ distanceX: number; distanceY: number }>) => {
+      const { distanceX, distanceY } = data;
+      motionY.set(distanceY);
+      motionX.set(distanceX);
+    },
+    [motionX, motionY]
+  );
 
   useEffect(() => {
+    workerRef.current = new Worker(new URL("./worker.ts", import.meta.url));
+
     setView({
       width: viewRef.current?.offsetWidth || 0,
       height: viewRef.current?.offsetHeight || 0,
@@ -40,37 +68,15 @@ export function useHandleViewMove({ portfolio }: Props) {
     });
   }, []);
 
-  const motionX = useMotionValue<number>(0);
-  const motionY = useMotionValue<number>(-400);
-
-  const springX: MotionValue<number> = useSpring(motionX, config);
-  const springY: MotionValue<number> = useSpring(motionY, config);
-
   useEffect(() => {
     if (portfolio) {
       return;
     }
 
-    const worker = new Worker(new URL("./worker.ts", import.meta.url));
+    workerRef.current?.addEventListener("message", handleMessageWorker);
 
-    const handleMouseMoveOnView = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      worker.postMessage({ clientX, clientY, content, view });
-    };
+    const throttleEvent = throttleMouseEvent(handleMouseMoveOnView, 150);
 
-    const handleMessageWorker = ({
-      data,
-    }: MessageEvent<{ distanceX: number; distanceY: number }>) => {
-      const { distanceX, distanceY } = data;
-      motionY.set(distanceY);
-      motionX.set(distanceX);
-    };
-
-    worker.addEventListener("message", handleMessageWorker);
-
-    const throttleEvent = throttleMouseEvent(handleMouseMoveOnView, 135);
-
-    const element = viewRef?.current;
     const timeoutdId = setTimeout(
       () => {
         element?.addEventListener("mousemove", throttleEvent);
@@ -82,9 +88,18 @@ export function useHandleViewMove({ portfolio }: Props) {
     return () => {
       element?.removeEventListener("mousemove", throttleEvent);
       window.clearTimeout(timeoutdId);
-      worker.removeEventListener("message", handleMessageWorker);
+      workerRef.current?.removeEventListener("message", handleMessageWorker);
     };
-  }, [content, motionX, motionY, portfolio, view]);
+  }, [
+    content,
+    element,
+    handleMessageWorker,
+    handleMouseMoveOnView,
+    motionX,
+    motionY,
+    portfolio,
+    view,
+  ]);
 
   return {
     viewRef,
