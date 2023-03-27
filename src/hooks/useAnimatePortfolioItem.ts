@@ -39,7 +39,7 @@ export function useAnimatePortfolioItem({
   const { animationType } = useAnimationTypeProvider();
   const portfolio = usePortfolioProvider();
   const { setIsAnimationRunning } = useAnimationAPIProvider();
-  const { previousPortfolio } = usePreviousPortfolioProvider();
+  const previousPortfolio = usePreviousPortfolioProvider();
   const { content } = useContentProvider();
 
   const {

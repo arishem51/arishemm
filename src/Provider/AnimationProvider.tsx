@@ -22,9 +22,7 @@ type AnimationAPIContextProps = {
 
 type PortfolioContextProps = PortfolioType | undefined;
 
-type PreviousPortfolioContextProps = {
-  previousPortfolio: PortfolioType | undefined;
-};
+type PreviousPortfolioContextProps = PortfolioType | undefined;
 
 type AnimationRunningContext = {
   isAnimationRunning: boolean;
@@ -46,13 +44,10 @@ const AnimationAPIContext = createContext<AnimationAPIContextProps>(
   {} as AnimationAPIContextProps
 );
 
-const PortfolioContext = createContext<PortfolioContextProps>(
-  {} as PortfolioContextProps
-);
+const PortfolioContext = createContext<PortfolioContextProps>(undefined);
 
-const PreviousPortfolioContext = createContext<PreviousPortfolioContextProps>(
-  {} as PreviousPortfolioContextProps
-);
+const PreviousPortfolioContext =
+  createContext<PreviousPortfolioContextProps>(undefined);
 
 const AnimationRunningContext = createContext<AnimationRunningContext>(
   {} as AnimationRunningContext
@@ -108,12 +103,6 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, []);
 
-  const previousPortfolioValue = useMemo<PreviousPortfolioContextProps>(() => {
-    return {
-      previousPortfolio,
-    };
-  }, [previousPortfolio]);
-
   const animationRunningValue = useMemo(() => {
     return {
       isAnimationRunning,
@@ -135,7 +124,7 @@ export default function AnimationProvider({ children }: Props) {
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
       <PortfolioContext.Provider value={portfolio}>
-        <PreviousPortfolioContext.Provider value={previousPortfolioValue}>
+        <PreviousPortfolioContext.Provider value={previousPortfolio}>
           <AnimationRunningContext.Provider value={animationRunningValue}>
             <AnimationTypeContext.Provider value={animationTypeValue}>
               <ContentContext.Provider value={contentValue}>
