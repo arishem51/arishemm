@@ -4,7 +4,7 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
 import { usePorfolioScrollDataProvider } from "../../Provider/PortfolioScrollProvider";
@@ -88,12 +88,9 @@ const ScrollBar = () => {
     }
   }, [animate, portfolio, scope]);
 
-  const style = useMemo(
-    () => ({
-      scaleY: scale,
-    }),
-    [scale]
-  );
+  const style = {
+    scaleY: scale,
+  };
 
   return (
     <Wrapper initial={animation.initial} ref={scope}>

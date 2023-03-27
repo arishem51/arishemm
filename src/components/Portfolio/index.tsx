@@ -12,7 +12,6 @@ import {
   useAnimationRunningProvider,
   usePortfolioProvider,
 } from "../../Provider/AnimationProvider";
-import { useMemo } from "react";
 
 const ViewContent = styled(motion.div)`
   width: 140vmax;
@@ -49,13 +48,10 @@ const Portfolio = () => {
   const { portfolio } = usePortfolioProvider();
   const { setIsAnimationRunning } = useAnimationAPIProvider();
 
-  const styles = useMemo(
-    () => ({
-      x: viewX,
-      y: viewY,
-    }),
-    [viewX, viewY]
-  );
+  const styles = {
+    x: viewX,
+    y: viewY,
+  };
 
   const renderItem = () => {
     return PortfolioItems.map((item) => {

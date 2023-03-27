@@ -88,10 +88,8 @@ export default function AnimationProvider({ children }: Props) {
   const [animationType, setAnimationType] = useState<AnimationType>("expand");
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
 
-  const handleViewMoveMemo = useMemo(() => ({ portfolio }), [portfolio]);
-
   const { viewRef, viewX, viewY, contentRef, motionX, motionY, content } =
-    useHandleViewMove(handleViewMoveMemo);
+    useHandleViewMove({ portfolio });
 
   const animationDataValue = useMemo<AnimationDataContextProps>(() => {
     return {

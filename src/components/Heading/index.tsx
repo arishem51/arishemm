@@ -6,7 +6,7 @@ import {
   useTransform,
   useAnimate,
 } from "framer-motion";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
@@ -98,7 +98,7 @@ const Heading = ({ children, ...props }: Props) => {
     };
   }, [animate, portfolio, scope]);
 
-  const style = useMemo(() => ({ opacity, zIndex }), [opacity, zIndex]);
+  const style = { opacity, zIndex };
 
   return (
     <Wrapper

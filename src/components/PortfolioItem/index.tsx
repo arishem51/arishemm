@@ -1,11 +1,5 @@
 import { motion, useScroll, useWillChange } from "framer-motion";
-import React, {
-  CSSProperties,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useAnimatePortfolioItem } from "../../hooks/useAnimatePortfolioItem";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
@@ -103,10 +97,6 @@ function PortfolioItem({
 
   const willChange = useWillChange();
 
-  const styles = useMemo(() => {
-    return { willChange };
-  }, [willChange]);
-
   function handleHoverStart() {
     if (portfolio) {
       return;
@@ -132,7 +122,7 @@ function PortfolioItem({
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
       ref={ref}
-      style={styles}
+      style={{ willChange }}
     >
       <CenterFlex style={style}>{backgroundComponent}</CenterFlex>
       {expandedComponent}
