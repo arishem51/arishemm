@@ -18,7 +18,7 @@ export const useLottie = ({
   const [lottie, setLottie] = useState<LottieInstance | undefined>(undefined);
   const firstRender = useRef(true);
 
-  const { portfolio } = usePortfolioProvider();
+  const portfolio = usePortfolioProvider();
   const { animationType } = useAnimationTypeProvider();
 
   useEffect(() => {

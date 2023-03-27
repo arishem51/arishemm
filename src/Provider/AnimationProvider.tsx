@@ -20,9 +20,7 @@ type AnimationAPIContextProps = {
   setIsAnimationRunning: SetState<boolean>;
 };
 
-type PortfolioContextProps = {
-  portfolio: PortfolioType | undefined;
-};
+type PortfolioContextProps = PortfolioType | undefined;
 
 type PreviousPortfolioContextProps = {
   previousPortfolio: PortfolioType | undefined;
@@ -110,12 +108,6 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, []);
 
-  const portfolioValue = useMemo<PortfolioContextProps>(() => {
-    return {
-      portfolio,
-    };
-  }, [portfolio]);
-
   const previousPortfolioValue = useMemo<PreviousPortfolioContextProps>(() => {
     return {
       previousPortfolio,
@@ -142,7 +134,7 @@ export default function AnimationProvider({ children }: Props) {
 
   return (
     <AnimationDataContext.Provider value={animationDataValue}>
-      <PortfolioContext.Provider value={portfolioValue}>
+      <PortfolioContext.Provider value={portfolio}>
         <PreviousPortfolioContext.Provider value={previousPortfolioValue}>
           <AnimationRunningContext.Provider value={animationRunningValue}>
             <AnimationTypeContext.Provider value={animationTypeValue}>

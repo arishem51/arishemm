@@ -45,7 +45,7 @@ const Portfolio = () => {
   const { setAnimationType, setPortfolio } = useAnimationAPIProvider();
   const { viewX, viewY, contentRef } = useAnimationDataProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
-  const { portfolio } = usePortfolioProvider();
+  const portfolio = usePortfolioProvider();
   const { setIsAnimationRunning } = useAnimationAPIProvider();
 
   const styles = {

@@ -64,7 +64,7 @@ const animation = {
 const ScrollBar = () => {
   const { scrollMotion } = usePorfolioScrollDataProvider();
   const motion = useMotionValue(0);
-  const { portfolio } = usePortfolioProvider();
+  const portfolio = usePortfolioProvider();
 
   const [scope, animate] = useAnimate();
 

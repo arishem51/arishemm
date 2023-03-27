@@ -57,7 +57,7 @@ const animation = {
 };
 
 const Heading = ({ children, ...props }: Props) => {
-  const { portfolio } = usePortfolioProvider();
+  const portfolio = usePortfolioProvider();
   const [scope, animate] = useAnimate();
   const { setAnimationType, setPortfolio, setIsAnimationRunning } =
     useAnimationAPIProvider();

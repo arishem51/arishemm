@@ -76,7 +76,7 @@ function PortfolioItem({
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [isHover, setIsHover] = useState(false);
-  const { portfolio } = usePortfolioProvider();
+  const portfolio = usePortfolioProvider();
   const { scrollYProgress } = useScroll({ container: ref });
   const { setScrollMotion } = usePortfolioScrollAPIProivder();
 
