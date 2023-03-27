@@ -6,7 +6,7 @@ import {
   useTransform,
   useAnimate,
 } from "framer-motion";
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import {
   useAnimationAPIProvider,
@@ -79,20 +79,14 @@ const Heading = ({ children, ...props }: Props) => {
     { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
   );
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (scrollMotion?.get() || 0 > 0 || isAnimationRunning) {
       return;
     }
     setPortfolio(undefined);
     setAnimationType("expand");
     setIsAnimationRunning(true);
-  }, [
-    isAnimationRunning,
-    scrollMotion,
-    setAnimationType,
-    setIsAnimationRunning,
-    setPortfolio,
-  ]);
+  };
 
   useEffect(() => {
     const element = scope.current;

@@ -1,5 +1,5 @@
 import { AnimationItem as LottieInstance } from "lottie-web";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useAnimationTypeProvider,
   usePortfolioProvider,
@@ -15,7 +15,7 @@ export const useLottie = ({
   defaultFrame,
   portfolioItemName,
 }: useLottieProps) => {
-  const [lottie, setLottile] = useState<LottieInstance | undefined>(undefined);
+  const [lottie, setLottie] = useState<LottieInstance | undefined>(undefined);
   const firstRender = useRef(true);
 
   const { portfolio } = usePortfolioProvider();
@@ -51,11 +51,7 @@ export const useLottie = ({
     };
   }, [animationType, lottie, portfolio, portfolioItemName]);
 
-  const setLottileInstance = useCallback((lottie: LottieInstance) => {
-    setLottile(lottie);
-  }, []);
-
   return {
-    setLottileInstance,
+    setLottie,
   };
 };

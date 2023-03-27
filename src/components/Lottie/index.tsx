@@ -20,11 +20,11 @@ export default function Lottie({
   portfolioItemName,
   ...props
 }: Props) {
-  const { setLottileInstance } = useLottie({ defaultFrame, portfolioItemName });
+  const { setLottie } = useLottie({ defaultFrame, portfolioItemName });
 
   return (
     <Player
-      lottieRef={setLottileInstance}
+      lottieRef={setLottie}
       className="player"
       speed={TIME}
       style={styles}
