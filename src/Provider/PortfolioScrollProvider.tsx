@@ -2,7 +2,7 @@ import { MotionValue } from "framer-motion";
 import { createContext, ReactNode, useContext, useMemo, useState } from "react";
 import { SetState } from "../types";
 
-type PorfolioScrolDataContextProps = {
+type PortfolioScrolDataContextProps = {
   scrollMotion: MotionValue<number> | undefined;
 };
 
@@ -10,19 +10,20 @@ type PortfolioScrollAPIContextProps = {
   setScrollMotion: SetState<MotionValue<number> | undefined>;
 };
 
-const PorfolioScrollDataContext = createContext<PorfolioScrolDataContextProps>(
-  {} as PorfolioScrolDataContextProps
-);
+const PortfolioScrollDataContext =
+  createContext<PortfolioScrolDataContextProps>(
+    {} as PortfolioScrolDataContextProps
+  );
 
-const PorfolioScrollAPIContext = createContext<PortfolioScrollAPIContextProps>(
+const PortfolioScrollAPIContext = createContext<PortfolioScrollAPIContextProps>(
   {} as PortfolioScrollAPIContextProps
 );
 
-export const usePorfolioScrollDataProvider = () =>
-  useContext(PorfolioScrollDataContext);
+export const usePortfolioScrollDataProvider = () =>
+  useContext(PortfolioScrollDataContext);
 
 export const usePortfolioScrollAPIProivder = () =>
-  useContext(PorfolioScrollAPIContext);
+  useContext(PortfolioScrollAPIContext);
 
 type Props = {
   children: ReactNode;
@@ -35,11 +36,11 @@ const PorfolioScrollProvider = ({ children }: Props) => {
   const apiValue = useMemo(() => ({ setScrollMotion }), [setScrollMotion]);
 
   return (
-    <PorfolioScrollDataContext.Provider value={dataValue}>
-      <PorfolioScrollAPIContext.Provider value={apiValue}>
+    <PortfolioScrollDataContext.Provider value={dataValue}>
+      <PortfolioScrollAPIContext.Provider value={apiValue}>
         {children}
-      </PorfolioScrollAPIContext.Provider>
-    </PorfolioScrollDataContext.Provider>
+      </PortfolioScrollAPIContext.Provider>
+    </PortfolioScrollDataContext.Provider>
   );
 };
 

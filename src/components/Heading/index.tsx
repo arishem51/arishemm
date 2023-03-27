@@ -13,7 +13,7 @@ import {
   useAnimationRunningProvider,
   usePortfolioProvider,
 } from "../../Provider/AnimationProvider";
-import { usePorfolioScrollDataProvider } from "../../Provider/PortfolioScrollProvider";
+import { usePortfolioScrollDataProvider } from "../../Provider/PortfolioScrollProvider";
 
 const Wrapper = styled(motion.h1)`
   position: relative;
@@ -62,7 +62,7 @@ const Heading = ({ children, ...props }: Props) => {
   const { setAnimationType, setPortfolio, setIsAnimationRunning } =
     useAnimationAPIProvider();
   const { isAnimationRunning } = useAnimationRunningProvider();
-  const { scrollMotion } = usePorfolioScrollDataProvider();
+  const { scrollMotion } = usePortfolioScrollDataProvider();
   const motion = useMotionValue(0);
 
   const opacity = useTransform(

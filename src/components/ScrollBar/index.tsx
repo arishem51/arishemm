@@ -7,7 +7,7 @@ import {
 import { useEffect } from "react";
 import styled from "styled-components";
 import { usePortfolioProvider } from "../../Provider/AnimationProvider";
-import { usePorfolioScrollDataProvider } from "../../Provider/PortfolioScrollProvider";
+import { usePortfolioScrollDataProvider } from "../../Provider/PortfolioScrollProvider";
 
 const Wrapper = styled(motion.div)`
   position: fixed;
@@ -62,7 +62,7 @@ const animation = {
 };
 
 const ScrollBar = () => {
-  const { scrollMotion } = usePorfolioScrollDataProvider();
+  const { scrollMotion } = usePortfolioScrollDataProvider();
   const motion = useMotionValue(0);
   const portfolio = usePortfolioProvider();
 
