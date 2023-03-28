@@ -45,7 +45,7 @@ const animation = {
 };
 
 const Title = ({ isParentHover: isHover, children }: Props) => {
-  const { portfolio } = usePortfolioProvider();
+  const portfolio = usePortfolioProvider();
 
   return (
     <WrapperText justifyContent="center">

@@ -53,8 +53,8 @@ const transition: Transition = {
 const Navbar = () => {
   const { setPortfolio, setAnimationType, setIsAnimationRunning } =
     useAnimationAPIProvider();
-  const { portfolio } = usePortfolioProvider();
-  const { isAnimationRunning } = useAnimationRunningProvider();
+  const portfolio = usePortfolioProvider();
+  const isAnimationRunning = useAnimationRunningProvider();
   const [scope, animate] = useAnimate();
 
   useEffect(() => {

@@ -36,10 +36,10 @@ export function useAnimatePortfolioItem({
   ref,
 }: Props) {
   const { motionX, motionY } = useAnimationDataProvider();
-  const { animationType } = useAnimationTypeProvider();
-  const { portfolio } = usePortfolioProvider();
+  const animationType = useAnimationTypeProvider();
+  const portfolio = usePortfolioProvider();
   const { setIsAnimationRunning } = useAnimationAPIProvider();
-  const { previousPortfolio } = usePreviousPortfolioProvider();
+  const previousPortfolio = usePreviousPortfolioProvider();
   const { content } = useContentProvider();
 
   const {
