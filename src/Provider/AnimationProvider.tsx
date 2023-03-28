@@ -22,8 +22,6 @@ type AnimationAPIContextProps = {
 
 type PortfolioContextProps = PortfolioType | undefined;
 
-type PreviousPortfolioContextProps = PortfolioType | undefined;
-
 type ContentTypeContextProps = {
   content: Dimensions;
 };
@@ -39,7 +37,7 @@ const AnimationAPIContext = createContext<AnimationAPIContextProps>(
 const PortfolioContext = createContext<PortfolioContextProps>(undefined);
 
 const PreviousPortfolioContext =
-  createContext<PreviousPortfolioContextProps>(undefined);
+  createContext<PortfolioContextProps>(undefined);
 
 const AnimationRunningContext = createContext<boolean>(false);
 
