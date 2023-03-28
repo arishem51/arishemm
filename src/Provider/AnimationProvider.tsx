@@ -24,10 +24,6 @@ type PortfolioContextProps = PortfolioType | undefined;
 
 type PreviousPortfolioContextProps = PortfolioType | undefined;
 
-type AnimationRunningContext = {
-  isAnimationRunning: boolean;
-};
-
 type ContentTypeContextProps = {
   content: Dimensions;
 };
@@ -45,9 +41,7 @@ const PortfolioContext = createContext<PortfolioContextProps>(undefined);
 const PreviousPortfolioContext =
   createContext<PreviousPortfolioContextProps>(undefined);
 
-const AnimationRunningContext = createContext<AnimationRunningContext>(
-  {} as AnimationRunningContext
-);
+const AnimationRunningContext = createContext<boolean>(false);
 
 const AnimationTypeContext = createContext<AnimationType>("expand");
 
@@ -97,12 +91,6 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, []);
 
-  const animationRunningValue = useMemo(() => {
-    return {
-      isAnimationRunning,
-    };
-  }, [isAnimationRunning]);
-
   const contentValue = useMemo(() => {
     return {
       content,
@@ -113,7 +101,7 @@ export default function AnimationProvider({ children }: Props) {
     <AnimationDataContext.Provider value={animationDataValue}>
       <PortfolioContext.Provider value={portfolio}>
         <PreviousPortfolioContext.Provider value={previousPortfolio}>
-          <AnimationRunningContext.Provider value={animationRunningValue}>
+          <AnimationRunningContext.Provider value={isAnimationRunning}>
             <AnimationTypeContext.Provider value={animationType}>
               <ContentContext.Provider value={contentValue}>
                 <AnimationAPIContext.Provider value={animationAPIValue}>

@@ -61,7 +61,7 @@ const Heading = ({ children, ...props }: Props) => {
   const [scope, animate] = useAnimate();
   const { setAnimationType, setPortfolio, setIsAnimationRunning } =
     useAnimationAPIProvider();
-  const { isAnimationRunning } = useAnimationRunningProvider();
+  const isAnimationRunning = useAnimationRunningProvider();
   const { scrollMotion } = usePortfolioScrollDataProvider();
   const motion = useMotionValue(0);
 
