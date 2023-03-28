@@ -28,10 +28,6 @@ type AnimationRunningContext = {
   isAnimationRunning: boolean;
 };
 
-type AnimationTypeContextProps = {
-  animationType: AnimationType;
-};
-
 type ContentTypeContextProps = {
   content: Dimensions;
 };
@@ -53,9 +49,7 @@ const AnimationRunningContext = createContext<AnimationRunningContext>(
   {} as AnimationRunningContext
 );
 
-const AnimationTypeContext = createContext<AnimationTypeContextProps>(
-  {} as AnimationTypeContextProps
-);
+const AnimationTypeContext = createContext<AnimationType>("expand");
 
 const ContentContext = createContext<ContentTypeContextProps>(
   {} as ContentTypeContextProps
@@ -109,12 +103,6 @@ export default function AnimationProvider({ children }: Props) {
     };
   }, [isAnimationRunning]);
 
-  const animationTypeValue = useMemo(() => {
-    return {
-      animationType,
-    };
-  }, [animationType]);
-
   const contentValue = useMemo(() => {
     return {
       content,
@@ -126,7 +114,7 @@ export default function AnimationProvider({ children }: Props) {
       <PortfolioContext.Provider value={portfolio}>
         <PreviousPortfolioContext.Provider value={previousPortfolio}>
           <AnimationRunningContext.Provider value={animationRunningValue}>
-            <AnimationTypeContext.Provider value={animationTypeValue}>
+            <AnimationTypeContext.Provider value={animationType}>
               <ContentContext.Provider value={contentValue}>
                 <AnimationAPIContext.Provider value={animationAPIValue}>
                   {children}

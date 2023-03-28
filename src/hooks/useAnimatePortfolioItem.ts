@@ -36,7 +36,7 @@ export function useAnimatePortfolioItem({
   ref,
 }: Props) {
   const { motionX, motionY } = useAnimationDataProvider();
-  const { animationType } = useAnimationTypeProvider();
+  const animationType = useAnimationTypeProvider();
   const portfolio = usePortfolioProvider();
   const { setIsAnimationRunning } = useAnimationAPIProvider();
   const previousPortfolio = usePreviousPortfolioProvider();

@@ -19,7 +19,7 @@ export const useLottie = ({
   const firstRender = useRef(true);
 
   const portfolio = usePortfolioProvider();
-  const { animationType } = useAnimationTypeProvider();
+  const animationType = useAnimationTypeProvider();
 
   useEffect(() => {
     // Set default frame to Lottie
