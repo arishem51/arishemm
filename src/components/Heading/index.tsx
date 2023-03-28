@@ -5,6 +5,7 @@ import {
   useMotionValue,
   useTransform,
   useAnimate,
+  EasingFunction,
 } from "framer-motion";
 import React, { useEffect } from "react";
 import styled from "styled-components";
@@ -56,6 +57,10 @@ const animation = {
   },
 };
 
+const transformOptions: { ease: EasingFunction | EasingFunction[] } = {
+  ease: cubicBezier(0.17, 0.67, 0.83, 0.67),
+};
+
 const Heading = ({ children, ...props }: Props) => {
   const portfolio = usePortfolioProvider();
   const [scope, animate] = useAnimate();
@@ -65,18 +70,20 @@ const Heading = ({ children, ...props }: Props) => {
   const { scrollMotion } = usePortfolioScrollDataProvider();
   const motion = useMotionValue(0);
 
+  const transformMotionValue = scrollMotion ? scrollMotion : motion;
+
   const opacity = useTransform(
-    scrollMotion ? scrollMotion : motion,
+    transformMotionValue,
     [0, 0.1],
     [1, 0],
-    { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
+    transformOptions
   );
 
   const zIndex = useTransform(
-    scrollMotion ? scrollMotion : motion,
+    transformMotionValue,
     [0, 0.1],
     [3, 1],
-    { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
+    transformOptions
   );
 
   const handleClick = () => {
