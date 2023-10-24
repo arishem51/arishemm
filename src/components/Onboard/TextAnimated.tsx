@@ -32,17 +32,19 @@ const animation = {
   fastDuration: 0.4,
 };
 
+const TIME_OUT = 800;
+
 const TextAnimated = ({ children, delay, onAnimatedEnd }: Props) => {
   const [scope, animate] = useAnimate();
 
   useEffect(() => {
     const startAnimation = async () => {
       await animate(scope.current, animation.enter, { ...transition, delay });
-      await timeOut(1600);
+      await timeOut(TIME_OUT);
       await animate(scope.current, animation.exit, {
         ...transition,
         duration: animation.fastDuration,
-        delay: delay / 3,
+        delay: delay / 2.5,
       });
       onAnimatedEnd && onAnimatedEnd();
     };

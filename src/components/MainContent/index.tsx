@@ -1,7 +1,7 @@
 import { motion, Variants } from "framer-motion";
 import styled from "styled-components";
 import { useAnimationDataProvider } from "../../Provider/AnimationProvider";
-import PorfolioScrollProvider from "../../Provider/PortfolioScrollProvider";
+import PortfolioScrollProvider from "../../Provider/PortfolioScrollProvider";
 import Heading from "../Heading";
 import Navbar from "../Navbar";
 import Portfolio from "../Portfolio";
@@ -37,12 +37,12 @@ const MainContent = () => {
       initial="initial"
       animate="visible"
     >
-      <PorfolioScrollProvider>
+      <PortfolioScrollProvider>
         <Portfolio />
         <Heading>Arishemm</Heading>
         <Navbar />
         <ScrollBar />
-      </PorfolioScrollProvider>
+      </PortfolioScrollProvider>
     </Wrapper>
   );
 };

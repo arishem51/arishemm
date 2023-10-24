@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Stack from "../Stack";
 import TextAnimated from "./TextAnimated";
+import { splitText } from "../../helpers";
 
 const Wrapper = styled(Stack)`
   position: absolute;
@@ -23,19 +24,20 @@ type Props = {
   onAnimatedEnd: () => void;
 };
 
-const HELLO = "Hello I'm Arishemm";
+const TEXT = "Arishem's Portfolio";
 
 const Onboard = ({ onAnimatedEnd }: Props) => {
+  const textArr = splitText(TEXT);
   return (
     <Wrapper justifyContent="center" alignItems="center">
       <TextWrapper>
         <Heading>
-          {HELLO.split("").map((item, index) => (
+          {textArr.map((item, index) => (
             <TextAnimated
               key={item + index}
-              delay={index * 0.1}
+              delay={index * 0.05}
               onAnimatedEnd={
-                HELLO.split("").length - 1 === index ? onAnimatedEnd : undefined
+                textArr.length - 1 === index ? onAnimatedEnd : undefined
               }
             >
               {item === " " ? <span>&nbsp;</span> : item}
