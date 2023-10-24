@@ -1,6 +1,6 @@
 import ExpandedWrapper from "../../ExpandedWrapper";
 import ShowcaseSection from "../../ShowcaseSection";
-import Image from "../../../assets/CV-Image.jpg";
+import Image from "../../../assets/CV-Image.png";
 import styled from "styled-components";
 import Stack from "../../Stack";
 

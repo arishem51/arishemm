@@ -16,9 +16,7 @@ import {
 const ViewContent = styled(motion.div)`
   width: 140vmax;
   height: 110vmax;
-
   position: absolute;
-
   z-index: 2;
 `;
 
@@ -31,7 +29,7 @@ const variants: Variants = {
   },
 };
 
-const transition: Transition = { duration: 1.2, delay: 1.5 };
+const transition: Transition = { duration: 1, delay: 1 };
 
 const PortfolioItems: PortfolioType[] = [
   "about",
