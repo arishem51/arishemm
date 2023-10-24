@@ -42,7 +42,7 @@ const transition: Transition = {
 const animation = {
   initial: {
     top: "50%",
-    zIndex: 1,
+    zIndex: 3,
     transform: "translate(-50%, -50%)",
     fontSize: "7em",
     color: "var(--color-black)",
