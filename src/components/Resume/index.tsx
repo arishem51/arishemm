@@ -2,15 +2,19 @@ import Lottie from "../Lottie";
 import PortfolioItem from "../PortfolioItem";
 import ExpandedResume from "./Expanded";
 
+const PortfolioProperties = {
+  height: "22%",
+  width: "24%",
+  left: "5%",
+  top: "12%",
+  bgColor: "rgba(203,188,161,1)",
+};
+
 function Resume() {
   return (
     <PortfolioItem
       name="resume"
-      bgColor="rgba(203,188,161,1)"
-      height="22%"
-      width="24%"
-      left="5%"
-      top="12%"
+      {...PortfolioProperties}
       expandedComponent={<ExpandedResume />}
       backgroundComponent={
         <Lottie
