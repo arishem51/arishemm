@@ -22,14 +22,16 @@ const transition: Transition = {
 const animation = {
   initial: {
     y: "100%",
+    opacity: 0.5,
   },
   enter: {
     y: "0%",
+    opacity: 1,
   },
   exit: {
-    y: "-100%",
+    y: "-60%",
+    opacity: 0,
   },
-  fastDuration: 0.4,
 };
 
 const TIME_OUT = 800;
@@ -43,8 +45,8 @@ const TextAnimated = ({ children, delay, onAnimatedEnd }: Props) => {
       await timeOut(TIME_OUT);
       await animate(scope.current, animation.exit, {
         ...transition,
-        duration: animation.fastDuration,
-        delay: delay / 2.5,
+        duration: 0.4,
+        delay: delay / 2,
       });
       onAnimatedEnd && onAnimatedEnd();
     };
